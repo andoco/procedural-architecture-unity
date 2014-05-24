@@ -5,17 +5,19 @@ using System.Linq;
 public class Demo : MonoBehaviour {
 
 	public Mesh cubeMesh;
+	public Mesh rootMesh;
 
 	// Use this for initialization
 	void Start () {
-		var root = new ScopeNode(null, Matrix4x4.identity);
-		var c1 = root.AddScopeNode(root.Matrix);
-		var c2 = root.AddScopeNode(root.Matrix * Matrix4x4.TRS(Vector3.forward*2f, Quaternion.Euler(Vector3.up*45f), Vector3.one*1.25f));
+		var root = new ScopeNode("root", null, Matrix4x4.identity);
 
-		c1.AddGeometryNode(this.cubeMesh);
-		c2.AddGeometryNode(this.cubeMesh);
+		var facadeScope = root.AddScopeNode("facadeScope", root.Matrix);
+		facadeScope.AddGeometryNode("geo1", this.cubeMesh);
 
-		foreach (var leaf in root.LeafNodes())
+		var roofScope = root.AddScopeNode("rootScope", root.Matrix * Matrix4x4.TRS(Vector3.up*1.5f, Quaternion.Euler(Vector3.right*90f), Vector3.one));
+		roofScope.AddGeometryNode("geo2", this.rootMesh);
+
+		foreach (var leaf in root.LeafNodeDescendants())
 		{
 			Debug.Log(leaf);
 
@@ -26,35 +28,43 @@ public class Demo : MonoBehaviour {
 			}
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	private void AddGeometryToScene(GeometryNode geoNode)
 	{
 		var go = new GameObject();
 		go.transform.FromMatrix4x4(geoNode.Matrix);
 		var meshFilter = go.AddComponent<MeshFilter>();
-		var meshRenderer = go.AddComponent<MeshRenderer>();
+		go.AddComponent<MeshRenderer>();
 		
 		meshFilter.sharedMesh = geoNode.Geometry;
 	}
 }
 
-public class Node : List<Node>
+public abstract class Node : List<Node>
 {
-	public Node(Node parent)
+	protected Node(string id, Node parent)
 	{
+		this.Id = id;
+		this.FullyQualifiedId = parent == null ? id : string.Format("{0}.{1}", parent.FullyQualifiedId, id);
 		this.Parent = parent;
 	}
 
+	public string Id { get; private set; }
+
+	public string FullyQualifiedId { get; private set; }
+
 	public Node Parent { get; private set; }
+
+	public bool IsRoot { get { return this.Parent == null; } }
 
 	public bool IsLeaf { get { return !this.Any(); } }
 
 	public IEnumerable<Node> LeafNodes()
+	{
+		return this.Where(child => child.IsLeaf);
+	}
+
+	public IEnumerable<Node> LeafNodeDescendants()
 	{
 		if (this.IsLeaf)
 			yield return this;
@@ -69,14 +79,14 @@ public class Node : List<Node>
 
 	public override string ToString ()
 	{
-		return string.Format ("[Node({0}): IsLeaf={2}]", GetType().Name, Parent, IsLeaf);
+		return string.Format ("[Node({0} {1}): Parent={2} IsLeaf={3}]", GetType().Name, FullyQualifiedId, Parent.FullyQualifiedId, IsLeaf);
 	}
 }
 
 public class ScopeNode : Node
 {
-	public ScopeNode(Node parent, Matrix4x4 matrix)
-		: base(parent)
+	public ScopeNode(string id, Node parent, Matrix4x4 matrix)
+		: base(id, parent)
 	{
 		this.Matrix = matrix;
 	}
@@ -86,8 +96,8 @@ public class ScopeNode : Node
 
 public class GeometryNode : ScopeNode
 {
-	public GeometryNode(ScopeNode parent, Mesh geometry)
-		: base(parent, parent.Matrix)
+	public GeometryNode(string id, ScopeNode parent, Mesh geometry)
+		: base(id, parent, parent.Matrix)
 	{
 		this.Geometry = geometry;
 	}
@@ -97,16 +107,16 @@ public class GeometryNode : ScopeNode
 
 public static class NodeExtensions
 {
-	public static ScopeNode AddScopeNode(this ScopeNode root, Matrix4x4 matrix)
+	public static ScopeNode AddScopeNode(this ScopeNode root, string id, Matrix4x4 matrix)
 	{
-		var node = new ScopeNode(root, matrix);
+		var node = new ScopeNode(id, root, matrix);
 		root.Add(node);
 		return node;
 	}
 
-	public static GeometryNode AddGeometryNode(this ScopeNode root, Mesh geometry)
+	public static GeometryNode AddGeometryNode(this ScopeNode root, string id, Mesh geometry)
 	{
-		var node = new GeometryNode(root, geometry);
+		var node = new GeometryNode(id, root, geometry);
 		root.Add(node);
 		return node;
 	}
