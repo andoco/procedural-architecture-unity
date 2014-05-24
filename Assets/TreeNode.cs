@@ -28,19 +28,37 @@ public abstract class TreeNode : List<TreeNode>
 
 	public IEnumerable<TreeNode> LeafNodeDescendants()
 	{
-		if (this.IsLeaf)
-			yield return this;
+		Debug.Log(string.Format("NODE: {0}", this));
 
-		foreach (var child in this)
+		if (this.IsLeaf)
 		{
-			Debug.Log(child);
-			foreach (var leaf in child.LeafNodes())
-				yield return leaf;
+			return new [] { this };
 		}
+
+		return this.SelectMany(child => child.LeafNodeDescendants());
+
+//		foreach (var child in this)
+//		{
+//
+//		}
+//
+//		if (this.IsLeaf)
+//		{
+//			Debug.Log(string.Format("{0} is leaf", this));
+//			yield return this;
+//		}
+//		else
+//		{
+//			foreach (var child in this)
+//			{
+//				foreach (var leaf in child.LeafNodes())
+//					yield return leaf;
+//			}
+//		}
 	}
 
 	public override string ToString ()
 	{
-		return string.Format ("[Node({0} {1}): Parent={2} IsLeaf={3}]", GetType().Name, FullyQualifiedId, Parent.FullyQualifiedId, IsLeaf);
+		return string.Format ("[Node({0} {1}): Parent={2}, ChildCount={3}]", GetType().Name, FullyQualifiedId, Parent == null ? "NULL" : Parent.FullyQualifiedId, this.Count);
 	}
 }
