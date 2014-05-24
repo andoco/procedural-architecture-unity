@@ -24,15 +24,15 @@ public class Demo : MonoBehaviour {
 		{
 			Debug.Log(leaf);
 
-			if (leaf is GeometryNode)
+			if (leaf.Value is GeometryScope)
 			{
-				var geoNode = (GeometryNode)leaf;
-				AddGeometryToScene(geoNode);
+				var geoScope = (GeometryScope)leaf.Value;
+				AddGeometryToScene(geoScope);
 			}
 		}
 	}
 
-	private void AddGeometryToScene(GeometryNode geoNode)
+	private void AddGeometryToScene(GeometryScope geoNode)
 	{
 		var go = new GameObject();
 		go.transform.FromMatrix4x4(geoNode.Matrix);
@@ -50,27 +50,28 @@ public class ScopeDrawContext
 
 	public ScopeDrawContext()
 	{
-		this.RootScope = new ScopeNode(this.NextId(), null, Matrix4x4.identity);
+		this.RootScope = new TreeNode<IScope>(this.NextId(), null);
+		this.RootScope.Value = new Scope(Matrix4x4.identity);
 		this.CurrentScope = this.RootScope;
 	}
 
-	public ScopeNode RootScope { get; private set; }
+	public TreeNode<IScope> RootScope { get; private set; }
 
-	public ScopeNode CurrentScope { get; private set; }
+	public TreeNode<IScope> CurrentScope { get; private set; }
 
 	public IDictionary<string, Mesh> Shapes { get; set; }
 
 	public void AddScope(Vector3 trans, Quaternion rot, Vector3 scale)
 	{
 		Debug.Log(string.Format("Adding scope to {0}", this.CurrentScope));
-		this.CurrentScope = this.CurrentScope.AddScopeNode(this.NextId(), Matrix4x4.TRS(trans, rot, scale));
+		this.CurrentScope = this.CurrentScope.AddScope(this.NextId(), Matrix4x4.TRS(trans, rot, scale));
 	}
 
 	public void AddShape(string name)
 	{
 		Debug.Log(string.Format("Adding shape to {0}", this.CurrentScope));
 		var mesh = this.Shapes[name];
-		this.CurrentScope.AddGeometryNode(this.NextId(), mesh);
+		this.CurrentScope.AddGeometry(this.NextId(), mesh);
 	}
 
 	private string NextId()
@@ -79,10 +80,14 @@ public class ScopeDrawContext
 	}
 }
 
-public class ScopeNode : TreeNode
+public interface IScope
 {
-	public ScopeNode(string id, TreeNode parent, Matrix4x4 matrix)
-		: base(id, parent)
+	Matrix4x4 Matrix { get; }
+}
+
+public class Scope : IScope
+{
+	public Scope(Matrix4x4 matrix)
 	{
 		this.Matrix = matrix;
 	}
@@ -90,10 +95,10 @@ public class ScopeNode : TreeNode
 	public Matrix4x4 Matrix { get; private set; }	
 }
 
-public class GeometryNode : ScopeNode
+public class GeometryScope : Scope
 {
-	public GeometryNode(string id, ScopeNode parent, Mesh geometry)
-		: base(id, parent, parent.Matrix)
+	public GeometryScope(Matrix4x4 matrix, Mesh geometry)
+		: base(matrix)
 	{
 		this.Geometry = geometry;
 	}
@@ -101,19 +106,23 @@ public class GeometryNode : ScopeNode
 	public Mesh Geometry { get; private set; }
 }
 
-public static class NodeExtensions
+public static class TreeNodeExtensions
 {
-	public static ScopeNode AddScopeNode(this ScopeNode root, string id, Matrix4x4 matrix)
+	public static TreeNode<IScope> AddScope(this TreeNode<IScope> root, string id, Matrix4x4 matrix)
 	{
-		var node = new ScopeNode(id, root, matrix);
+		var node = new TreeNode<IScope>(id, root);
+		node.Value = new Scope(matrix);
 		root.Add(node);
+
 		return node;
 	}
 
-	public static GeometryNode AddGeometryNode(this ScopeNode root, string id, Mesh geometry)
+	public static TreeNode<IScope> AddGeometry(this TreeNode<IScope> root, string id, Mesh geometry)
 	{
-		var node = new GeometryNode(id, root, geometry);
+		var node = new TreeNode<IScope>(id, root);
+		node.Value = new GeometryScope(root.Value.Matrix, geometry);
 		root.Add(node);
+
 		return node;
 	}
 }
