@@ -40,52 +40,9 @@ public class Demo : MonoBehaviour {
 	}
 }
 
-public abstract class Node : List<Node>
+public class ScopeNode : TreeNode
 {
-	protected Node(string id, Node parent)
-	{
-		this.Id = id;
-		this.FullyQualifiedId = parent == null ? id : string.Format("{0}.{1}", parent.FullyQualifiedId, id);
-		this.Parent = parent;
-	}
-
-	public string Id { get; private set; }
-
-	public string FullyQualifiedId { get; private set; }
-
-	public Node Parent { get; private set; }
-
-	public bool IsRoot { get { return this.Parent == null; } }
-
-	public bool IsLeaf { get { return !this.Any(); } }
-
-	public IEnumerable<Node> LeafNodes()
-	{
-		return this.Where(child => child.IsLeaf);
-	}
-
-	public IEnumerable<Node> LeafNodeDescendants()
-	{
-		if (this.IsLeaf)
-			yield return this;
-
-		foreach (var child in this)
-		{
-			Debug.Log(child);
-			foreach (var leaf in child.LeafNodes())
-				yield return leaf;
-		}
-	}
-
-	public override string ToString ()
-	{
-		return string.Format ("[Node({0} {1}): Parent={2} IsLeaf={3}]", GetType().Name, FullyQualifiedId, Parent.FullyQualifiedId, IsLeaf);
-	}
-}
-
-public class ScopeNode : Node
-{
-	public ScopeNode(string id, Node parent, Matrix4x4 matrix)
+	public ScopeNode(string id, TreeNode parent, Matrix4x4 matrix)
 		: base(id, parent)
 	{
 		this.Matrix = matrix;
