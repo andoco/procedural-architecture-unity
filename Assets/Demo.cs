@@ -7,14 +7,29 @@ using System.IO;
 
 public class Demo : MonoBehaviour {
 
-	public Mesh cubeMesh;
-	public Mesh rootMesh;
 	public Material material;
 
 	// Use this for initialization
 	void Start () {
-		var scopeCtx = new ScopeDrawContext();
-		scopeCtx.Shapes = new Dictionary<string, Mesh> { { "facade", cubeMesh }, { "roof", rootMesh } };
+		var meshBuilder = new MeshBuilder();
+		meshBuilder.BuildCube(1f, 1f, 1f);
+		var cube = meshBuilder.BuildMesh();
+
+		meshBuilder.Clear();
+		meshBuilder.BuildFacade(1f, 1f, 1f);
+		var facade = meshBuilder.BuildMesh();
+        
+		meshBuilder.Clear();
+		meshBuilder.BuildRoof(1f, 1f, 0.3f, 0.2f, 0.2f, 0.02f);
+		var roof = meshBuilder.BuildMesh();
+        
+        var scopeCtx = new ScopeDrawContext();
+		scopeCtx.Shapes = new Dictionary<string, Mesh> { 
+			{ "cube", cube },
+			{ "facade", facade }, 
+			{ "roof", roof },
+
+		};
 
 		ProcessPAG("house", scopeCtx);
 		ProcessDrawScope(scopeCtx);
