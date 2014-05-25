@@ -1,3 +1,6 @@
 #rules
 
-house ::- Scale(4,3,6) | Set("facade") | Trans(0, 1, 0) | Set("roof");
+root ::- Scale(2, 2, 2) | facade
+facade ::- Set("facade") | Trans(0, 1, 0) | roof;
+roof ::- Set("roof") | Scale(0.25, 0.25, 0.25) | Trans(0, 0.5, 0) | chimney
+chimney ::- Set("cube")
