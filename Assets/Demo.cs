@@ -5,44 +5,6 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using System.IO;
 
-public class MyListener : SimplePAGBaseListener
-{
-	private readonly ScopeDrawContext drawCtx;
-
-	public MyListener(ScopeDrawContext drawCtx)
-	{
-		this.drawCtx = drawCtx;
-	}
-
-	public override void EnterCmdDefinition (SimplePAGParser.CmdDefinitionContext context)
-	{
-		base.EnterCmdDefinition (context);
-
-		var cmdName = context.ID().GetText();
-		var args = context.argumentsDefinition();
-
-		Debug.Log(string.Format("Command: {0} {1}", cmdName, args.ToStringTree()));
-
-		switch (cmdName)
-		{
-		case "Set":
-			var shapeName = args.argumentDefinition(0).GetText().Trim('"');
-			this.drawCtx.AddShape(shapeName);
-			break;
-		case "Trans":
-			var axes = args.argumentDefinition().Select(x => float.Parse(x.floating_point().GetText())).ToArray();
-			var delta = new Vector3(axes[0], axes[1], axes[2]);
-			this.drawCtx.AddScope(delta, Quaternion.identity, Vector3.one);
-			break;
-		case "Rot":
-			var rotAxes = args.argumentDefinition().Select(x => float.Parse(x.floating_point().GetText())).ToArray();
-			Debug.Log(string.Format("{0}", rotAxes[0]));
-			this.drawCtx.AddScope(Vector3.zero, Quaternion.Euler(rotAxes[0], rotAxes[1], rotAxes[2]), Vector3.one);
-			break;
-		}
-	}
-}
-
 public class Demo : MonoBehaviour {
 
 	public Mesh cubeMesh;
@@ -96,43 +58,6 @@ public class Demo : MonoBehaviour {
 		
 		meshFilter.sharedMesh = geoNode.Geometry;
 		meshRenderer.material = this.material;
-	}
-}
-
-public class ScopeDrawContext
-{
-	private int counter = 0;
-
-	public ScopeDrawContext()
-	{
-		this.RootScope = new TreeNode<IScope>(this.NextId(), null);
-		this.RootScope.Value = new Scope(Matrix4x4.identity);
-		this.CurrentScope = this.RootScope;
-	}
-
-	public TreeNode<IScope> RootScope { get; private set; }
-
-	public TreeNode<IScope> CurrentScope { get; private set; }
-
-	public IDictionary<string, Mesh> Shapes { get; set; }
-
-	public void AddScope(Vector3 trans, Quaternion rot, Vector3 scale)
-	{
-		Debug.Log(string.Format("Adding scope [trans={0}, rot={1}, scale={2}] to {3}", trans, rot, scale, this.CurrentScope));
-		var newMatrix = this.CurrentScope.Value.Matrix * Matrix4x4.TRS(trans, rot, scale);
-		this.CurrentScope = this.CurrentScope.AddScope(this.NextId(), newMatrix);
-	}
-
-	public void AddShape(string name)
-	{
-		Debug.Log(string.Format("Adding shape {0} to {1}", name, this.CurrentScope));
-		var mesh = this.Shapes[name];
-		this.CurrentScope.AddGeometry(this.NextId(), mesh);
-	}
-
-	private string NextId()
-	{
-		return (this.counter++).ToString();
 	}
 }
 
