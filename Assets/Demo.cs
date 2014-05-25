@@ -157,8 +157,9 @@ public class ScopeDrawContext
 
 	public void AddScope(Vector3 trans, Quaternion rot, Vector3 scale)
 	{
-		Debug.Log(string.Format("Adding scope trans={0}, rot={1}, scale={2} to {3}", trans, rot, scale, this.CurrentScope));
-		this.CurrentScope = this.CurrentScope.AddScope(this.NextId(), Matrix4x4.TRS(trans, rot, scale));
+		Debug.Log(string.Format("Adding scope [trans={0}, rot={1}, scale={2}] to {3}", trans, rot, scale, this.CurrentScope));
+		var newMatrix = this.CurrentScope.Value.Matrix * Matrix4x4.TRS(trans, rot, scale);
+		this.CurrentScope = this.CurrentScope.AddScope(this.NextId(), newMatrix);
 	}
 
 	public void AddShape(string name)

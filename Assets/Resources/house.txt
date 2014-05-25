@@ -1,3 +1,3 @@
 #rules
 
-house ::- Set("facade") | Rot(40, 0, 0) | Trans(0, 2, 0) | Set("facade");
+house ::- Set("facade") | Trans(0, 1.5, 0) | Rot(90, 0, 0) | Set("roof");
