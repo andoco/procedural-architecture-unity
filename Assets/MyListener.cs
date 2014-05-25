@@ -36,8 +36,11 @@ public class MyListener : SimplePAGBaseListener
 			break;
 		case "Rot":
 			var rotAxes = args.argumentDefinition().Select(x => float.Parse(x.floating_point().GetText())).ToArray();
-			Debug.Log(string.Format("{0}", rotAxes[0]));
 			this.drawCtx.AddScope(Vector3.zero, Quaternion.Euler(rotAxes[0], rotAxes[1], rotAxes[2]), Vector3.one);
+			break;
+		case "Scale":
+			var scaleAxes = args.argumentDefinition().Select(x => float.Parse(x.floating_point().GetText())).ToArray();
+			this.drawCtx.AddScope(Vector3.zero, Quaternion.identity, new Vector3(scaleAxes[0], scaleAxes[1], scaleAxes[2]));
 			break;
 		}
 	}

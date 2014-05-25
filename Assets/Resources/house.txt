@@ -1,3 +1,3 @@
 #rules
 
-house ::- Set("facade") | Trans(0, 1, 0) | Set("roof");
+house ::- Scale(4,3,6) | Set("facade") | Trans(0, 1, 0) | Set("roof");
