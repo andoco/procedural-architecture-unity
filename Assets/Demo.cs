@@ -13,26 +13,6 @@ public class MyListener : SimplePAGBaseListener
 	{
 		this.drawCtx = drawCtx;
 	}
-	
-	public override void EnterSuccessor (SimplePAGParser.SuccessorContext context)
-	{
-		base.EnterSuccessor (context);
-
-		var id = context.ID();
-		if (id == null)
-		{
-//			var cmd = context.GetChild(0).GetText();
-//			if (cmd == "Set")
-//			{
-//				var shapeName = context.asset_uri().GetText().Trim('"');
-//				Debug.Log(string.Format("Setting shape {0}", shapeName));
-//				this.drawCtx.AddShape(shapeName);
-//			}
-		}
-
-//		Debug.Log(string.Format("enter successor {0}", context.ToStringTree()));
-//		Debug.Log(context.GetChild(0).GetText());
-	}
 
 	public override void EnterCmdDefinition (SimplePAGParser.CmdDefinitionContext context)
 	{
@@ -61,20 +41,6 @@ public class MyListener : SimplePAGBaseListener
 			break;
 		}
 	}
-
-//	public override void ExitSuccessor (SimplePAGParser.SuccessorContext context)
-//	{
-//		base.ExitSuccessor (context);
-//
-//		Debug.Log(string.Format("exit successor {0}", context.GetText()));
-//	}
-//
-//	public override void ExitAsset_uri (SimplePAGParser.Asset_uriContext context)
-//	{
-//		base.ExitAsset_uri (context);
-//
-//		Debug.Log(string.Format("asset uri {0}", context.GetText()));
-//	}
 }
 
 public class Demo : MonoBehaviour {
@@ -87,11 +53,6 @@ public class Demo : MonoBehaviour {
 	void Start () {
 		var scopeCtx = new ScopeDrawContext();
 		scopeCtx.Shapes = new Dictionary<string, Mesh> { { "facade", cubeMesh }, { "roof", rootMesh } };
-
-		scopeCtx.AddScope(Vector3.up*0.5f, Quaternion.identity, Vector3.one);
-//		scopeCtx.AddShape("facade");
-//		scopeCtx.AddScope(Vector3.up*2f, Quaternion.Euler(Vector3.right*90f), Vector3.one);
-//		scopeCtx.AddShape("roof");
 
 		ProcessPAG("house", scopeCtx);
 		ProcessDrawScope(scopeCtx);
