@@ -15,4 +15,11 @@ public class ShapeNodeValue
 	public ShapeRule Rule { get; set; }
 
 	public Mesh Geometry { get; set; }
+
+	public string ShapeName { get; set; }
+
+	public override string ToString ()
+	{
+		return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}]", Status, Rule);
+	}
 }

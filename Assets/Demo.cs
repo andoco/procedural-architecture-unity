@@ -7,10 +7,14 @@ using System.IO;
 
 public class Demo : MonoBehaviour {
 
+	private TreeNode<ShapeNodeValue> tree;
+	private Dictionary<string, Mesh> shapeMeshes;
+
 	public Material material;
 
 	// Use this for initialization
 	void Start () {
+
 		var meshBuilder = new MeshBuilder();
 		meshBuilder.BuildCube(1f, 1f, 1f);
 		var cube = meshBuilder.BuildMesh();
@@ -24,15 +28,28 @@ public class Demo : MonoBehaviour {
 		var roof = meshBuilder.BuildMesh();
         
         var scopeCtx = new ScopeDrawContext();
-		scopeCtx.Shapes = new Dictionary<string, Mesh> { 
+		this.shapeMeshes = new Dictionary<string, Mesh> { 
 			{ "cube", cube },
 			{ "facade", facade }, 
 			{ "roof", roof },
 
 		};
+		scopeCtx.Shapes = this.shapeMeshes;
 
 		ProcessPAG("house", scopeCtx);
-		ProcessDrawScope(scopeCtx);
+//		ProcessDrawScope(scopeCtx);
+		AddGeometry(tree);
+	}
+
+	void OnDrawGizmos()
+	{
+		this.tree.TraverseBreadthFirst(node => {
+			var matrix = node.Value.Matrix;
+			Gizmos.matrix = matrix;
+			Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+		});
+
+		Gizmos.matrix = Matrix4x4.identity;
 	}
 
 	private void ProcessPAG(string sourceFile, ScopeDrawContext scopeCtx)
@@ -43,8 +60,7 @@ public class Demo : MonoBehaviour {
 		var lexer = new SimplePAGLexer(input);
 		var tokens = new CommonTokenStream(lexer);
 		var parser = new SimplePAGParser(tokens);
-		
-//		var listener = new MyListener(scopeCtx);
+
 		var system = new ShapeProductionSystem();
 		var listener = new ProductionSystemListener(system);
 		ParseTreeWalker.Default.Walk(listener, parser.pag());
@@ -53,6 +69,12 @@ public class Demo : MonoBehaviour {
 		{
 			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
 		}
+
+		Debug.Log("======= Building System ========");
+
+		this.tree = system.Run("root");
+
+		Debug.Log("======= Finished Building System ========");
 	}
 
 	private void ProcessDrawScope(ScopeDrawContext scopeCtx)
@@ -71,6 +93,20 @@ public class Demo : MonoBehaviour {
 		}
 	}
 
+	private void AddGeometry(TreeNode<ShapeNodeValue> tree)
+	{
+		foreach (var leaf in tree.LeafNodeDescendants())
+		{
+			Debug.Log(string.Format("geo node {0}", leaf));
+			if (!string.IsNullOrEmpty(leaf.Value.ShapeName))
+			{
+				var mesh = this.shapeMeshes[leaf.Value.ShapeName];
+				var matrix = leaf.Value.Matrix;
+				AddGeometry(mesh, matrix);
+			}
+		}
+	}
+
 	private void AddGeometryToScene(Shape geoNode)
 	{
 		var go = new GameObject();
@@ -79,6 +115,17 @@ public class Demo : MonoBehaviour {
 		var meshRenderer = go.AddComponent<MeshRenderer>();
 		
 		meshFilter.sharedMesh = geoNode.Geometry;
+		meshRenderer.material = this.material;
+	}
+
+	private void AddGeometry(Mesh mesh, Matrix4x4 matrix)
+	{
+		var go = new GameObject();
+		go.transform.FromMatrix4x4(matrix);
+		var meshFilter = go.AddComponent<MeshFilter>();
+		var meshRenderer = go.AddComponent<MeshRenderer>();
+		
+		meshFilter.sharedMesh = mesh;
 		meshRenderer.material = this.material;
 	}
 }
