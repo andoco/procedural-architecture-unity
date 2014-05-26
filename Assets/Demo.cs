@@ -24,7 +24,7 @@ public class Demo : MonoBehaviour {
 		var facade = meshBuilder.BuildMesh();
         
 		meshBuilder.Clear();
-		meshBuilder.BuildRoof(1f, 1f, 0.3f, 0.2f, 0.2f, 0.02f);
+		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f);
 		var roof = meshBuilder.BuildMesh();
         
         var scopeCtx = new ScopeDrawContext();

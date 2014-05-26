@@ -72,6 +72,11 @@ public static class MeshBuilderExtensions
 
 	public static void BuildCube(this IMeshBuilder meshBuilder, float width, float height, float length)
 	{
+		BuildCube(meshBuilder, width, height, length, Vector3.one * 0.5f);
+	}
+
+	public static void BuildCube(this IMeshBuilder meshBuilder, float width, float height, float length, Vector3 anchor)
+	{
 		//calculate directional vectors for all 3 dimensions of the cube:
 		Vector3 upDir = Vector3.up * height;
 		Vector3 rightDir = Vector3.right * width;
@@ -82,11 +87,12 @@ public static class MeshBuilderExtensions
 		//positions that will place the pivot at the corner of the cube:
 		Vector3 nearCorner = Vector3.zero;
 		Vector3 farCorner = upDir + rightDir + forwardDir;
-		
-		////positions that will place the pivot at the centre of the cube:
-		//Vector3 farCorner = (upDir + rightDir + forwardDir) / 2;
-		//Vector3 nearCorner = -farCorner;
-		
+
+		//shift the pivot by the anchor
+		Vector3 pivotOffset = Vector3.Scale((rightDir + forwardDir + upDir), anchor);
+		farCorner -= pivotOffset;
+		nearCorner -= pivotOffset;
+				
 		//build the 3 quads that originate from nearCorner:
 		BuildQuad(meshBuilder, nearCorner, forwardDir, rightDir);
 		BuildQuad(meshBuilder, nearCorner, rightDir, upDir);
@@ -128,6 +134,11 @@ public static class MeshBuilderExtensions
 
 	public static void BuildFacade(this IMeshBuilder meshBuilder, float width, float height, float length)
 	{
+		BuildFacade(meshBuilder, width, height, length, Vector3.one * 0.5f);
+	}
+
+	public static void BuildFacade(this IMeshBuilder meshBuilder, float width, float height, float length, Vector3 anchor)
+	{
 		//build the walls:
 		
 		//calculate directional vectors for the walls:
@@ -138,8 +149,8 @@ public static class MeshBuilderExtensions
 		Vector3 farCorner = upDir + rightDir + forwardDir;
 		Vector3 nearCorner = Vector3.zero;
 		
-		//shift the pivot to centre bottom:
-		Vector3 pivotOffset = (rightDir + forwardDir) * 0.5f;
+		//shift the pivot by the anchor.
+		Vector3 pivotOffset = Vector3.Scale((rightDir + forwardDir + upDir), anchor);
 		farCorner -= pivotOffset;
 		nearCorner -= pivotOffset;
 		
@@ -153,15 +164,21 @@ public static class MeshBuilderExtensions
 
 	public static void BuildRoof(this IMeshBuilder meshBuilder, float width, float length, float roofHeight, float roofOverhangFront, float roofOverhangSide, float roofBias)
 	{
+		BuildRoof(meshBuilder, width, length, roofHeight, roofOverhangFront, roofOverhangSide, roofBias, Vector3.one * 0.5f);
+	}
+
+	public static void BuildRoof(this IMeshBuilder meshBuilder, float width, float length, float roofHeight, float roofOverhangFront, float roofOverhangSide, float roofBias, Vector3 anchor)
+	{
 		//calculate directional vectors for the walls:
+		Vector3 upDir = Vector3.up * roofHeight;
 		Vector3 rightDir = Vector3.right * width;
 		Vector3 forwardDir = Vector3.forward * length;
 
 		Vector3 farCorner = rightDir + forwardDir;
 		Vector3 nearCorner = Vector3.zero;
 		
-		//shift the pivot to centre bottom:
-		Vector3 pivotOffset = (rightDir + forwardDir) * 0.5f;
+		//shift the pivot by the anchor.
+		Vector3 pivotOffset = Vector3.Scale(rightDir + forwardDir + upDir, anchor);
 		farCorner -= pivotOffset;
 		nearCorner -= pivotOffset;
 
