@@ -6,29 +6,30 @@ public class ShapeProductionSystem
 {
 	private int counter;
 
-	public ShapeProductionSystem()
+	private readonly IShapeConfiguration configuration;
+
+	public ShapeProductionSystem(IShapeConfiguration configuration)
 	{
+		this.configuration = configuration;
 		this.Rules = new Dictionary<string, ShapeRule>();
 	}
-
+	
 	public IDictionary<string, ShapeRule> Rules { get; private set; }
 
-	public TreeNode<ShapeNodeValue> Run(string axiomSymbol)
-	{
-		var tree = new TreeNode<ShapeNodeValue>(this.NextId(), null);
-		tree.Value = new ShapeNodeValue
-		{
-			Status = ShapeStatus.Active,
-			Rule = this.Rules[axiomSymbol],
-			Matrix = Matrix4x4.identity
-		};
+	public string Axiom { get; set; }
 
-		var currentNode = tree;
+	public void Run()
+	{
+		if (string.IsNullOrEmpty(this.Axiom))
+			throw new InvalidOperationException("The axiom symbol has not been set");
+
+		this.configuration.AddRule(this.Rules[this.Axiom]);
+		var currentNode = this.configuration.CurrentNode;
 
 		while (currentNode != null)
 		{
+			Debug.Log(string.Format("EVALUTE: {0}", currentNode.Value));
 			var currentRule = currentNode.Value.Rule;
-			Debug.Log(string.Format("EVALUTE: {0}", currentRule));
 
 			if (currentRule != null)
 			{
@@ -36,27 +37,13 @@ public class ShapeProductionSystem
 				{
 					if (successor is CommandShapeSuccessor)
 					{
-						// Run the command.
-						// Scope commands will operate on the current scope.
-						// Commands that add geometry will add them to new leaf nodes.
 						var cmdSuccessor = (CommandShapeSuccessor)successor;
-						cmdSuccessor.Command.Execute(currentNode);
+						cmdSuccessor.Command.Execute(this.configuration);
 					}
 					else if (successor is SymbolShapeSuccessor)
 					{
 						var symbolSuccessor = (SymbolShapeSuccessor)successor;
-						
-						// Create new node for the successor rule with a copy of the current scope.
-						var nodeValue = new ShapeNodeValue
-						{
-							Status = ShapeStatus.Active,
-							Rule = this.Rules[symbolSuccessor.Symbol],
-							Matrix = currentNode.Value.Matrix
-						};
-						
-						var node = new TreeNode<ShapeNodeValue>(NextId(), currentNode) { Value = nodeValue };
-						
-						currentNode.Add(node);
+						this.configuration.AddRule(this.Rules[symbolSuccessor.Symbol]);
 					}
 					else
 					{
@@ -67,21 +54,12 @@ public class ShapeProductionSystem
 
 			// Mark current node as Inactive and pick next one.
 			currentNode.Value.Status = ShapeStatus.Inactive;
-			currentNode = PickNextNode(tree, currentNode);
+			currentNode = PickNextNode(this.configuration.RootNode);
 		}
-
-//		tree.TraverseBreadthFirst(node => Debug.Log(node.Value));
-
-		return tree;
 	}
 
-	private TreeNode<ShapeNodeValue> PickNextNode(TreeNode<ShapeNodeValue> root, TreeNode<ShapeNodeValue> currentNode)
+	private TreeNode<ShapeNodeValue> PickNextNode(TreeNode<ShapeNodeValue> root)
 	{
 		return root.BreadthFirstSearch(x => x.Status == ShapeStatus.Active);
-	}
-	
-	private string NextId()
-	{
-		return (this.counter++).ToString();
 	}
 }

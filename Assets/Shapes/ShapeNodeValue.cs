@@ -8,6 +8,12 @@ public enum ShapeStatus
 
 public class ShapeNodeValue
 {
+	public ShapeNodeValue()
+	{
+		this.Status = ShapeStatus.Active;
+		this.Matrix = Matrix4x4.identity;
+	}
+
 	public ShapeStatus Status { get; set; }
 
 	public Matrix4x4 Matrix { get; set; }

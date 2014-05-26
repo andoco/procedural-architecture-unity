@@ -5,11 +5,12 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using System.IO;
 
-public class Demo : MonoBehaviour {
-
-	private TreeNode<ShapeNodeValue> tree;
+public class Demo : MonoBehaviour
+{	
+	private IShapeConfiguration shapeConfiguration;
 	private Dictionary<string, Mesh> shapeMeshes;
 	private Vector3 anchor = Vector3.one * 0.5f; //new Vector3(0.5f, 0f, 0.5f);
+//	private Vector3 anchor = new Vector3(0.5f, 0f, 0.5f);
 
 	public Material material;
 
@@ -27,25 +28,22 @@ public class Demo : MonoBehaviour {
 		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f, anchor);
 		var roof = meshBuilder.BuildMesh();
         
-        var scopeCtx = new ScopeDrawContext();
 		this.shapeMeshes = new Dictionary<string, Mesh> { 
 			{ "cube", cube },
 			{ "facade", facade }, 
 			{ "roof", roof },
 
 		};
-		scopeCtx.Shapes = this.shapeMeshes;
 
-		ProcessPAG("house", scopeCtx);
-//		ProcessDrawScope(scopeCtx);
-		AddGeometry(tree);
+		ProcessPAG("house");
+		AddGeometry(this.shapeConfiguration.RootNode);
 	}
 
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying)
 		{
-			this.tree.TraverseBreadthFirst(node => {
+			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var matrix = node.Value.Matrix;
 				Gizmos.matrix = matrix;
 				Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
@@ -55,7 +53,7 @@ public class Demo : MonoBehaviour {
 		}
 	}
 
-	private void ProcessPAG(string sourceFile, ScopeDrawContext scopeCtx)
+	private void ProcessPAG(string sourceFile)
 	{
 		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
 		
@@ -64,9 +62,12 @@ public class Demo : MonoBehaviour {
 		var tokens = new CommonTokenStream(lexer);
 		var parser = new SimplePAGParser(tokens);
 
-		var system = new ShapeProductionSystem();
+		this.shapeConfiguration = new ShapeConfiguration();
+
+		var system = new ShapeProductionSystem(this.shapeConfiguration);
 		var listener = new ProductionSystemListener(system);
 		ParseTreeWalker.Default.Walk(listener, parser.pag());
+		system.Axiom = "root";
 
 		foreach (var item in system.Rules)
 		{
@@ -75,53 +76,25 @@ public class Demo : MonoBehaviour {
 
 		Debug.Log("======= Building System ========");
 
-		this.tree = system.Run("root");
+		system.Run();
 
 		Debug.Log("======= Finished Building System ========");
 	}
-
-	private void ProcessDrawScope(ScopeDrawContext scopeCtx)
-	{
-		var root = scopeCtx.RootScope;
-		
-		foreach (var leaf in root.LeafNodeDescendants())
-		{
-//			Debug.Log(leaf);
-			
-			if (leaf.Value is Shape)
-			{
-				var geoScope = (Shape)leaf.Value;
-				AddGeometryToScene(geoScope);
-			}
-		}
-	}
-
+	
 	private void AddGeometry(TreeNode<ShapeNodeValue> tree)
 	{
 		foreach (var leaf in tree.LeafNodeDescendants())
 		{
-			Debug.Log(string.Format("geo node {0}", leaf));
 			if (!string.IsNullOrEmpty(leaf.Value.ShapeName))
 			{
 				var mesh = this.shapeMeshes[leaf.Value.ShapeName];
 				var matrix = leaf.Value.Matrix;
-				AddGeometry(mesh, matrix);
+				AddGeometryMesh(mesh, matrix);
 			}
 		}
 	}
 
-	private void AddGeometryToScene(Shape geoNode)
-	{
-		var go = new GameObject();
-		go.transform.FromMatrix4x4(geoNode.Matrix);
-		var meshFilter = go.AddComponent<MeshFilter>();
-		var meshRenderer = go.AddComponent<MeshRenderer>();
-		
-		meshFilter.sharedMesh = geoNode.Geometry;
-		meshRenderer.material = this.material;
-	}
-
-	private void AddGeometry(Mesh mesh, Matrix4x4 matrix)
+	private void AddGeometryMesh(Mesh mesh, Matrix4x4 matrix)
 	{
 		var go = new GameObject();
 		go.transform.FromMatrix4x4(matrix);
@@ -135,7 +108,7 @@ public class Demo : MonoBehaviour {
 
 public interface IScope
 {
-	Matrix4x4 Matrix { get; }
+	Matrix4x4 Matrix { get; set; }
 }
 
 public class Scope : IScope
@@ -145,38 +118,43 @@ public class Scope : IScope
 		this.Matrix = matrix;
 	}
 
-	public Matrix4x4 Matrix { get; private set; }	
-}
-
-public class Shape : Scope
-{
-	public Shape(Matrix4x4 matrix, Mesh geometry)
-		: base(matrix)
+	public Scope(IScope scope)
 	{
-		this.Geometry = geometry;
+		this.Matrix = scope.Matrix;
 	}
 
-	public Mesh Geometry { get; private set; }
+	public Matrix4x4 Matrix { get; set; }	
 }
 
-public static class TreeNodeExtensions
-{
-	public static TreeNode<IScope> AddScope(this TreeNode<IScope> root, string id, Matrix4x4 matrix)
-	{
-		var node = new TreeNode<IScope>(id, root);
-		node.Value = new Scope(matrix);
-		root.Add(node);
-
-		return node;
-	}
-
-	public static TreeNode<IScope> AddGeometry(this TreeNode<IScope> root, string id, Mesh geometry)
-	{
-		var node = new TreeNode<IScope>(id, root);
-		node.Value = new Shape(root.Value.Matrix, geometry);
-		root.Add(node);
-
-		return node;
-	}
-}
-
+//public class Shape : Scope
+//{
+//	public Shape(Matrix4x4 matrix, Mesh geometry)
+//		: base(matrix)
+//	{
+//		this.Geometry = geometry;
+//	}
+//
+//	public Mesh Geometry { get; private set; }
+//}
+//
+//public static class TreeNodeExtensions
+//{
+//	public static TreeNode<IScope> AddScope(this TreeNode<IScope> root, string id, Matrix4x4 matrix)
+//	{
+//		var node = new TreeNode<IScope>(id, root);
+//		node.Value = new Scope(matrix);
+//		root.Add(node);
+//
+//		return node;
+//	}
+//
+//	public static TreeNode<IScope> AddGeometry(this TreeNode<IScope> root, string id, Mesh geometry)
+//	{
+//		var node = new TreeNode<IScope>(id, root);
+//		node.Value = new Shape(root.Value.Matrix, geometry);
+//		root.Add(node);
+//
+//		return node;
+//	}
+//}
+//
