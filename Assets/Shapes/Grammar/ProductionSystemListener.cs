@@ -21,6 +21,7 @@ public class ProductionSystemListener : SimplePAGBaseListener
 	public override void EnterSuccessor(SimplePAGParser.SuccessorContext context)
 	{
 		var symbolCtx = context.ID();
+		var cmdCtx = context.cmdDefinition();
 
 		if (symbolCtx != null)
 		{
@@ -31,23 +32,42 @@ public class ProductionSystemListener : SimplePAGBaseListener
 			};
 			this.currentRule.Successors.Add(successor);
 		}
-		else
+		else if (cmdCtx != null)
 		{
-			var cmdCtx = context.cmdDefinition();
-			var cmdName = cmdCtx.ID().GetText();
-			var args = cmdCtx.argumentsDefinition();
+			string cmdName = null;
+			var pushPopCtx = cmdCtx.pushPopScope();
 
+			if (pushPopCtx != null)
+			{
+				switch (pushPopCtx.GetText())
+				{
+				case "[":
+					cmdName = "Push";
+					break;
+				case "]":
+					cmdName = "Pop";
+					break;
+				}
+			}
+			else
+			{
+				cmdName = cmdCtx.ID().GetText();
+			}
+				
+			var argsDef = cmdCtx.argumentsDefinition();
+			var args = argsDef == null ? new string[0] : argsDef.argumentDefinition().Select(x => x.GetText()).ToArray();
+			
 			var cmd = new ShapeCommand
 			{
 				Name = cmdName,
-				Arguments = args.argumentDefinition().Select(x => x.GetText()).ToArray()
+				Arguments = args
 			};
-                
+			
 			var cmdSuccessor = new CommandShapeSuccessor
 			{
 				Command = cmd
 			};
-
+			
 			this.currentRule.Successors.Add(cmdSuccessor);
         }
 	}

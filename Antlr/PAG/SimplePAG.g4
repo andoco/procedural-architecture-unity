@@ -26,6 +26,11 @@ successor
 
 cmdDefinition
     :   ID argumentsDefinition
+    |   pushPopScope
+    ;
+
+pushPopScope
+    :   '[' | ']'
     ;
 
 argumentsDefinition

@@ -27,6 +27,12 @@ public class ShapeCommand : IShapeCommand
 			var scaleAxes = Arguments.Select(x => float.Parse(x)).ToArray();
 			configuration.ScaleScope(new Vector3(scaleAxes[0], scaleAxes[1], scaleAxes[2]));
 			break;
+		case "Push":
+			configuration.PushScope();
+			break;
+		case "Pop":
+			configuration.PopScope();
+			break;
 		}
 	}
 }

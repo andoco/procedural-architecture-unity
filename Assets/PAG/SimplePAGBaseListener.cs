@@ -72,6 +72,19 @@ public partial class SimplePAGBaseListener : ISimplePAGListener {
 	public virtual void ExitSuccessor([NotNull] SimplePAGParser.SuccessorContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="SimplePAGParser.pushPopScope"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterPushPopScope([NotNull] SimplePAGParser.PushPopScopeContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SimplePAGParser.pushPopScope"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitPushPopScope([NotNull] SimplePAGParser.PushPopScopeContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SimplePAGParser.argumentDefinition"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

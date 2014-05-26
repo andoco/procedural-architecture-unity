@@ -62,6 +62,17 @@ public interface ISimplePAGListener : IParseTreeListener {
 	void ExitSuccessor([NotNull] SimplePAGParser.SuccessorContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="SimplePAGParser.pushPopScope"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPushPopScope([NotNull] SimplePAGParser.PushPopScopeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SimplePAGParser.pushPopScope"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPushPopScope([NotNull] SimplePAGParser.PushPopScopeContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="SimplePAGParser.argumentDefinition"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
