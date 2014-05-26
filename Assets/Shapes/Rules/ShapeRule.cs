@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class ShapeRule
+public sealed class ShapeRule
 {
 	public ShapeRule()
 	{
