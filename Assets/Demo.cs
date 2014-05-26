@@ -32,7 +32,6 @@ public class Demo : MonoBehaviour
 			{ "cube", cube },
 			{ "facade", facade }, 
 			{ "roof", roof },
-
 		};
 
 		ProcessPAG("house");
@@ -105,56 +104,3 @@ public class Demo : MonoBehaviour
 		meshRenderer.material = this.material;
 	}
 }
-
-public interface IScope
-{
-	Matrix4x4 Matrix { get; set; }
-}
-
-public class Scope : IScope
-{
-	public Scope(Matrix4x4 matrix)
-	{
-		this.Matrix = matrix;
-	}
-
-	public Scope(IScope scope)
-	{
-		this.Matrix = scope.Matrix;
-	}
-
-	public Matrix4x4 Matrix { get; set; }	
-}
-
-//public class Shape : Scope
-//{
-//	public Shape(Matrix4x4 matrix, Mesh geometry)
-//		: base(matrix)
-//	{
-//		this.Geometry = geometry;
-//	}
-//
-//	public Mesh Geometry { get; private set; }
-//}
-//
-//public static class TreeNodeExtensions
-//{
-//	public static TreeNode<IScope> AddScope(this TreeNode<IScope> root, string id, Matrix4x4 matrix)
-//	{
-//		var node = new TreeNode<IScope>(id, root);
-//		node.Value = new Scope(matrix);
-//		root.Add(node);
-//
-//		return node;
-//	}
-//
-//	public static TreeNode<IScope> AddGeometry(this TreeNode<IScope> root, string id, Mesh geometry)
-//	{
-//		var node = new TreeNode<IScope>(id, root);
-//		node.Value = new Shape(root.Value.Matrix, geometry);
-//		root.Add(node);
-//
-//		return node;
-//	}
-//}
-//
