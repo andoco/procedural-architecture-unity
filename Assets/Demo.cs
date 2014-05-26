@@ -43,13 +43,16 @@ public class Demo : MonoBehaviour {
 
 	void OnDrawGizmos()
 	{
-		this.tree.TraverseBreadthFirst(node => {
-			var matrix = node.Value.Matrix;
-			Gizmos.matrix = matrix;
-			Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-		});
-
-		Gizmos.matrix = Matrix4x4.identity;
+		if (Application.isPlaying)
+		{
+			this.tree.TraverseBreadthFirst(node => {
+				var matrix = node.Value.Matrix;
+				Gizmos.matrix = matrix;
+				Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+			});
+			
+			Gizmos.matrix = Matrix4x4.identity;
+		}
 	}
 
 	private void ProcessPAG(string sourceFile, ScopeDrawContext scopeCtx)
