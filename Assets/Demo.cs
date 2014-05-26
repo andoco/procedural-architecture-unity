@@ -44,8 +44,15 @@ public class Demo : MonoBehaviour {
 		var tokens = new CommonTokenStream(lexer);
 		var parser = new SimplePAGParser(tokens);
 		
-		var listener = new MyListener(scopeCtx);
+//		var listener = new MyListener(scopeCtx);
+		var system = new ShapeProductionSystem();
+		var listener = new ProductionSystemListener(system);
 		ParseTreeWalker.Default.Walk(listener, parser.pag());
+
+		foreach (var item in system.Rules)
+		{
+			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
+		}
 	}
 
 	private void ProcessDrawScope(ScopeDrawContext scopeCtx)
@@ -54,7 +61,7 @@ public class Demo : MonoBehaviour {
 		
 		foreach (var leaf in root.LeafNodeDescendants())
 		{
-			Debug.Log(leaf);
+//			Debug.Log(leaf);
 			
 			if (leaf.Value is Shape)
 			{
