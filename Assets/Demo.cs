@@ -9,22 +9,22 @@ public class Demo : MonoBehaviour {
 
 	private TreeNode<ShapeNodeValue> tree;
 	private Dictionary<string, Mesh> shapeMeshes;
+	private Vector3 anchor = Vector3.one * 0.5f; //new Vector3(0.5f, 0f, 0.5f);
 
 	public Material material;
 
 	// Use this for initialization
 	void Start () {
-
 		var meshBuilder = new MeshBuilder();
-		meshBuilder.BuildCube(1f, 1f, 1f);
+		meshBuilder.BuildCube(1f, 1f, 1f, anchor);
 		var cube = meshBuilder.BuildMesh();
 
 		meshBuilder.Clear();
-		meshBuilder.BuildFacade(1f, 1f, 1f);
+		meshBuilder.BuildFacade(1f, 1f, 1f, anchor);
 		var facade = meshBuilder.BuildMesh();
         
 		meshBuilder.Clear();
-		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f);
+		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f, anchor);
 		var roof = meshBuilder.BuildMesh();
         
         var scopeCtx = new ScopeDrawContext();
