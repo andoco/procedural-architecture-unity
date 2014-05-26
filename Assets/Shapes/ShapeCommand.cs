@@ -1,15 +1,6 @@
 using System.Linq;
 using UnityEngine;
 
-public interface IShapeCommand
-{
-	string Name { get; set; }
-
-	string[] Arguments { get; set; }
-
-	void Execute(IShapeConfiguration configuration);
-}
-
 public class ShapeCommand : IShapeCommand
 {
 	public string Name { get; set; }

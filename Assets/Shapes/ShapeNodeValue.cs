@@ -26,6 +26,9 @@ public class ShapeNodeValue
 
 	public override string ToString ()
 	{
-		return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}]", Status, Rule);
+		if (Rule != null)
+			return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}]", Status, Rule);
+		else
+			return string.Format ("[ShapeNodeValue: Status={0}, ShapeName={1}]", Status, ShapeName);
 	}
 }

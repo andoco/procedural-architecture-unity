@@ -3,10 +3,10 @@ using System.Linq;
 
 public class ProductionSystemListener : SimplePAGBaseListener
 {
-	private ShapeProductionSystem system;
+	private IShapeProductionSystem system;
 	private ShapeRule currentRule;
 
-	public ProductionSystemListener(ShapeProductionSystem system)
+	public ProductionSystemListener(IShapeProductionSystem system)
 	{
 		this.system = system;
 	}

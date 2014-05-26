@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShapeProductionSystem
+public class ShapeProductionSystem : IShapeProductionSystem
 {
 	private int counter;
 

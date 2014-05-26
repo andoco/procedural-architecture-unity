@@ -2,31 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IShapeConfiguration
-{
-	IScope CurrentScope { get; }
-
-	TreeNode<ShapeNodeValue> RootNode { get; }
-
-	TreeNode<ShapeNodeValue> CurrentNode { get; }
-
-	void Init(ShapeRule axiom);
-
-	void PushScope();
-
-	void PopScope();
-
-	void TransformScope(Vector3 delta);
-
-	void RotateScope(Vector3 delta);
-
-	void ScaleScope(Vector3 factor);
-
-	void AddRule(ShapeRule rule);
-
-	void AddShape(string name);
-}
-
 public class ShapeConfiguration : IShapeConfiguration
 {
 	private readonly Stack<IScope> scopeStack = new Stack<IScope>();
@@ -47,12 +22,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	public TreeNode<ShapeNodeValue> RootNode { get; private set; }
 
 	public TreeNode<ShapeNodeValue> CurrentNode { get; private set; }
-
-	public void Init(ShapeRule axiom)
-	{
-
-	}
-
+	
 	public void PushScope()
 	{
 		this.scopeStack.Push(new Scope(this.CurrentScope));
@@ -80,23 +50,9 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void AddRule(ShapeRule rule)
 	{
-		// TODO: helper method to create node, and create root if necessary
 		var node = this.NewNode();
 		node.Value.Rule = rule;
 
-//		var nodeValue = new ShapeNodeValue
-//		{
-//			Status = ShapeStatus.Active,
-//			Rule = rule,
-//			Matrix = this.CurrentScope.Matrix
-//		};
-//		
-//		var node = new TreeNode<ShapeNodeValue>(this.NextNodeId(), this.CurrentNode)
-//		{
-//			Value = nodeValue
-//		};
-		
-//		this.CurrentNode.Add(node);
 		this.AddNode(node);
 	}
 
