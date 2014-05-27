@@ -28,11 +28,11 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 [System.CLSCompliant(false)]
 public partial class SimplePAGParser : Parser {
 	public const int
-		T__12=1, T__11=2, T__10=3, T__9=4, T__8=5, T__7=6, T__6=7, T__5=8, T__4=9, 
-		T__3=10, T__2=11, T__1=12, T__0=13, INTEGER=14, ID=15, WS=16;
+		T__11=1, T__10=2, T__9=3, T__8=4, T__7=5, T__6=6, T__5=7, T__4=8, T__3=9, 
+		T__2=10, T__1=11, T__0=12, INTEGER=13, ID=14, WS=15;
 	public static readonly string[] tokenNames = {
-		"<INVALID>", "'#rules'", "':'", "'['", "';'", "'|'", "']'", "'()'", "'\"'", 
-		"'('", "')'", "','", "'::-'", "'.'", "INTEGER", "ID", "WS"
+		"<INVALID>", "'#rules'", "'()'", "'\"'", "'('", "')'", "':'", "'['", "';'", 
+		"','", "']'", "'::-'", "'.'", "INTEGER", "ID", "WS"
 	};
 	public const int
 		RULE_pag = 0, RULE_rules = 1, RULE_rule = 2, RULE_successor = 3, RULE_cmdDefinition = 4, 
@@ -192,41 +192,40 @@ public partial class SimplePAGParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 30; Match(ID);
-			State = 31; Match(12);
+			State = 31; Match(11);
 			State = 32; successor();
 			State = 35;
 			_la = _input.La(1);
-			if (_la==2) {
+			if (_la==6) {
 				{
-				State = 33; Match(2);
+				State = 33; Match(6);
 				State = 34; floating_point();
 				}
 			}
 
-			State = 45;
+			State = 44;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
-			while (_la==5) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 7) | (1L << 10) | (1L << ID))) != 0)) {
 				{
 				{
-				State = 37; Match(5);
-				State = 38; successor();
-				State = 41;
+				State = 37; successor();
+				State = 40;
 				_la = _input.La(1);
-				if (_la==2) {
+				if (_la==6) {
 					{
-					State = 39; Match(2);
-					State = 40; floating_point();
+					State = 38; Match(6);
+					State = 39; floating_point();
 					}
 				}
 
 				}
 				}
-				State = 47;
+				State = 46;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
-			State = 48; Match(4);
+			State = 47; Match(8);
 			}
 		}
 		catch (RecognitionException re) {
@@ -265,19 +264,19 @@ public partial class SimplePAGParser : Parser {
 		SuccessorContext _localctx = new SuccessorContext(_ctx, State);
 		EnterRule(_localctx, 6, RULE_successor);
 		try {
-			State = 52;
+			State = 51;
 			switch ( Interpreter.AdaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 50; cmdDefinition();
+				State = 49; cmdDefinition();
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 51; Match(ID);
+				State = 50; Match(ID);
 				}
 				break;
 			}
@@ -321,20 +320,20 @@ public partial class SimplePAGParser : Parser {
 		CmdDefinitionContext _localctx = new CmdDefinitionContext(_ctx, State);
 		EnterRule(_localctx, 8, RULE_cmdDefinition);
 		try {
-			State = 57;
+			State = 56;
 			switch (_input.La(1)) {
 			case ID:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 54; Match(ID);
-				State = 55; argumentsDefinition();
+				State = 53; Match(ID);
+				State = 54; argumentsDefinition();
 				}
 				break;
-			case 3:
-			case 6:
+			case 7:
+			case 10:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 56; pushPopScope();
+				State = 55; pushPopScope();
 				}
 				break;
 			default:
@@ -376,9 +375,9 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 59;
+			State = 58;
 			_la = _input.La(1);
-			if ( !(_la==3 || _la==6) ) {
+			if ( !(_la==7 || _la==10) ) {
 			_errHandler.RecoverInline(this);
 			}
 			Consume();
@@ -423,34 +422,34 @@ public partial class SimplePAGParser : Parser {
 		EnterRule(_localctx, 12, RULE_argumentsDefinition);
 		int _la;
 		try {
-			State = 73;
+			State = 72;
 			switch (_input.La(1)) {
-			case 9:
+			case 4:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 61; Match(9);
-				State = 62; argumentDefinition();
-				State = 67;
+				State = 60; Match(4);
+				State = 61; argumentDefinition();
+				State = 66;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
-				while (_la==11) {
+				while (_la==9) {
 					{
 					{
-					State = 63; Match(11);
-					State = 64; argumentDefinition();
+					State = 62; Match(9);
+					State = 63; argumentDefinition();
 					}
 					}
-					State = 69;
+					State = 68;
 					_errHandler.Sync(this);
 					_la = _input.La(1);
 				}
-				State = 70; Match(10);
+				State = 69; Match(5);
 				}
 				break;
-			case 7:
+			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 72; Match(7);
+				State = 71; Match(2);
 				}
 				break;
 			default:
@@ -496,26 +495,26 @@ public partial class SimplePAGParser : Parser {
 		ArgumentDefinitionContext _localctx = new ArgumentDefinitionContext(_ctx, State);
 		EnterRule(_localctx, 14, RULE_argumentDefinition);
 		try {
-			State = 78;
+			State = 77;
 			switch ( Interpreter.AdaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 75; floating_point();
+				State = 74; floating_point();
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 76; Match(INTEGER);
+				State = 75; Match(INTEGER);
 				}
 				break;
 
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 77; shape_name();
+				State = 76; shape_name();
 				}
 				break;
 			}
@@ -559,23 +558,23 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 80; Match(8);
-			State = 81; Match(ID);
-			State = 86;
+			State = 79; Match(3);
+			State = 80; Match(ID);
+			State = 85;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
-			while (_la==2) {
+			while (_la==6) {
 				{
 				{
-				State = 82; Match(2);
-				State = 83; Match(ID);
+				State = 81; Match(6);
+				State = 82; Match(ID);
 				}
 				}
-				State = 88;
+				State = 87;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
-			State = 89; Match(8);
+			State = 88; Match(3);
 			}
 		}
 		catch (RecognitionException re) {
@@ -613,9 +612,9 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 91; Match(8);
-			State = 92; Match(ID);
-			State = 93; Match(8);
+			State = 90; Match(3);
+			State = 91; Match(ID);
+			State = 92; Match(3);
 			}
 		}
 		catch (RecognitionException re) {
@@ -655,28 +654,28 @@ public partial class SimplePAGParser : Parser {
 		EnterRule(_localctx, 20, RULE_floating_point);
 		int _la;
 		try {
-			State = 102;
+			State = 101;
 			switch (_input.La(1)) {
 			case INTEGER:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 95; Match(INTEGER);
-				State = 98;
+				State = 94; Match(INTEGER);
+				State = 97;
 				_la = _input.La(1);
-				if (_la==13) {
+				if (_la==12) {
 					{
-					State = 96; Match(13);
-					State = 97; Match(INTEGER);
+					State = 95; Match(12);
+					State = 96; Match(INTEGER);
 					}
 				}
 
 				}
 				break;
-			case 13:
+			case 12:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 100; Match(13);
-				State = 101; Match(INTEGER);
+				State = 99; Match(12);
+				State = 100; Match(INTEGER);
 				}
 				break;
 			default:
@@ -695,42 +694,42 @@ public partial class SimplePAGParser : Parser {
 	}
 
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x12k\x4\x2\t\x2"+
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x11j\x4\x2\t\x2"+
 		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
 		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3\x1D\n\x3\r"+
 		"\x3\xE\x3\x1E\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4&\n\x4\x3\x4\x3\x4\x3"+
-		"\x4\x3\x4\x5\x4,\n\x4\a\x4.\n\x4\f\x4\xE\x4\x31\v\x4\x3\x4\x3\x4\x3\x5"+
-		"\x3\x5\x5\x5\x37\n\x5\x3\x6\x3\x6\x3\x6\x5\x6<\n\x6\x3\a\x3\a\x3\b\x3"+
-		"\b\x3\b\x3\b\a\b\x44\n\b\f\b\xE\bG\v\b\x3\b\x3\b\x3\b\x5\bL\n\b\x3\t\x3"+
-		"\t\x3\t\x5\tQ\n\t\x3\n\x3\n\x3\n\x3\n\a\nW\n\n\f\n\xE\nZ\v\n\x3\n\x3\n"+
-		"\x3\v\x3\v\x3\v\x3\v\x3\f\x3\f\x3\f\x5\f\x65\n\f\x3\f\x3\f\x5\fi\n\f\x3"+
-		"\f\x2\x2\x2\r\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14"+
-		"\x2\x16\x2\x2\x3\x4\x2\x5\x5\b\bl\x2\x18\x3\x2\x2\x2\x4\x1C\x3\x2\x2\x2"+
-		"\x6 \x3\x2\x2\x2\b\x36\x3\x2\x2\x2\n;\x3\x2\x2\x2\f=\x3\x2\x2\x2\xEK\x3"+
-		"\x2\x2\x2\x10P\x3\x2\x2\x2\x12R\x3\x2\x2\x2\x14]\x3\x2\x2\x2\x16h\x3\x2"+
+		"\x4\x5\x4+\n\x4\a\x4-\n\x4\f\x4\xE\x4\x30\v\x4\x3\x4\x3\x4\x3\x5\x3\x5"+
+		"\x5\x5\x36\n\x5\x3\x6\x3\x6\x3\x6\x5\x6;\n\x6\x3\a\x3\a\x3\b\x3\b\x3\b"+
+		"\x3\b\a\b\x43\n\b\f\b\xE\b\x46\v\b\x3\b\x3\b\x3\b\x5\bK\n\b\x3\t\x3\t"+
+		"\x3\t\x5\tP\n\t\x3\n\x3\n\x3\n\x3\n\a\nV\n\n\f\n\xE\nY\v\n\x3\n\x3\n\x3"+
+		"\v\x3\v\x3\v\x3\v\x3\f\x3\f\x3\f\x5\f\x64\n\f\x3\f\x3\f\x5\fh\n\f\x3\f"+
+		"\x2\x2\x2\r\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2"+
+		"\x16\x2\x2\x3\x4\x2\t\t\f\fk\x2\x18\x3\x2\x2\x2\x4\x1C\x3\x2\x2\x2\x6"+
+		" \x3\x2\x2\x2\b\x35\x3\x2\x2\x2\n:\x3\x2\x2\x2\f<\x3\x2\x2\x2\xEJ\x3\x2"+
+		"\x2\x2\x10O\x3\x2\x2\x2\x12Q\x3\x2\x2\x2\x14\\\x3\x2\x2\x2\x16g\x3\x2"+
 		"\x2\x2\x18\x19\a\x3\x2\x2\x19\x1A\x5\x4\x3\x2\x1A\x3\x3\x2\x2\x2\x1B\x1D"+
 		"\x5\x6\x4\x2\x1C\x1B\x3\x2\x2\x2\x1D\x1E\x3\x2\x2\x2\x1E\x1C\x3\x2\x2"+
-		"\x2\x1E\x1F\x3\x2\x2\x2\x1F\x5\x3\x2\x2\x2 !\a\x11\x2\x2!\"\a\xE\x2\x2"+
-		"\"%\x5\b\x5\x2#$\a\x4\x2\x2$&\x5\x16\f\x2%#\x3\x2\x2\x2%&\x3\x2\x2\x2"+
-		"&/\x3\x2\x2\x2\'(\a\a\x2\x2(+\x5\b\x5\x2)*\a\x4\x2\x2*,\x5\x16\f\x2+)"+
-		"\x3\x2\x2\x2+,\x3\x2\x2\x2,.\x3\x2\x2\x2-\'\x3\x2\x2\x2.\x31\x3\x2\x2"+
-		"\x2/-\x3\x2\x2\x2/\x30\x3\x2\x2\x2\x30\x32\x3\x2\x2\x2\x31/\x3\x2\x2\x2"+
-		"\x32\x33\a\x6\x2\x2\x33\a\x3\x2\x2\x2\x34\x37\x5\n\x6\x2\x35\x37\a\x11"+
-		"\x2\x2\x36\x34\x3\x2\x2\x2\x36\x35\x3\x2\x2\x2\x37\t\x3\x2\x2\x2\x38\x39"+
-		"\a\x11\x2\x2\x39<\x5\xE\b\x2:<\x5\f\a\x2;\x38\x3\x2\x2\x2;:\x3\x2\x2\x2"+
-		"<\v\x3\x2\x2\x2=>\t\x2\x2\x2>\r\x3\x2\x2\x2?@\a\v\x2\x2@\x45\x5\x10\t"+
-		"\x2\x41\x42\a\r\x2\x2\x42\x44\x5\x10\t\x2\x43\x41\x3\x2\x2\x2\x44G\x3"+
-		"\x2\x2\x2\x45\x43\x3\x2\x2\x2\x45\x46\x3\x2\x2\x2\x46H\x3\x2\x2\x2G\x45"+
-		"\x3\x2\x2\x2HI\a\f\x2\x2IL\x3\x2\x2\x2JL\a\t\x2\x2K?\x3\x2\x2\x2KJ\x3"+
-		"\x2\x2\x2L\xF\x3\x2\x2\x2MQ\x5\x16\f\x2NQ\a\x10\x2\x2OQ\x5\x14\v\x2PM"+
-		"\x3\x2\x2\x2PN\x3\x2\x2\x2PO\x3\x2\x2\x2Q\x11\x3\x2\x2\x2RS\a\n\x2\x2"+
-		"SX\a\x11\x2\x2TU\a\x4\x2\x2UW\a\x11\x2\x2VT\x3\x2\x2\x2WZ\x3\x2\x2\x2"+
-		"XV\x3\x2\x2\x2XY\x3\x2\x2\x2Y[\x3\x2\x2\x2ZX\x3\x2\x2\x2[\\\a\n\x2\x2"+
-		"\\\x13\x3\x2\x2\x2]^\a\n\x2\x2^_\a\x11\x2\x2_`\a\n\x2\x2`\x15\x3\x2\x2"+
-		"\x2\x61\x64\a\x10\x2\x2\x62\x63\a\xF\x2\x2\x63\x65\a\x10\x2\x2\x64\x62"+
-		"\x3\x2\x2\x2\x64\x65\x3\x2\x2\x2\x65i\x3\x2\x2\x2\x66g\a\xF\x2\x2gi\a"+
-		"\x10\x2\x2h\x61\x3\x2\x2\x2h\x66\x3\x2\x2\x2i\x17\x3\x2\x2\x2\xE\x1E%"+
-		"+/\x36;\x45KPX\x64h";
+		"\x2\x1E\x1F\x3\x2\x2\x2\x1F\x5\x3\x2\x2\x2 !\a\x10\x2\x2!\"\a\r\x2\x2"+
+		"\"%\x5\b\x5\x2#$\a\b\x2\x2$&\x5\x16\f\x2%#\x3\x2\x2\x2%&\x3\x2\x2\x2&"+
+		".\x3\x2\x2\x2\'*\x5\b\x5\x2()\a\b\x2\x2)+\x5\x16\f\x2*(\x3\x2\x2\x2*+"+
+		"\x3\x2\x2\x2+-\x3\x2\x2\x2,\'\x3\x2\x2\x2-\x30\x3\x2\x2\x2.,\x3\x2\x2"+
+		"\x2./\x3\x2\x2\x2/\x31\x3\x2\x2\x2\x30.\x3\x2\x2\x2\x31\x32\a\n\x2\x2"+
+		"\x32\a\x3\x2\x2\x2\x33\x36\x5\n\x6\x2\x34\x36\a\x10\x2\x2\x35\x33\x3\x2"+
+		"\x2\x2\x35\x34\x3\x2\x2\x2\x36\t\x3\x2\x2\x2\x37\x38\a\x10\x2\x2\x38;"+
+		"\x5\xE\b\x2\x39;\x5\f\a\x2:\x37\x3\x2\x2\x2:\x39\x3\x2\x2\x2;\v\x3\x2"+
+		"\x2\x2<=\t\x2\x2\x2=\r\x3\x2\x2\x2>?\a\x6\x2\x2?\x44\x5\x10\t\x2@\x41"+
+		"\a\v\x2\x2\x41\x43\x5\x10\t\x2\x42@\x3\x2\x2\x2\x43\x46\x3\x2\x2\x2\x44"+
+		"\x42\x3\x2\x2\x2\x44\x45\x3\x2\x2\x2\x45G\x3\x2\x2\x2\x46\x44\x3\x2\x2"+
+		"\x2GH\a\a\x2\x2HK\x3\x2\x2\x2IK\a\x4\x2\x2J>\x3\x2\x2\x2JI\x3\x2\x2\x2"+
+		"K\xF\x3\x2\x2\x2LP\x5\x16\f\x2MP\a\xF\x2\x2NP\x5\x14\v\x2OL\x3\x2\x2\x2"+
+		"OM\x3\x2\x2\x2ON\x3\x2\x2\x2P\x11\x3\x2\x2\x2QR\a\x5\x2\x2RW\a\x10\x2"+
+		"\x2ST\a\b\x2\x2TV\a\x10\x2\x2US\x3\x2\x2\x2VY\x3\x2\x2\x2WU\x3\x2\x2\x2"+
+		"WX\x3\x2\x2\x2XZ\x3\x2\x2\x2YW\x3\x2\x2\x2Z[\a\x5\x2\x2[\x13\x3\x2\x2"+
+		"\x2\\]\a\x5\x2\x2]^\a\x10\x2\x2^_\a\x5\x2\x2_\x15\x3\x2\x2\x2`\x63\a\xF"+
+		"\x2\x2\x61\x62\a\xE\x2\x2\x62\x64\a\xF\x2\x2\x63\x61\x3\x2\x2\x2\x63\x64"+
+		"\x3\x2\x2\x2\x64h\x3\x2\x2\x2\x65\x66\a\xE\x2\x2\x66h\a\xF\x2\x2g`\x3"+
+		"\x2\x2\x2g\x65\x3\x2\x2\x2h\x17\x3\x2\x2\x2\xE\x1E%*.\x35:\x44JOW\x63"+
+		"g";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }

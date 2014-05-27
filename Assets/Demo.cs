@@ -9,7 +9,7 @@ public class Demo : MonoBehaviour
 {	
 	private IShapeConfiguration shapeConfiguration;
 	private Dictionary<string, Mesh> shapeMeshes;
-	private Vector3 anchor = Vector3.one * 0.5f; //new Vector3(0.5f, 0f, 0.5f);
+	private Vector3 anchor = Vector3.one * 0.5f;
 //	private Vector3 anchor = new Vector3(0.5f, 0f, 0.5f);
 
 	public Material material;
@@ -84,18 +84,19 @@ public class Demo : MonoBehaviour
 	{
 		foreach (var leaf in tree.LeafNodeDescendants())
 		{
-			if (!string.IsNullOrEmpty(leaf.Value.ShapeName))
+			var name = leaf.Value.ShapeName;
+			if (!string.IsNullOrEmpty(name))
 			{
-				var mesh = this.shapeMeshes[leaf.Value.ShapeName];
+				var mesh = this.shapeMeshes[name];
 				var matrix = leaf.Value.Matrix;
-				AddGeometryMesh(mesh, matrix);
+				AddGeometryMesh(name, mesh, matrix);
 			}
 		}
 	}
 
-	private void AddGeometryMesh(Mesh mesh, Matrix4x4 matrix)
+	private void AddGeometryMesh(string name, Mesh mesh, Matrix4x4 matrix)
 	{
-		var go = new GameObject();
+		var go = new GameObject(name);
 		go.transform.FromMatrix4x4(matrix);
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();

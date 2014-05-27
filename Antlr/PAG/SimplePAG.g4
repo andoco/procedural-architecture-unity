@@ -12,7 +12,7 @@ rules   :   (rule)+
  *      predecessor : condition ::- successor : probability;
  * <conditon> and <probability> are optional for each rule.
  */
-rule    :   ID '::-' successor (':' floating_point)? ('|' successor (':' floating_point)? )*  ';'
+rule    :   ID '::-' successor (':' floating_point)? (successor (':' floating_point)? )*  ';'
     ;
 
 /* A successor is anything can occur on the right side of a production rule. Namely that are the defined methods such
