@@ -34,7 +34,7 @@ public class Demo : MonoBehaviour
 			{ "roof", roof },
 		};
 
-		ProcessPAG("house");
+		ProcessPAG("pushpop");
 		AddGeometry(this.shapeConfiguration.RootNode);
 	}
 

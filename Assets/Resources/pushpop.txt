@@ -1,0 +1,4 @@
+#rules
+
+root ::- [Trans(0, 0.5, 0) Set("cube")] [Trans(0, 2, 0) cube] Trans(2, 0, 0) Set("cube");
+cube ::- Set("cube");

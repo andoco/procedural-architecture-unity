@@ -58,16 +58,10 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void AddShape(string name)
 	{
-		var newNode = new TreeNode<ShapeNodeValue>(this.NextNodeId(), this.CurrentNode)
-		{
-			Value = new ShapeNodeValue
-			{
-				Matrix = this.CurrentScope.Matrix,
-				ShapeName = name
-			}
-		};
+		var node = this.NewNode();
+		node.Value.ShapeName = name;
 
-		this.CurrentNode.Add(newNode);
+		this.AddNode(node);
 	}
 	
 	#endregion
