@@ -9,7 +9,7 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public ShapeConfiguration()
 	{
-		this.scopeStack.Push(new Scope(Matrix4x4.identity));
+		this.scopeStack.Push(new Scope());
 	}
 
 	#region IShapeConfiguration implementation
@@ -21,16 +21,36 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public TreeNode<ShapeNodeValue> RootNode { get; private set; }
 
-	public TreeNode<ShapeNodeValue> CurrentNode { get; private set; }
+	private TreeNode<ShapeNodeValue> currentNode;
+	public TreeNode<ShapeNodeValue> CurrentNode
+	{
+		set
+		{
+			this.currentNode = value;
+			this.SetScope(new Scope(this.currentNode.Value.Matrix));
+		}
+		get
+		{
+			return this.currentNode;
+		}
+	}
 	
 	public void PushScope()
 	{
 		this.scopeStack.Push(new Scope(this.CurrentScope));
+		Debug.Log(string.Format("PUSH: {0}", this.scopeStack.Peek()));
 	}
 
 	public void PopScope()
 	{
+		Debug.Log(string.Format("POP: {0}", this.scopeStack.Peek()));
 		this.scopeStack.Pop();
+	}
+
+	public void SetScope(IScope scope)
+	{
+		this.scopeStack.Clear();
+		this.scopeStack.Push(scope);
 	}
 
 	public void TransformScope(Vector3 delta)
@@ -50,7 +70,8 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void AddRule(ShapeRule rule)
 	{
-		var node = this.NewNode();
+		Debug.Log(string.Format("RULE: {0}", rule));
+		var node = this.NewNode(this.currentNode);
 		node.Value.Rule = rule;
 
 		this.AddNode(node);
@@ -58,7 +79,8 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void AddShape(string name)
 	{
-		var node = this.NewNode();
+		Debug.Log(string.Format("SHAPE: {0}", name));
+		var node = this.NewNode(this.currentNode);
 		node.Value.ShapeName = name;
 
 		this.AddNode(node);
@@ -73,9 +95,9 @@ public class ShapeConfiguration : IShapeConfiguration
 		return (this.counter++).ToString();
 	}
 
-	private TreeNode<ShapeNodeValue> NewNode()
+	private TreeNode<ShapeNodeValue> NewNode(TreeNode<ShapeNodeValue> parent)
 	{
-		var node = new TreeNode<ShapeNodeValue>(this.NextNodeId(), this.CurrentNode)
+		var node = new TreeNode<ShapeNodeValue>(this.NextNodeId(), parent)
 		{
 			Value = new ShapeNodeValue
 			{
@@ -91,11 +113,12 @@ public class ShapeConfiguration : IShapeConfiguration
 		if (this.RootNode == null)
 		{
 			this.RootNode = node;
-			this.CurrentNode = node;
 		}
 		else
 		{
-			this.CurrentNode.Add(node);
+			if (this.currentNode != node.Parent)
+				throw new InvalidOperationException("The parent of the node is not the current node");
+			this.currentNode.Add(node);
 		}
 	}
 

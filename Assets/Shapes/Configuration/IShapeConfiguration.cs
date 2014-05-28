@@ -8,11 +8,13 @@ public interface IShapeConfiguration
 
 	TreeNode<ShapeNodeValue> RootNode { get; }
 
-	TreeNode<ShapeNodeValue> CurrentNode { get; }
+	TreeNode<ShapeNodeValue> CurrentNode { get; set; }
 
 	void PushScope();
 
 	void PopScope();
+
+	void SetScope(IScope scope);
 
 	void TransformScope(Vector3 delta);
 

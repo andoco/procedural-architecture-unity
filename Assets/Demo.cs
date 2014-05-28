@@ -42,9 +42,22 @@ public class Demo : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
+			Debug.Log("GIZMOS ====");
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var matrix = node.Value.Matrix;
 				Gizmos.matrix = matrix;
+				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
+				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
+                
+                if (node.IsLeaf)
+				{
+					Gizmos.color = Color.white;
+                }
+				else
+				{
+					Gizmos.color = Color.grey;
+				}
+
 				Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
 			});
 			
@@ -97,7 +110,15 @@ public class Demo : MonoBehaviour
 	private void AddGeometryMesh(string name, Mesh mesh, Matrix4x4 matrix)
 	{
 		var go = new GameObject(name);
+
+		matrix = Matrix4x4.identity * matrix;
+
 		go.transform.FromMatrix4x4(matrix);
+
+//		go.transform.position = matrix.GetPosition();
+//		go.transform.rotation = matrix.GetRotation();
+//		go.transform.localScale = matrix.GetScale();
+
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
 		

@@ -24,9 +24,11 @@ public class ShapeNodeValue
 
 	public override string ToString ()
 	{
+		var matrixInfo = string.Format("Matrix=(pos={0}, rot={1}, scale={2})", Matrix.GetPosition(), Matrix.GetRotation(), Matrix.GetScale());
+
 		if (Rule != null)
-			return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}]", Status, Rule);
+			return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}, {2}]", Status, Rule, matrixInfo);
 		else
-			return string.Format ("[ShapeNodeValue: Status={0}, ShapeName={1}]", Status, ShapeName);
+			return string.Format ("[ShapeNodeValue: Status={0}, ShapeName={1}, {2}]", Status, ShapeName, matrixInfo);
 	}
 }
