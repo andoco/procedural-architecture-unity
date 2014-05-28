@@ -163,17 +163,30 @@ public partial class SimplePAGBaseListener : ISimplePAGListener {
 	public virtual void ExitRules([NotNull] SimplePAGParser.RulesContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SimplePAGParser.floating_point"/>.
+	/// Enter a parse tree produced by <see cref="SimplePAGParser.unary"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFloating_point([NotNull] SimplePAGParser.Floating_pointContext context) { }
+	public virtual void EnterUnary([NotNull] SimplePAGParser.UnaryContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="SimplePAGParser.floating_point"/>.
+	/// Exit a parse tree produced by <see cref="SimplePAGParser.unary"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFloating_point([NotNull] SimplePAGParser.Floating_pointContext context) { }
+	public virtual void ExitUnary([NotNull] SimplePAGParser.UnaryContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="SimplePAGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAtom([NotNull] SimplePAGParser.AtomContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SimplePAGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAtom([NotNull] SimplePAGParser.AtomContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

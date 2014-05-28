@@ -139,13 +139,24 @@ public interface ISimplePAGListener : IParseTreeListener {
 	void ExitRules([NotNull] SimplePAGParser.RulesContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="SimplePAGParser.floating_point"/>.
+	/// Enter a parse tree produced by <see cref="SimplePAGParser.unary"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFloating_point([NotNull] SimplePAGParser.Floating_pointContext context);
+	void EnterUnary([NotNull] SimplePAGParser.UnaryContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="SimplePAGParser.floating_point"/>.
+	/// Exit a parse tree produced by <see cref="SimplePAGParser.unary"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFloating_point([NotNull] SimplePAGParser.Floating_pointContext context);
+	void ExitUnary([NotNull] SimplePAGParser.UnaryContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="SimplePAGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAtom([NotNull] SimplePAGParser.AtomContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="SimplePAGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAtom([NotNull] SimplePAGParser.AtomContext context);
 }

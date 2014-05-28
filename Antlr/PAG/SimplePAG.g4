@@ -12,7 +12,7 @@ rules   :   (rule)+
  *      predecessor : condition ::- successor : probability;
  * <conditon> and <probability> are optional for each rule.
  */
-rule    :   ID '::-' successor (':' floating_point)? (successor (':' floating_point)? )*  ';'
+rule    :   ID '::-' successor (':' FLOAT)? (successor (':' FLOAT)? )*  ';'
     ;
 
 /* A successor is anything can occur on the right side of a production rule. Namely that are the defined methods such
@@ -40,8 +40,7 @@ argumentsDefinition
 
 // Simple value arguments
 argumentDefinition
-    : floating_point
-    | INTEGER
+    : unary
     | shape_name
     ; 
 
@@ -55,15 +54,35 @@ shape_name
     : '"' ID '"'
     ;
 
-floating_point
-    : INTEGER ('.' INTEGER)?
-    | '.' INTEGER
-    ;
+unary
+  :  '-' atom
+  |  '+' atom
+  |  atom
+  ;
+
+atom
+  :  NUMBER
+  |  ID
+  ;
+
+NUMBER 
+  :  FLOAT
+  |  INTEGER
+  ;
 
 // Integer with no leading zero
 INTEGER
-    :   '0'
-    |   '1'..'9' ('0'..'9')*
+    :   DIGIT+
+    ;
+
+FLOAT
+    :   DIGIT+ '.' DIGIT+
+    |   '.' DIGIT+
+    ;
+
+fragment
+DIGIT
+    :  '0'..'9'
     ;
 
 // Identifiers have to start with a letter and can continue with letters, numbers or '_'

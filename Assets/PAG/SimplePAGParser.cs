@@ -28,20 +28,22 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 [System.CLSCompliant(false)]
 public partial class SimplePAGParser : Parser {
 	public const int
-		T__11=1, T__10=2, T__9=3, T__8=4, T__7=5, T__6=6, T__5=7, T__4=8, T__3=9, 
-		T__2=10, T__1=11, T__0=12, INTEGER=13, ID=14, WS=15;
+		T__12=1, T__11=2, T__10=3, T__9=4, T__8=5, T__7=6, T__6=7, T__5=8, T__4=9, 
+		T__3=10, T__2=11, T__1=12, T__0=13, NUMBER=14, INTEGER=15, FLOAT=16, ID=17, 
+		WS=18;
 	public static readonly string[] tokenNames = {
-		"<INVALID>", "'#rules'", "'()'", "'\"'", "'('", "')'", "':'", "'['", "';'", 
-		"','", "']'", "'::-'", "'.'", "INTEGER", "ID", "WS"
+		"<INVALID>", "'#rules'", "':'", "'['", "';'", "']'", "'()'", "'\"'", "'('", 
+		"')'", "'+'", "','", "'-'", "'::-'", "NUMBER", "INTEGER", "FLOAT", "ID", 
+		"WS"
 	};
 	public const int
 		RULE_pag = 0, RULE_rules = 1, RULE_rule = 2, RULE_successor = 3, RULE_cmdDefinition = 4, 
 		RULE_pushPopScope = 5, RULE_argumentsDefinition = 6, RULE_argumentDefinition = 7, 
-		RULE_asset_uri = 8, RULE_shape_name = 9, RULE_floating_point = 10;
+		RULE_asset_uri = 8, RULE_shape_name = 9, RULE_unary = 10, RULE_atom = 11;
 	public static readonly string[] ruleNames = {
 		"pag", "rules", "rule", "successor", "cmdDefinition", "pushPopScope", 
 		"argumentsDefinition", "argumentDefinition", "asset_uri", "shape_name", 
-		"floating_point"
+		"unary", "atom"
 	};
 
 	public override string GrammarFileName { get { return "SimplePAG.g4"; } }
@@ -83,8 +85,8 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 22; Match(1);
-			State = 23; rules();
+			State = 24; Match(1);
+			State = 25; rules();
 			}
 		}
 		catch (RecognitionException re) {
@@ -128,16 +130,16 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 26;
+			State = 28;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
 			do {
 				{
 				{
-				State = 25; rule();
+				State = 27; rule();
 				}
 				}
-				State = 28;
+				State = 30;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			} while ( _la==ID );
@@ -156,17 +158,15 @@ public partial class SimplePAGParser : Parser {
 
 	public partial class RuleContext : ParserRuleContext {
 		public ITerminalNode ID() { return GetToken(SimplePAGParser.ID, 0); }
-		public Floating_pointContext[] floating_point() {
-			return GetRuleContexts<Floating_pointContext>();
-		}
 		public SuccessorContext successor(int i) {
 			return GetRuleContext<SuccessorContext>(i);
 		}
 		public SuccessorContext[] successor() {
 			return GetRuleContexts<SuccessorContext>();
 		}
-		public Floating_pointContext floating_point(int i) {
-			return GetRuleContext<Floating_pointContext>(i);
+		public ITerminalNode[] FLOAT() { return GetTokens(SimplePAGParser.FLOAT); }
+		public ITerminalNode FLOAT(int i) {
+			return GetToken(SimplePAGParser.FLOAT, i);
 		}
 		public RuleContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -191,41 +191,41 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 30; Match(ID);
-			State = 31; Match(11);
-			State = 32; successor();
-			State = 35;
+			State = 32; Match(ID);
+			State = 33; Match(13);
+			State = 34; successor();
+			State = 37;
 			_la = _input.La(1);
-			if (_la==6) {
+			if (_la==2) {
 				{
-				State = 33; Match(6);
-				State = 34; floating_point();
+				State = 35; Match(2);
+				State = 36; Match(FLOAT);
 				}
 			}
 
-			State = 44;
+			State = 46;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 7) | (1L << 10) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 3) | (1L << 5) | (1L << ID))) != 0)) {
 				{
 				{
-				State = 37; successor();
-				State = 40;
+				State = 39; successor();
+				State = 42;
 				_la = _input.La(1);
-				if (_la==6) {
+				if (_la==2) {
 					{
-					State = 38; Match(6);
-					State = 39; floating_point();
+					State = 40; Match(2);
+					State = 41; Match(FLOAT);
 					}
 				}
 
 				}
 				}
-				State = 46;
+				State = 48;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
-			State = 47; Match(8);
+			State = 49; Match(4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -264,19 +264,19 @@ public partial class SimplePAGParser : Parser {
 		SuccessorContext _localctx = new SuccessorContext(_ctx, State);
 		EnterRule(_localctx, 6, RULE_successor);
 		try {
-			State = 51;
+			State = 53;
 			switch ( Interpreter.AdaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 49; cmdDefinition();
+				State = 51; cmdDefinition();
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 50; Match(ID);
+				State = 52; Match(ID);
 				}
 				break;
 			}
@@ -320,20 +320,20 @@ public partial class SimplePAGParser : Parser {
 		CmdDefinitionContext _localctx = new CmdDefinitionContext(_ctx, State);
 		EnterRule(_localctx, 8, RULE_cmdDefinition);
 		try {
-			State = 56;
+			State = 58;
 			switch (_input.La(1)) {
 			case ID:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 53; Match(ID);
-				State = 54; argumentsDefinition();
+				State = 55; Match(ID);
+				State = 56; argumentsDefinition();
 				}
 				break;
-			case 7:
-			case 10:
+			case 3:
+			case 5:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 55; pushPopScope();
+				State = 57; pushPopScope();
 				}
 				break;
 			default:
@@ -375,9 +375,9 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 58;
+			State = 60;
 			_la = _input.La(1);
-			if ( !(_la==7 || _la==10) ) {
+			if ( !(_la==3 || _la==5) ) {
 			_errHandler.RecoverInline(this);
 			}
 			Consume();
@@ -422,34 +422,34 @@ public partial class SimplePAGParser : Parser {
 		EnterRule(_localctx, 12, RULE_argumentsDefinition);
 		int _la;
 		try {
-			State = 72;
+			State = 74;
 			switch (_input.La(1)) {
-			case 4:
+			case 8:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 60; Match(4);
-				State = 61; argumentDefinition();
-				State = 66;
+				State = 62; Match(8);
+				State = 63; argumentDefinition();
+				State = 68;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
-				while (_la==9) {
+				while (_la==11) {
 					{
 					{
-					State = 62; Match(9);
-					State = 63; argumentDefinition();
+					State = 64; Match(11);
+					State = 65; argumentDefinition();
 					}
 					}
-					State = 68;
+					State = 70;
 					_errHandler.Sync(this);
 					_la = _input.La(1);
 				}
-				State = 69; Match(5);
+				State = 71; Match(9);
 				}
 				break;
-			case 2:
+			case 6:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 71; Match(2);
+				State = 73; Match(6);
 				}
 				break;
 			default:
@@ -471,9 +471,8 @@ public partial class SimplePAGParser : Parser {
 		public Shape_nameContext shape_name() {
 			return GetRuleContext<Shape_nameContext>(0);
 		}
-		public ITerminalNode INTEGER() { return GetToken(SimplePAGParser.INTEGER, 0); }
-		public Floating_pointContext floating_point() {
-			return GetRuleContext<Floating_pointContext>(0);
+		public UnaryContext unary() {
+			return GetRuleContext<UnaryContext>(0);
 		}
 		public ArgumentDefinitionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -495,28 +494,25 @@ public partial class SimplePAGParser : Parser {
 		ArgumentDefinitionContext _localctx = new ArgumentDefinitionContext(_ctx, State);
 		EnterRule(_localctx, 14, RULE_argumentDefinition);
 		try {
-			State = 77;
-			switch ( Interpreter.AdaptivePredict(_input,8,_ctx) ) {
-			case 1:
+			State = 78;
+			switch (_input.La(1)) {
+			case 10:
+			case 12:
+			case NUMBER:
+			case ID:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 74; floating_point();
+				State = 76; unary();
 				}
 				break;
-
-			case 2:
+			case 7:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 75; Match(INTEGER);
+				State = 77; shape_name();
 				}
 				break;
-
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 76; shape_name();
-				}
-				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -558,23 +554,23 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 79; Match(3);
-			State = 80; Match(ID);
-			State = 85;
+			State = 80; Match(7);
+			State = 81; Match(ID);
+			State = 86;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
-			while (_la==6) {
+			while (_la==2) {
 				{
 				{
-				State = 81; Match(6);
-				State = 82; Match(ID);
+				State = 82; Match(2);
+				State = 83; Match(ID);
 				}
 				}
-				State = 87;
+				State = 88;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
-			State = 88; Match(3);
+			State = 89; Match(7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -612,9 +608,9 @@ public partial class SimplePAGParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 90; Match(3);
-			State = 91; Match(ID);
-			State = 92; Match(3);
+			State = 91; Match(7);
+			State = 92; Match(ID);
+			State = 93; Match(7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -628,54 +624,51 @@ public partial class SimplePAGParser : Parser {
 		return _localctx;
 	}
 
-	public partial class Floating_pointContext : ParserRuleContext {
-		public ITerminalNode[] INTEGER() { return GetTokens(SimplePAGParser.INTEGER); }
-		public ITerminalNode INTEGER(int i) {
-			return GetToken(SimplePAGParser.INTEGER, i);
+	public partial class UnaryContext : ParserRuleContext {
+		public AtomContext atom() {
+			return GetRuleContext<AtomContext>(0);
 		}
-		public Floating_pointContext(ParserRuleContext parent, int invokingState)
+		public UnaryContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int GetRuleIndex() { return RULE_floating_point; }
+		public override int GetRuleIndex() { return RULE_unary; }
 		public override void EnterRule(IParseTreeListener listener) {
 			ISimplePAGListener typedListener = listener as ISimplePAGListener;
-			if (typedListener != null) typedListener.EnterFloating_point(this);
+			if (typedListener != null) typedListener.EnterUnary(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			ISimplePAGListener typedListener = listener as ISimplePAGListener;
-			if (typedListener != null) typedListener.ExitFloating_point(this);
+			if (typedListener != null) typedListener.ExitUnary(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public Floating_pointContext floating_point() {
-		Floating_pointContext _localctx = new Floating_pointContext(_ctx, State);
-		EnterRule(_localctx, 20, RULE_floating_point);
-		int _la;
+	public UnaryContext unary() {
+		UnaryContext _localctx = new UnaryContext(_ctx, State);
+		EnterRule(_localctx, 20, RULE_unary);
 		try {
-			State = 101;
+			State = 100;
 			switch (_input.La(1)) {
-			case INTEGER:
+			case 12:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 94; Match(INTEGER);
-				State = 97;
-				_la = _input.La(1);
-				if (_la==12) {
-					{
-					State = 95; Match(12);
-					State = 96; Match(INTEGER);
-					}
-				}
-
+				State = 95; Match(12);
+				State = 96; atom();
 				}
 				break;
-			case 12:
+			case 10:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 99; Match(12);
-				State = 100; Match(INTEGER);
+				State = 97; Match(10);
+				State = 98; atom();
+				}
+				break;
+			case NUMBER:
+			case ID:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 99; atom();
 				}
 				break;
 			default:
@@ -693,43 +686,88 @@ public partial class SimplePAGParser : Parser {
 		return _localctx;
 	}
 
+	public partial class AtomContext : ParserRuleContext {
+		public ITerminalNode ID() { return GetToken(SimplePAGParser.ID, 0); }
+		public ITerminalNode NUMBER() { return GetToken(SimplePAGParser.NUMBER, 0); }
+		public AtomContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int GetRuleIndex() { return RULE_atom; }
+		public override void EnterRule(IParseTreeListener listener) {
+			ISimplePAGListener typedListener = listener as ISimplePAGListener;
+			if (typedListener != null) typedListener.EnterAtom(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ISimplePAGListener typedListener = listener as ISimplePAGListener;
+			if (typedListener != null) typedListener.ExitAtom(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public AtomContext atom() {
+		AtomContext _localctx = new AtomContext(_ctx, State);
+		EnterRule(_localctx, 22, RULE_atom);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 102;
+			_la = _input.La(1);
+			if ( !(_la==NUMBER || _la==ID) ) {
+			_errHandler.RecoverInline(this);
+			}
+			Consume();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x11j\x4\x2\t\x2"+
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x14k\x4\x2\t\x2"+
 		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
-		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3\x1D\n\x3\r"+
-		"\x3\xE\x3\x1E\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4&\n\x4\x3\x4\x3\x4\x3"+
-		"\x4\x5\x4+\n\x4\a\x4-\n\x4\f\x4\xE\x4\x30\v\x4\x3\x4\x3\x4\x3\x5\x3\x5"+
-		"\x5\x5\x36\n\x5\x3\x6\x3\x6\x3\x6\x5\x6;\n\x6\x3\a\x3\a\x3\b\x3\b\x3\b"+
-		"\x3\b\a\b\x43\n\b\f\b\xE\b\x46\v\b\x3\b\x3\b\x3\b\x5\bK\n\b\x3\t\x3\t"+
-		"\x3\t\x5\tP\n\t\x3\n\x3\n\x3\n\x3\n\a\nV\n\n\f\n\xE\nY\v\n\x3\n\x3\n\x3"+
-		"\v\x3\v\x3\v\x3\v\x3\f\x3\f\x3\f\x5\f\x64\n\f\x3\f\x3\f\x5\fh\n\f\x3\f"+
-		"\x2\x2\x2\r\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2"+
-		"\x16\x2\x2\x3\x4\x2\t\t\f\fk\x2\x18\x3\x2\x2\x2\x4\x1C\x3\x2\x2\x2\x6"+
-		" \x3\x2\x2\x2\b\x35\x3\x2\x2\x2\n:\x3\x2\x2\x2\f<\x3\x2\x2\x2\xEJ\x3\x2"+
-		"\x2\x2\x10O\x3\x2\x2\x2\x12Q\x3\x2\x2\x2\x14\\\x3\x2\x2\x2\x16g\x3\x2"+
-		"\x2\x2\x18\x19\a\x3\x2\x2\x19\x1A\x5\x4\x3\x2\x1A\x3\x3\x2\x2\x2\x1B\x1D"+
-		"\x5\x6\x4\x2\x1C\x1B\x3\x2\x2\x2\x1D\x1E\x3\x2\x2\x2\x1E\x1C\x3\x2\x2"+
-		"\x2\x1E\x1F\x3\x2\x2\x2\x1F\x5\x3\x2\x2\x2 !\a\x10\x2\x2!\"\a\r\x2\x2"+
-		"\"%\x5\b\x5\x2#$\a\b\x2\x2$&\x5\x16\f\x2%#\x3\x2\x2\x2%&\x3\x2\x2\x2&"+
-		".\x3\x2\x2\x2\'*\x5\b\x5\x2()\a\b\x2\x2)+\x5\x16\f\x2*(\x3\x2\x2\x2*+"+
-		"\x3\x2\x2\x2+-\x3\x2\x2\x2,\'\x3\x2\x2\x2-\x30\x3\x2\x2\x2.,\x3\x2\x2"+
-		"\x2./\x3\x2\x2\x2/\x31\x3\x2\x2\x2\x30.\x3\x2\x2\x2\x31\x32\a\n\x2\x2"+
-		"\x32\a\x3\x2\x2\x2\x33\x36\x5\n\x6\x2\x34\x36\a\x10\x2\x2\x35\x33\x3\x2"+
-		"\x2\x2\x35\x34\x3\x2\x2\x2\x36\t\x3\x2\x2\x2\x37\x38\a\x10\x2\x2\x38;"+
-		"\x5\xE\b\x2\x39;\x5\f\a\x2:\x37\x3\x2\x2\x2:\x39\x3\x2\x2\x2;\v\x3\x2"+
-		"\x2\x2<=\t\x2\x2\x2=\r\x3\x2\x2\x2>?\a\x6\x2\x2?\x44\x5\x10\t\x2@\x41"+
-		"\a\v\x2\x2\x41\x43\x5\x10\t\x2\x42@\x3\x2\x2\x2\x43\x46\x3\x2\x2\x2\x44"+
-		"\x42\x3\x2\x2\x2\x44\x45\x3\x2\x2\x2\x45G\x3\x2\x2\x2\x46\x44\x3\x2\x2"+
-		"\x2GH\a\a\x2\x2HK\x3\x2\x2\x2IK\a\x4\x2\x2J>\x3\x2\x2\x2JI\x3\x2\x2\x2"+
-		"K\xF\x3\x2\x2\x2LP\x5\x16\f\x2MP\a\xF\x2\x2NP\x5\x14\v\x2OL\x3\x2\x2\x2"+
-		"OM\x3\x2\x2\x2ON\x3\x2\x2\x2P\x11\x3\x2\x2\x2QR\a\x5\x2\x2RW\a\x10\x2"+
-		"\x2ST\a\b\x2\x2TV\a\x10\x2\x2US\x3\x2\x2\x2VY\x3\x2\x2\x2WU\x3\x2\x2\x2"+
-		"WX\x3\x2\x2\x2XZ\x3\x2\x2\x2YW\x3\x2\x2\x2Z[\a\x5\x2\x2[\x13\x3\x2\x2"+
-		"\x2\\]\a\x5\x2\x2]^\a\x10\x2\x2^_\a\x5\x2\x2_\x15\x3\x2\x2\x2`\x63\a\xF"+
-		"\x2\x2\x61\x62\a\xE\x2\x2\x62\x64\a\xF\x2\x2\x63\x61\x3\x2\x2\x2\x63\x64"+
-		"\x3\x2\x2\x2\x64h\x3\x2\x2\x2\x65\x66\a\xE\x2\x2\x66h\a\xF\x2\x2g`\x3"+
-		"\x2\x2\x2g\x65\x3\x2\x2\x2h\x17\x3\x2\x2\x2\xE\x1E%*.\x35:\x44JOW\x63"+
-		"g";
+		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x3\x2\x3\x2\x3\x2\x3\x3\x6\x3\x1F"+
+		"\n\x3\r\x3\xE\x3 \x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4(\n\x4\x3\x4\x3\x4"+
+		"\x3\x4\x5\x4-\n\x4\a\x4/\n\x4\f\x4\xE\x4\x32\v\x4\x3\x4\x3\x4\x3\x5\x3"+
+		"\x5\x5\x5\x38\n\x5\x3\x6\x3\x6\x3\x6\x5\x6=\n\x6\x3\a\x3\a\x3\b\x3\b\x3"+
+		"\b\x3\b\a\b\x45\n\b\f\b\xE\bH\v\b\x3\b\x3\b\x3\b\x5\bM\n\b\x3\t\x3\t\x5"+
+		"\tQ\n\t\x3\n\x3\n\x3\n\x3\n\a\nW\n\n\f\n\xE\nZ\v\n\x3\n\x3\n\x3\v\x3\v"+
+		"\x3\v\x3\v\x3\f\x3\f\x3\f\x3\f\x3\f\x5\fg\n\f\x3\r\x3\r\x3\r\x2\x2\x2"+
+		"\xE\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2\x16\x2"+
+		"\x18\x2\x2\x4\x4\x2\x5\x5\a\a\x4\x2\x10\x10\x13\x13j\x2\x1A\x3\x2\x2\x2"+
+		"\x4\x1E\x3\x2\x2\x2\x6\"\x3\x2\x2\x2\b\x37\x3\x2\x2\x2\n<\x3\x2\x2\x2"+
+		"\f>\x3\x2\x2\x2\xEL\x3\x2\x2\x2\x10P\x3\x2\x2\x2\x12R\x3\x2\x2\x2\x14"+
+		"]\x3\x2\x2\x2\x16\x66\x3\x2\x2\x2\x18h\x3\x2\x2\x2\x1A\x1B\a\x3\x2\x2"+
+		"\x1B\x1C\x5\x4\x3\x2\x1C\x3\x3\x2\x2\x2\x1D\x1F\x5\x6\x4\x2\x1E\x1D\x3"+
+		"\x2\x2\x2\x1F \x3\x2\x2\x2 \x1E\x3\x2\x2\x2 !\x3\x2\x2\x2!\x5\x3\x2\x2"+
+		"\x2\"#\a\x13\x2\x2#$\a\xF\x2\x2$\'\x5\b\x5\x2%&\a\x4\x2\x2&(\a\x12\x2"+
+		"\x2\'%\x3\x2\x2\x2\'(\x3\x2\x2\x2(\x30\x3\x2\x2\x2),\x5\b\x5\x2*+\a\x4"+
+		"\x2\x2+-\a\x12\x2\x2,*\x3\x2\x2\x2,-\x3\x2\x2\x2-/\x3\x2\x2\x2.)\x3\x2"+
+		"\x2\x2/\x32\x3\x2\x2\x2\x30.\x3\x2\x2\x2\x30\x31\x3\x2\x2\x2\x31\x33\x3"+
+		"\x2\x2\x2\x32\x30\x3\x2\x2\x2\x33\x34\a\x6\x2\x2\x34\a\x3\x2\x2\x2\x35"+
+		"\x38\x5\n\x6\x2\x36\x38\a\x13\x2\x2\x37\x35\x3\x2\x2\x2\x37\x36\x3\x2"+
+		"\x2\x2\x38\t\x3\x2\x2\x2\x39:\a\x13\x2\x2:=\x5\xE\b\x2;=\x5\f\a\x2<\x39"+
+		"\x3\x2\x2\x2<;\x3\x2\x2\x2=\v\x3\x2\x2\x2>?\t\x2\x2\x2?\r\x3\x2\x2\x2"+
+		"@\x41\a\n\x2\x2\x41\x46\x5\x10\t\x2\x42\x43\a\r\x2\x2\x43\x45\x5\x10\t"+
+		"\x2\x44\x42\x3\x2\x2\x2\x45H\x3\x2\x2\x2\x46\x44\x3\x2\x2\x2\x46G\x3\x2"+
+		"\x2\x2GI\x3\x2\x2\x2H\x46\x3\x2\x2\x2IJ\a\v\x2\x2JM\x3\x2\x2\x2KM\a\b"+
+		"\x2\x2L@\x3\x2\x2\x2LK\x3\x2\x2\x2M\xF\x3\x2\x2\x2NQ\x5\x16\f\x2OQ\x5"+
+		"\x14\v\x2PN\x3\x2\x2\x2PO\x3\x2\x2\x2Q\x11\x3\x2\x2\x2RS\a\t\x2\x2SX\a"+
+		"\x13\x2\x2TU\a\x4\x2\x2UW\a\x13\x2\x2VT\x3\x2\x2\x2WZ\x3\x2\x2\x2XV\x3"+
+		"\x2\x2\x2XY\x3\x2\x2\x2Y[\x3\x2\x2\x2ZX\x3\x2\x2\x2[\\\a\t\x2\x2\\\x13"+
+		"\x3\x2\x2\x2]^\a\t\x2\x2^_\a\x13\x2\x2_`\a\t\x2\x2`\x15\x3\x2\x2\x2\x61"+
+		"\x62\a\xE\x2\x2\x62g\x5\x18\r\x2\x63\x64\a\f\x2\x2\x64g\x5\x18\r\x2\x65"+
+		"g\x5\x18\r\x2\x66\x61\x3\x2\x2\x2\x66\x63\x3\x2\x2\x2\x66\x65\x3\x2\x2"+
+		"\x2g\x17\x3\x2\x2\x2hi\t\x3\x2\x2i\x19\x3\x2\x2\x2\r \',\x30\x37<\x46"+
+		"LPX\x66";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }
