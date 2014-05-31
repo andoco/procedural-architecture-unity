@@ -78,7 +78,7 @@ public class Demo : MonoBehaviour
 
 		this.shapeConfiguration = new ShapeConfiguration();
 
-		var system = new ShapeProductionSystem(this.shapeConfiguration);
+		var system = new ShapeProductionSystem();
 		var listener = new ProductionSystemListener(system);
 		ParseTreeWalker.Default.Walk(listener, parser.pag());
 		system.Axiom = "root";
@@ -90,7 +90,7 @@ public class Demo : MonoBehaviour
 
 		Debug.Log("======= Building System ========");
 
-		system.Run();
+		system.Run(this.shapeConfiguration);
 
 		Debug.Log("======= Finished Building System ========");
 	}
@@ -99,14 +99,9 @@ public class Demo : MonoBehaviour
 	{
 		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
 
-		this.shapeConfiguration = new ShapeConfiguration();
-		
-		var system = new ShapeProductionSystem(this.shapeConfiguration);
+		var builder = new IronyShapeProductionSystemBuilder();
+		var system = builder.Build(houseProg);
 		system.Axiom = "root";
-
-		var builder = new IronyArchitectureBuilder();
-
-		builder.Build(houseProg, system);
 		
 		foreach (var item in system.Rules)
 		{
@@ -115,7 +110,8 @@ public class Demo : MonoBehaviour
 
 		Debug.Log("======= Building System ========");
 
-		system.Run();
+		this.shapeConfiguration = new ShapeConfiguration();
+		system.Run(this.shapeConfiguration);
 
 		Debug.Log("======= Finished Building System ========");
 

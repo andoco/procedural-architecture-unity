@@ -6,11 +6,8 @@ public class ShapeProductionSystem : IShapeProductionSystem
 {
 	private int counter;
 
-	private readonly IShapeConfiguration configuration;
-
-	public ShapeProductionSystem(IShapeConfiguration configuration)
+	public ShapeProductionSystem()
 	{
-		this.configuration = configuration;
 		this.Rules = new Dictionary<string, ShapeRule>();
 	}
 	
@@ -18,14 +15,14 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 	public string Axiom { get; set; }
 
-	public void Run()
+	public void Run(IShapeConfiguration configuration)
 	{
 		if (string.IsNullOrEmpty(this.Axiom))
 			throw new InvalidOperationException("The axiom symbol has not been set");
 
 
-		this.configuration.AddRule(this.Rules[this.Axiom]);
-		var currentNode = this.configuration.RootNode;
+		configuration.AddRule(this.Rules[this.Axiom]);
+		var currentNode = configuration.RootNode;
 
 		while (currentNode != null)
 		{
@@ -34,7 +31,7 @@ public class ShapeProductionSystem : IShapeProductionSystem
 			// IMPORTANT: The scope stack must be reset when processing a new node so that
 			// push/pop commands only apply to rule of the current node.
 			//this.configuration.SetScope(new Scope(currentNode.Value.Matrix));
-			this.configuration.CurrentNode = currentNode;
+			configuration.CurrentNode = currentNode;
 
 			var currentRule = currentNode.Value.Rule;
 
@@ -45,12 +42,12 @@ public class ShapeProductionSystem : IShapeProductionSystem
 					if (successor is CommandShapeSuccessor)
 					{
 						var cmdSuccessor = (CommandShapeSuccessor)successor;
-						cmdSuccessor.Command.Execute(this.configuration);
+						cmdSuccessor.Command.Execute(configuration);
 					}
 					else if (successor is SymbolShapeSuccessor)
 					{
 						var symbolSuccessor = (SymbolShapeSuccessor)successor;
-						this.configuration.AddRule(this.Rules[symbolSuccessor.Symbol]);
+						configuration.AddRule(this.Rules[symbolSuccessor.Symbol]);
 					}
 					else
 					{
@@ -61,7 +58,7 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 			// Mark current node as Inactive and pick next one.
 			currentNode.Value.Status = ShapeStatus.Inactive;
-			currentNode = PickNextNode(this.configuration.RootNode);
+			currentNode = PickNextNode(configuration.RootNode);
 		}
 	}
 
