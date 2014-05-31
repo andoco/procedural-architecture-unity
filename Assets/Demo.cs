@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
+﻿using System.Collections.Generic;
 using System.IO;
-using Irony.Parsing;
+using System.Linq;
+using UnityEngine;
 
 public class Demo : MonoBehaviour
 {	
+	private IShapeProductionSystem system;
 	private IShapeConfiguration shapeConfiguration;
 	private Dictionary<string, Mesh> shapeMeshes;
 	private Vector3 anchor = Vector3.one * 0.5f;
@@ -35,8 +33,8 @@ public class Demo : MonoBehaviour
 			{ "roof", roof },
 		};
 
-//		ProcessPAG("simple");
-		ProcessIronyGrammar("house");
+		BuildProductionSystem("house");
+		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
 	}
 
@@ -67,54 +65,29 @@ public class Demo : MonoBehaviour
 		}
 	}
 
-	private void ProcessPAG(string sourceFile)
-	{
-		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
-		
-		var input = new AntlrInputStream(houseProg);
-		var lexer = new SimplePAGLexer(input);
-		var tokens = new CommonTokenStream(lexer);
-		var parser = new SimplePAGParser(tokens);
-
-		this.shapeConfiguration = new ShapeConfiguration();
-
-		var system = new ShapeProductionSystem();
-		var listener = new ProductionSystemListener(system);
-		ParseTreeWalker.Default.Walk(listener, parser.pag());
-		system.Axiom = "root";
-
-		foreach (var item in system.Rules)
-		{
-			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
-		}
-
-		Debug.Log("======= Building System ========");
-
-		system.Run(this.shapeConfiguration);
-
-		Debug.Log("======= Finished Building System ========");
-	}
-
-	private void ProcessIronyGrammar(string sourceFile)
+	private void BuildProductionSystem(string sourceFile)
 	{
 		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
 
 		var builder = new IronyShapeProductionSystemBuilder();
-		var system = builder.Build(houseProg);
-		system.Axiom = "root";
+		this.system = builder.Build(houseProg);
+		this.system.Axiom = "root";
 		
-		foreach (var item in system.Rules)
+		foreach (var item in this.system.Rules)
 		{
 			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
 		}
+	}
 
+	private void BuildProductionConfiguration()
+	{
 		Debug.Log("======= Building System ========");
-
+		
 		this.shapeConfiguration = new ShapeConfiguration();
-		system.Run(this.shapeConfiguration);
-
+		this.system.Run(this.shapeConfiguration);
+		
 		Debug.Log("======= Finished Building System ========");
-
+		
 		Debug.Log(this.shapeConfiguration);
 	}
 
