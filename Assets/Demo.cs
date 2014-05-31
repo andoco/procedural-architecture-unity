@@ -4,6 +4,7 @@ using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using System.IO;
+using Irony.Parsing;
 
 public class Demo : MonoBehaviour
 {	
@@ -34,7 +35,8 @@ public class Demo : MonoBehaviour
 			{ "roof", roof },
 		};
 
-		ProcessPAG("pushpop");
+//		ProcessPAG("simple");
+		ProcessIronyGrammar("house");
 		AddGeometry(this.shapeConfiguration.RootNode);
 	}
 
@@ -92,9 +94,37 @@ public class Demo : MonoBehaviour
 
 		Debug.Log("======= Finished Building System ========");
 	}
-	
+
+	private void ProcessIronyGrammar(string sourceFile)
+	{
+		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
+
+		this.shapeConfiguration = new ShapeConfiguration();
+		
+		var system = new ShapeProductionSystem(this.shapeConfiguration);
+		system.Axiom = "root";
+
+		var builder = new IronyArchitectureBuilder();
+
+		builder.Build(houseProg, system);
+		
+		foreach (var item in system.Rules)
+		{
+			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
+		}
+
+		Debug.Log("======= Building System ========");
+
+		system.Run();
+
+		Debug.Log("======= Finished Building System ========");
+
+		Debug.Log(this.shapeConfiguration);
+	}
+
 	private void AddGeometry(TreeNode<ShapeNodeValue> tree)
 	{
+		Debug.Log(tree);
 		foreach (var leaf in tree.LeafNodeDescendants())
 		{
 			var name = leaf.Value.ShapeName;
