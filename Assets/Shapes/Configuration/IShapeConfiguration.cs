@@ -2,13 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ShapeNode : TreeNode
+{
+	public ShapeNode(string id, ShapeNode parent)
+		: base(id, parent)
+	{
+	}
+
+	public ShapeNodeValue Value { get; set; }
+}
+
 public interface IShapeConfiguration
 {
 	IScope CurrentScope { get; }
 
-	TreeNode<ShapeNodeValue> RootNode { get; }
+	ShapeNode RootNode { get; }
 
-	TreeNode<ShapeNodeValue> CurrentNode { get; set; }
+	ShapeNode CurrentNode { get; set; }
 
 	void PushScope();
 

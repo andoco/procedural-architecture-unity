@@ -4,12 +4,12 @@ using System.Linq;
 
 public static class TreeNodeSearchExtensions
 {
-	public static TreeNode<T> BreadthFirstSearch<T>(this TreeNode<T> root, Predicate<T> match)
+	public static TreeNode BreadthFirstSearch(this TreeNode root, Predicate<TreeNode> match)
 	{
-		if (match(root.Value))
+		if (match(root))
 			return root;
 
-		var queue = new Queue<TreeNode<T>>();
+		var queue = new Queue<TreeNode>();
 		queue.Enqueue(root);
 		
 		while (queue.Any())
@@ -17,7 +17,7 @@ public static class TreeNodeSearchExtensions
 			var current = queue.Dequeue();
 			foreach (var child in current)
 			{
-				if (match(child.Value))
+				if (match(child))
 				{
 					return child;
 				}

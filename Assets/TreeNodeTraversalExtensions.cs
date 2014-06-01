@@ -4,9 +4,11 @@ using System.Linq;
 
 public static class TreeNodeTraversalExtensions
 {
-	public static void TraverseBreadthFirst<T>(this TreeNode<T> root, Action<TreeNode<T>> action)
+	public delegate void TreeNodeAction(TreeNode node);
+
+	public static void TraverseBreadthFirst(this TreeNode root, TreeNodeAction action)
 	{
-		var queue = new Queue<TreeNode<T>>();
+		var queue = new Queue<TreeNode>();
 		queue.Enqueue(root);
 		
 		while (queue.Any())

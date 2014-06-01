@@ -19,10 +19,10 @@ public class ShapeConfiguration : IShapeConfiguration
 		get { return this.scopeStack.Peek(); }
 	}
 
-	public TreeNode<ShapeNodeValue> RootNode { get; private set; }
+	public ShapeNode RootNode { get; private set; }
 
-	private TreeNode<ShapeNodeValue> currentNode;
-	public TreeNode<ShapeNodeValue> CurrentNode
+	private ShapeNode currentNode;
+	public ShapeNode CurrentNode
 	{
 		set
 		{
@@ -95,9 +95,9 @@ public class ShapeConfiguration : IShapeConfiguration
 		return (this.counter++).ToString();
 	}
 
-	private TreeNode<ShapeNodeValue> NewNode(TreeNode<ShapeNodeValue> parent)
+	private ShapeNode NewNode(ShapeNode parent)
 	{
-		var node = new TreeNode<ShapeNodeValue>(this.NextNodeId(), parent)
+		var node = new ShapeNode(this.NextNodeId(), parent)
 		{
 			Value = new ShapeNodeValue
 			{
@@ -108,7 +108,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		return node;
 	}
 
-	private void AddNode(TreeNode<ShapeNodeValue> node)
+	private void AddNode(ShapeNode node)
 	{
 		if (this.RootNode == null)
 		{

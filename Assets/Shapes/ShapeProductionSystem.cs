@@ -62,9 +62,13 @@ public class ShapeProductionSystem : IShapeProductionSystem
 		}
 	}
 
-	private TreeNode<ShapeNodeValue> PickNextNode(TreeNode<ShapeNodeValue> root)
+	private ShapeNode PickNextNode(ShapeNode root)
 	{
 		// TODO: Could auto-set geometry leaf nodes to Inactive.
-		return root.BreadthFirstSearch(x => x.Status == ShapeStatus.Active);
+		Predicate<TreeNode> pred = (TreeNode node) => {
+			return ((ShapeNode)node).Value.Status == ShapeStatus.Active;
+		};
+
+		return root.BreadthFirstSearch(pred) as ShapeNode;
 	}
 }

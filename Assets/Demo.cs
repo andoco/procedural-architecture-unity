@@ -44,7 +44,8 @@ public class Demo : MonoBehaviour
 		{
 			Debug.Log("GIZMOS ====");
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
-				var matrix = node.Value.Matrix;
+				var shapeNode = (ShapeNode)node;
+				var matrix = shapeNode.Value.Matrix;
 				Gizmos.matrix = matrix;
 				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
 				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
@@ -91,10 +92,10 @@ public class Demo : MonoBehaviour
 		Debug.Log(this.shapeConfiguration);
 	}
 
-	private void AddGeometry(TreeNode<ShapeNodeValue> tree)
+	private void AddGeometry(ShapeNode tree)
 	{
 		Debug.Log(tree);
-		foreach (var leaf in tree.LeafNodeDescendants())
+		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
 		{
 			var name = leaf.Value.ShapeName;
 			if (!string.IsNullOrEmpty(name))

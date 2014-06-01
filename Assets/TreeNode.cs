@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class TreeNode<T> : List<TreeNode<T>>
+public class TreeNode : List<TreeNode>
 {
-	public TreeNode(string id, TreeNode<T> parent)
+	public TreeNode(string id, TreeNode parent)
 	{
 		this.Id = id;
 		this.FullyQualifiedId = parent == null ? id : string.Format("{0}.{1}", parent.FullyQualifiedId, id);
@@ -16,20 +16,18 @@ public class TreeNode<T> : List<TreeNode<T>>
 
 	public string FullyQualifiedId { get; private set; }
 
-	public TreeNode<T> Parent { get; private set; }
-
-	public T Value { get; set; }
+	public TreeNode Parent { get; private set; }
 
 	public bool IsRoot { get { return this.Parent == null; } }
 
 	public bool IsLeaf { get { return !this.Any(); } }
 
-	public IEnumerable<TreeNode<T>> LeafNodes()
+	public IEnumerable<TreeNode> LeafNodes()
 	{
 		return this.Where(child => child.IsLeaf);
 	}
 
-	public IEnumerable<TreeNode<T>> LeafNodeDescendants()
+	public IEnumerable<TreeNode> LeafNodeDescendants()
 	{
 		if (this.IsLeaf)
 		{
