@@ -97,23 +97,33 @@ public class ShapeConfiguration : IShapeConfiguration
 		var rot = this.CurrentScope.Matrix.GetRotation();
 		var scale = this.CurrentScope.Matrix.GetScale();
 
+		Vector3 axisVector = Vector3.zero;
+		if (axis == "X")
+			axisVector = new Vector3(1f, 0f, 0f);
+		else if (axis == "Y")
+			axisVector = new Vector3(0f, 1f, 0f);
+		else if (axis == "Z")
+			axisVector = new Vector3(0f, 0f, 1f);
+
 		var numDivisions = sizes.Length;
-		var currentPos = pos.x - scale.x / 2f;
+
+		// Find the position at the start of the current scope.
+		var currentPos = pos - (Vector3.Scale(scale, axisVector) * 0.5f);
 
 		for (int i=0; i < numDivisions; i++)
 		{
 			var node = this.NewNode(this.currentNode);
 			node.Value.Rule = this.rules[shapes[i]];
 
-			var p = new Vector3(currentPos + sizes[i], pos.y, pos.z);
+			currentPos += axisVector * sizes[i];
+
+			var p = currentPos - (axisVector * (sizes[i]/2f));
 			var r = rot;
-			var s = new Vector3(sizes[i], 1f, 1f);
+			var s = new Vector3(sizes[i], scale.y, scale.z);
 
 			node.Value.Matrix = Matrix4x4.TRS(p, r, s);
 
 			this.AddNode(node);
-
-			currentPos += sizes[i];
 		}
 	}
 	

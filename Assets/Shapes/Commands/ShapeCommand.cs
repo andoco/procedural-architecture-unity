@@ -49,7 +49,7 @@ public class ShapeCommand : IShapeCommand
 //				throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
 
 			var sizes = Arguments.Skip(1).Select(arg => float.Parse(arg)).ToArray();
-			configuration.SplitDivideScope(Arguments[0], sizes, Shapes);
+			configuration.SplitDivideScope(Arguments[0].Trim('"'), sizes, Shapes);
 
 			break;
 		}
