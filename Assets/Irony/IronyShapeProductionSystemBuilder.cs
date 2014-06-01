@@ -27,6 +27,20 @@ public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
 		Parser parser = new Parser (language);
 		ParseTree parseTree = parser.Parse (sourceCode);
 		ParseTreeNode root = parseTree.Root;
+
+		if (language.Errors.Count > 0)
+		{
+			foreach (var error in language.Errors)
+				Debug.Log(string.Format("GRAMMAR: {0}", error.Message));
+		}
+
+		if (parseTree.HasErrors())
+		{
+			foreach (var msg in parseTree.ParserMessages)
+			{
+				Debug.Log(string.Format("PARSER: {0}", msg.Message));
+			}
+		}
 		
 		if (root == null)
 			throw new InvalidOperationException("Failed to parse tree for source");

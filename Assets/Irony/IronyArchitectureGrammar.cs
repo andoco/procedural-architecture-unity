@@ -17,19 +17,23 @@ public class PAGrammar : Grammar
 		successor = new NonTerminal("successor"),
 		command = new NonTerminal("command"),
 		argumentList = new NonTerminal("argumentList"),
-		atom = new NonTerminal("atom");
-		
+		atom = new NonTerminal("atom"),
+		commandBlock = new NonTerminal("commandBlock"),
+		ruleList = new NonTerminal("ruleList");
+
 		program.Rule = MakePlusRule(program, ruleStatement);
 		
 		ruleStatement.Rule = ID + ToTerm("::-") + successorList + ";";
 		successorList.Rule = MakePlusRule(successorList, successor);
 		successor.Rule = command | ID;
-		command.Rule = ToTerm("[") | ToTerm("]") | ID + "(" + argumentList + ")";
+		command.Rule = ToTerm("[") | ToTerm("]") | ID + "(" + argumentList + ")" + commandBlock;
 		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), atom);
 		atom.Rule = NUMBER | STRING;
+		commandBlock.Rule = Empty | ToTerm("{") + ruleList + ToTerm("}");
+		ruleList.Rule = MakeStarRule(ruleList, ToTerm("|"), ID);
 		
 		this.Root = program;
 		
-		MarkPunctuation ("::-", ",", "(", ")", ";");
+		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";");
 	}
 }

@@ -33,7 +33,7 @@ public class Demo : MonoBehaviour
 			{ "roof", roof },
 		};
 
-		BuildProductionSystem("house");
+		BuildProductionSystem("split");
 		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
 	}
