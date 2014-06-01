@@ -1,2 +1,2 @@
-root ::- Trans(2, 0, 0) Subdiv("Y", 4, 2) { facade | facade };
+root ::- Trans(2, 0, 0) Subdiv("X", 0.5, 0.5) { facade | facade };
 facade ::- Set("facade");

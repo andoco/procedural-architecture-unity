@@ -84,7 +84,7 @@ public class Demo : MonoBehaviour
 	{
 		Debug.Log("======= Building System ========");
 		
-		this.shapeConfiguration = new ShapeConfiguration();
+		this.shapeConfiguration = new ShapeConfiguration(this.system.Rules);
 		this.system.Run(this.shapeConfiguration);
 		
 		Debug.Log("======= Finished Building System ========");

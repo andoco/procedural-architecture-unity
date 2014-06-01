@@ -29,10 +29,12 @@ public class PAGrammar : Grammar
 		command.Rule = ToTerm("[") | ToTerm("]") | ID + "(" + argumentList + ")" + commandBlock;
 		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), atom);
 		atom.Rule = NUMBER | STRING;
-		commandBlock.Rule = Empty | ToTerm("{") + ruleList + ToTerm("}");
+		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;
 		ruleList.Rule = MakeStarRule(ruleList, ToTerm("|"), ID);
 		
 		this.Root = program;
+
+		MarkTransient(ruleList, commandBlock);
 		
 		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";");
 	}

@@ -3,9 +3,20 @@ using UnityEngine;
 
 public class ShapeCommand : IShapeCommand
 {
+	/// <summary>
+	/// Gets or sets the name of the command.
+	/// </summary>
 	public string Name { get; set; }
-	
+
+	/// <summary>
+	/// Gets or sets the arguments to be supplied to the command.
+	/// </summary>
 	public string[] Arguments { get; set; }
+
+	/// <summary>
+	/// Gets or sets the shapes that are present in the command body.
+	/// </summary>
+	public string[] Shapes { get; set; }
 
 	public void Execute(IShapeConfiguration configuration)
 	{
@@ -32,6 +43,14 @@ public class ShapeCommand : IShapeCommand
 			break;
 		case "Pop":
 			configuration.PopScope();
+			break;
+		case "Subdiv":
+//			if (Arguments.Length -1 != Shapes.Length)
+//				throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
+
+			var sizes = Arguments.Skip(1).Select(arg => float.Parse(arg)).ToArray();
+			configuration.SplitDivideScope(Arguments[0], sizes, Shapes);
+
 			break;
 		}
 	}

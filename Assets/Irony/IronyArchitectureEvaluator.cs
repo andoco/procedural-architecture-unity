@@ -44,7 +44,7 @@ public class IronyArchitectureEvaluator
 		this.currentRule.Symbol = ruleNode.FirstChild.Token.Text;
 		this.system.Rules[this.currentRule.Symbol] = this.currentRule;
 	}
-	
+	 
 	private void EnterSuccessor(ParseTreeNode successorNode)
 	{
 		foreach (var child in successorNode.ChildNodes)
@@ -64,6 +64,7 @@ public class IronyArchitectureEvaluator
 				Debug.Log(cmdName);
 
 				var args = new List<string>();
+				var shapes = new List<string>();
 
 				if (cmdName == "[")
 				{
@@ -79,15 +80,28 @@ public class IronyArchitectureEvaluator
 					
 					foreach (var argAtomNode in argsNode.ChildNodes)
 					{
-						Debug.Log(string.Format("ARG: {0}", argAtomNode.FirstChild.Token.Text));
+//						Debug.Log(string.Format("ARG: {0}", argAtomNode.FirstChild.Token.Text));
 						args.Add(argAtomNode.FirstChild.Token.Text);
+					}
+
+					// Check if command block exists
+					if (child.ChildNodes.Count > 2)
+					{
+						var ruleListNode = child.ChildNodes[2];
+
+						foreach (var shapeNode in ruleListNode.ChildNodes)
+						{
+//							Debug.Log(string.Format("SHAPE: {0}", shapeNode.Token.Text));
+							shapes.Add(shapeNode.Token.Text);
+						}
 					}
 				}
 
 				var cmd = new ShapeCommand
 				{
 					Name = cmdName,
-					Arguments = args.ToArray()
+					Arguments = args.ToArray(),
+					Shapes = shapes.ToArray()
 				};
 				
 				var cmdSuccessor = new CommandShapeSuccessor

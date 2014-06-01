@@ -35,4 +35,6 @@ public interface IShapeConfiguration
 	void AddRule(ShapeRule rule);
 
 	void AddShape(string name);
+
+	void SplitDivideScope(string axis, float[] sizes, string[] shapes);
 }

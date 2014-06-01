@@ -6,9 +6,11 @@ public class ShapeConfiguration : IShapeConfiguration
 {
 	private readonly Stack<IScope> scopeStack = new Stack<IScope>();
 	private int counter;
+	private IDictionary<string, ShapeRule> rules;
 
-	public ShapeConfiguration()
+	public ShapeConfiguration(IDictionary<string, ShapeRule> rules)
 	{
+		this.rules = rules;
 		this.scopeStack.Push(new Scope());
 	}
 
@@ -84,6 +86,35 @@ public class ShapeConfiguration : IShapeConfiguration
 		node.Value.ShapeName = name;
 
 		this.AddNode(node);
+	}
+
+	public void SplitDivideScope(string axis, float[] sizes, string[] shapes)
+	{
+		if (sizes.Length != shapes.Length)
+			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
+
+		var pos = this.CurrentScope.Matrix.GetPosition();
+		var rot = this.CurrentScope.Matrix.GetRotation();
+		var scale = this.CurrentScope.Matrix.GetScale();
+
+		var numDivisions = sizes.Length;
+		var currentPos = pos.x - scale.x / 2f;
+
+		for (int i=0; i < numDivisions; i++)
+		{
+			var node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[i]];
+
+			var p = new Vector3(currentPos + sizes[i], pos.y, pos.z);
+			var r = rot;
+			var s = new Vector3(sizes[i], 1f, 1f);
+
+			node.Value.Matrix = Matrix4x4.TRS(p, r, s);
+
+			this.AddNode(node);
+
+			currentPos += sizes[i];
+		}
 	}
 	
 	#endregion
