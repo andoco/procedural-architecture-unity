@@ -105,6 +105,9 @@ public class ShapeConfiguration : IShapeConfiguration
 		else if (axis == "Z")
 			axisVector = new Vector3(0f, 0f, 1f);
 
+		// Get vector with the other axes so we can maintain existing scale on those axes.
+		var oppAxisVector = new Vector3(1f-axisVector.x, 1f-axisVector.y, 1f-axisVector.z);
+
 		var numDivisions = sizes.Length;
 
 		// Find the position at the start of the current scope.
@@ -119,7 +122,7 @@ public class ShapeConfiguration : IShapeConfiguration
 
 			var p = currentPos - (axisVector * (sizes[i]/2f));
 			var r = rot;
-			var s = new Vector3(sizes[i], scale.y, scale.z);
+			var s = (axisVector * sizes[i]) + Vector3.Scale(scale, oppAxisVector);
 
 			node.Value.Matrix = Matrix4x4.TRS(p, r, s);
 
