@@ -16,6 +16,11 @@ public class Demo : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		var meshBuilder = new MeshBuilder();
+
+		meshBuilder.BuildQuad(Vector3.zero, 1f, 1f);
+		var quad = meshBuilder.BuildMesh();
+
+		meshBuilder.Clear();
 		meshBuilder.BuildCube(1f, 1f, 1f, anchor);
 		var cube = meshBuilder.BuildMesh();
 
@@ -28,12 +33,13 @@ public class Demo : MonoBehaviour
 		var roof = meshBuilder.BuildMesh();
         
 		this.shapeMeshes = new Dictionary<string, Mesh> { 
+			{ "quad", quad },
 			{ "cube", cube },
 			{ "facade", facade }, 
 			{ "roof", roof },
 		};
 
-		BuildProductionSystem("split");
+		BuildProductionSystem("TwoStoreyHouse");
 		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
 	}
