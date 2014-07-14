@@ -38,7 +38,7 @@ public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
 		{
 			foreach (var msg in parseTree.ParserMessages)
 			{
-				Debug.Log(string.Format("PARSER: {0}", msg.Message));
+				Debug.Log(string.Format("PARSER: {0} {1}", msg.Message, msg.Location));
 			}
 		}
 		
