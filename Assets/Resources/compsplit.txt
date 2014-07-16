@@ -1,0 +1,2 @@
+root ::- Set("facade") Comp("face", "top") { cube };
+cube ::- Set("cube");

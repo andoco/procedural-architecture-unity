@@ -18,6 +18,8 @@ public class ShapeNodeValue
 
 	public Matrix4x4 Matrix { get; set; }
 
+	public Volume Volume { get; set; }
+
 	public ShapeRule Rule { get; set; }
 
 	public string ShapeName { get; set; }

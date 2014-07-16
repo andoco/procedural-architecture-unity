@@ -39,7 +39,7 @@ public class Demo : MonoBehaviour
 			{ "roof", roof },
 		};
 
-		BuildProductionSystem("TwoStoreyHouse");
+		BuildProductionSystem("volumetest");
 		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
 	}
@@ -49,30 +49,62 @@ public class Demo : MonoBehaviour
 		if (Application.isPlaying)
 		{
 			Debug.Log("GIZMOS ====");
+//			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
+//				var shapeNode = (ShapeNode)node;
+//				var matrix = shapeNode.Value.Matrix;
+//				Gizmos.matrix = matrix;
+//				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
+//				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
+//                
+//                if (node.IsLeaf)
+//				{
+//					Gizmos.color = Color.white;
+//                }
+//				else
+//				{
+//					Gizmos.color = Color.grey;
+//				}
+//
+//				Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+//			});
+//			
+//			Gizmos.matrix = Matrix4x4.identity;
+
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var shapeNode = (ShapeNode)node;
-				var matrix = shapeNode.Value.Matrix;
-				Gizmos.matrix = matrix;
+//				var matrix = shapeNode.Value.Matrix;
+//				Gizmos.matrix = matrix;
 				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
-				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
-                
-                if (node.IsLeaf)
+//				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
+				
+				if (node.IsLeaf)
 				{
 					Gizmos.color = Color.white;
-                }
-				else
-				{
-					Gizmos.color = Color.grey;
 				}
+				else
+                {
+                    Gizmos.color = Color.grey;
+                }
+                
+//                Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+				if (shapeNode.Value.Volume != null)
+				{
+					Debug.Log("here");
+					foreach (var edge in shapeNode.Value.Volume.Edges)
+					{
+						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
+                    }
 
-				Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-			});
-			
-			Gizmos.matrix = Matrix4x4.identity;
-		}
-	}
-
-	private void BuildProductionSystem(string sourceFile)
+					foreach (var corner in shapeNode.Value.Volume.Corners)
+					{
+						Gizmos.DrawSphere(corner.Position, 0.1f);
+					}
+                }
+            });
+        }
+    }
+    
+    private void BuildProductionSystem(string sourceFile)
 	{
 		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
 

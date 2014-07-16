@@ -36,5 +36,9 @@ public interface IShapeConfiguration
 
 	void AddShape(string name);
 
+	void AddVolume(string name);
+
 	void SplitDivideScope(string axis, float[] sizes, string[] shapes);
+
+	void SplitComponent(string componentType, string componentParam, string symbol);
 }

@@ -8,4 +8,6 @@ using System.IO;
 public interface IScope
 {
 	Matrix4x4 Matrix { get; set; }
+	
+	Volume Volume { get; set; }
 }

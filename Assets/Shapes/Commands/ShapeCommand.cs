@@ -26,6 +26,9 @@ public class ShapeCommand : IShapeCommand
 			var shapeName = Arguments[0].Trim('"');
 			configuration.AddShape(shapeName);
 			break;
+		case "Vol":
+			configuration.AddVolume(TrimArg(Arguments[0]));
+			break;
 		case "Trans":
 			var axes = Arguments.Select(x => float.Parse(x)).ToArray();
 			configuration.TransformScope(new Vector3(axes[0], axes[1], axes[2]));
@@ -49,9 +52,17 @@ public class ShapeCommand : IShapeCommand
 //				throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
 
 			var sizes = Arguments.Skip(1).Select(arg => float.Parse(arg)).ToArray();
-			configuration.SplitDivideScope(Arguments[0].Trim('"'), sizes, Shapes);
+			configuration.SplitDivideScope(TrimArg(Arguments[0]), sizes, Shapes);
 
 			break;
+		case "Comp":
+			configuration.SplitComponent(TrimArg(Arguments[0]), TrimArg(Arguments[1]), Shapes[0]);
+			break;
 		}
+	}
+
+	private static string TrimArg(string arg)
+	{
+		return arg.Trim('"');
 	}
 }

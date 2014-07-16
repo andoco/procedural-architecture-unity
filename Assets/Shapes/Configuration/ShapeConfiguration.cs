@@ -88,6 +88,18 @@ public class ShapeConfiguration : IShapeConfiguration
 		this.AddNode(node);
 	}
 
+	public void AddVolume(string name)
+	{
+		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume"));
+		vol.ApplyTransform(this.CurrentScope.Matrix);
+
+		Debug.Log(string.Format("VOLUME: {0}", name));
+		var node = this.NewNode(this.currentNode);
+		node.Value.Volume = vol;
+		
+        this.AddNode(node);
+	}
+
 	public void SplitDivideScope(string axis, float[] sizes, string[] shapes)
 	{
 		if (sizes.Length != shapes.Length)
@@ -129,6 +141,17 @@ public class ShapeConfiguration : IShapeConfiguration
 			this.AddNode(node);
 		}
 	}
+
+	public void SplitComponent(string componentType, string componentParam, string symbol)
+	{
+//		var node = this.NewNode(this.currentNode);
+//		// TODO: Handle multiple scopes returned for component. E.g. faces.all, edges.vertical.
+//		var scope = this.CurrentScope.GetComponent(componentType, componentParam);
+//		node.Value.Matrix = scope.Matrix;
+//		node.Value.Rule = this.rules[symbol];
+//		
+//		this.AddNode(node);
+	}
 	
 	#endregion
 
@@ -145,7 +168,8 @@ public class ShapeConfiguration : IShapeConfiguration
 		{
 			Value = new ShapeNodeValue
 			{
-				Matrix = this.CurrentScope.Matrix
+				Matrix = this.CurrentScope.Matrix,
+				Volume = this.CurrentScope.Volume
 			}
 		};
 
