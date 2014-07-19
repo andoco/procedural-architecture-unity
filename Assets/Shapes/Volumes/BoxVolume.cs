@@ -50,8 +50,8 @@ public class BoxVolume : Volume
 		this.Faces.Add(new Face("face-vert-3", new List<Corner> { this.Corners[2], this.Corners[3], this.Corners[7], this.Corners[6] }, new SimpleTransform(new Vector3(-0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.left, Vector3.up), Vector3.one)));
 		this.Faces.Add(new Face("face-vert-4", new List<Corner> { this.Corners[3], this.Corners[0], this.Corners[4], this.Corners[0] }, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
 		
-		this.Faces.Add(new Face("face-horiz-1", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.down, Vector3.forward), Vector3.one)));
-		this.Faces.Add(new Face("face-horiz-2", new List<Corner> { this.Corners[4], this.Corners[5], this.Corners[6], this.Corners[7] }, new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.up, Vector3.forward), Vector3.one)));
+		this.Faces.Add(new Face("face-horiz-1", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), Vector3.one)));
+		this.Faces.Add(new Face("face-horiz-2", new List<Corner> { this.Corners[4], this.Corners[5], this.Corners[6], this.Corners[7] }, new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
 
 	}
 }
