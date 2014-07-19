@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System.Text;
 
+
 public class Demo : MonoBehaviour
 {	
 	private IShapeProductionSystem system;
@@ -105,24 +106,12 @@ public class Demo : MonoBehaviour
 //						Gizmos.DrawLine(p1, p2);
                     }
 
-					DrawVolumeGizmo(vol);
+					vol.DrawGizmos();
                 }
             });
         }
     }
-
-	private static void DrawVolumeGizmo(Volume vol)
-	{
-		var lineScale = 0.25f;
-
-		Gizmos.color = Color.red;
-		Gizmos.DrawLine(vol.Transform.Position, vol.Transform.Position + vol.Transform.Rotation * Vector3.right * lineScale);
-		Gizmos.color = Color.green;
-		Gizmos.DrawLine(vol.Transform.Position, vol.Transform.Position + vol.Transform.Rotation * Vector3.up * lineScale);
-		Gizmos.color = Color.blue;
-		Gizmos.DrawLine(vol.Transform.Position, vol.Transform.Position + vol.Transform.Rotation * Vector3.forward * lineScale);
-	}
-    
+	    
     private void BuildProductionSystem(string sourceFile)
 	{
 		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
