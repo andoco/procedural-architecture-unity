@@ -48,10 +48,40 @@ public class BoxVolume : Volume
 //		this.Faces.Add(new Face("face-vert-2", new List<Corner> { this.Corners[1], this.Corners[2], this.Corners[6], this.Corners[5] }, new SimpleTransform(new Vector3(0f, 0.5f, -0.5f), Quaternion.LookRotation(Vector3.back, Vector3.up), Vector3.one)));
 		this.Faces.Add(new Face("face-vert-2", new List<Corner> { this.Corners[1], this.Corners[2], this.Corners[6], this.Corners[5] }, new SimpleTransform(new Vector3(0f, 0.5f, -0.5f), Quaternion.AngleAxis(180f, Vector3.up), Vector3.one)));
 		this.Faces.Add(new Face("face-vert-3", new List<Corner> { this.Corners[2], this.Corners[3], this.Corners[7], this.Corners[6] }, new SimpleTransform(new Vector3(-0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.left, Vector3.up), Vector3.one)));
-		this.Faces.Add(new Face("face-vert-4", new List<Corner> { this.Corners[3], this.Corners[0], this.Corners[4], this.Corners[0] }, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
+		this.Faces.Add(new Face("face-vert-4", new List<Corner> { this.Corners[3], this.Corners[0], this.Corners[4], this.Corners[7] }, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
 		
-		this.Faces.Add(new Face("face-horiz-1", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), Vector3.one)));
+		this.Faces.Add(new Face("face-horiz-1", new List<Corner> { this.Corners[3], this.Corners[2], this.Corners[1], this.Corners[0] }, new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), Vector3.one)));
 		this.Faces.Add(new Face("face-horiz-2", new List<Corner> { this.Corners[4], this.Corners[5], this.Corners[6], this.Corners[7] }, new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
+	}
 
+	public override Mesh BuildMesh()
+	{
+		var meshBuilder = new MeshBuilder();
+
+		var baseIndex = 0;
+
+		foreach (var face in this.Faces)
+		{
+			var verts = face.Corners.Select(c => c.Position).ToArray();
+
+			foreach (var v in verts)
+			{
+				meshBuilder.Vertices.Add(v);
+//				meshBuilder.Normals.Add(face.Transform.Rotation * face.Transform.Position);
+				meshBuilder.UVs.Add(Vector2.zero);
+			}
+
+			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+			meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
+
+			baseIndex = meshBuilder.Vertices.Count;
+		}
+
+		var mesh = meshBuilder.BuildMesh();
+
+		mesh.RecalculateNormals();
+		mesh.Optimize();
+
+		return mesh;
 	}
 }

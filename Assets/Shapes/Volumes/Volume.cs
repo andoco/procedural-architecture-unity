@@ -89,7 +89,7 @@ public class Face
 //	}
 }
 
-public class Volume
+public abstract class Volume
 {
 	public Volume()
 	{
@@ -135,4 +135,6 @@ public class Volume
 			c.Position = this.Transform.Position + (this.Transform.Rotation * p);
 		}
 	}
+
+	public abstract Mesh BuildMesh();
 }
