@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using System.Text;
 
 public class Demo : MonoBehaviour
 {	
@@ -11,10 +12,18 @@ public class Demo : MonoBehaviour
 	private Vector3 anchor = Vector3.one * 0.5f;
 //	private Vector3 anchor = new Vector3(0.5f, 0f, 0.5f);
 
+	private const int numColors = 50;
+	private Color[] faceColors = new Color[numColors];
+
 	public Material material;
 
 	// Use this for initialization
 	void Start () {
+		for (int i=0; i < numColors; i++)
+		{
+			faceColors[i] = new Color(Random.value, Random.value, Random.value);
+		}
+
 		var meshBuilder = new MeshBuilder();
 
 		meshBuilder.BuildQuad(Vector3.zero, 1f, 1f);
@@ -42,40 +51,33 @@ public class Demo : MonoBehaviour
 		BuildProductionSystem("volumetest");
 		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
+
+		var sb = new StringBuilder("======= Tree =======\n\n");
+		this.shapeConfiguration.RootNode.TraverseDepthFirst((n, depth) => {
+			var shapeNode = (ShapeNode)n;
+			sb.AppendFormat("{0} {1}\n", "".PadLeft(depth, '-'), shapeNode.Value);
+		});
+		Debug.Log(sb);
+
+//		this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
+//			var shapeNode = (ShapeNode)node;
+//
+//			var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+//			go.transform.localPosition = new Vector3(0f, 0.5f, 0f);
+//			go.transform.position = shapeNode.Value.Volume.Transform.Position; // this.CurrentScope.Matrix.GetPosition();
+//			go.transform.rotation = shapeNode.Value.Volume.Transform.Rotation; // this.CurrentScope.Matrix.GetRotation();
+//			go.transform.localScale = shapeNode.Value.Volume.Transform.Scale;
+//
+//		});
 	}
 
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying)
 		{
-			Debug.Log("GIZMOS ====");
-//			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
-//				var shapeNode = (ShapeNode)node;
-//				var matrix = shapeNode.Value.Matrix;
-//				Gizmos.matrix = matrix;
-//				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
-//				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
-//                
-//                if (node.IsLeaf)
-//				{
-//					Gizmos.color = Color.white;
-//                }
-//				else
-//				{
-//					Gizmos.color = Color.grey;
-//				}
-//
-//				Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-//			});
-//			
-//			Gizmos.matrix = Matrix4x4.identity;
-
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var shapeNode = (ShapeNode)node;
-//				var matrix = shapeNode.Value.Matrix;
-//				Gizmos.matrix = matrix;
 				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
-//				Debug.Log(string.Format("pos={0}, rot={1}, scale={2} {3} {4}", matrix.GetPosition(), matrix.GetRotation(), matrix.GetScale(), nodeType, node));
 				
 				if (node.IsLeaf)
 				{
@@ -86,23 +88,40 @@ public class Demo : MonoBehaviour
                     Gizmos.color = Color.grey;
                 }
                 
-//                Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
 				if (shapeNode.Value.Volume != null)
 				{
-					Debug.Log("here");
-					foreach (var edge in shapeNode.Value.Volume.Edges)
+					var trans = shapeNode.Value.Transform;
+					var vol = shapeNode.Value.Volume;
+
+//					Gizmos.DrawLine(trans.Position, trans.Position + (trans.Rotation * Vector3.forward * 2f));
+
+					for (int i=0; i < shapeNode.Value.Volume.Edges.Count; i++)
 					{
+						var edge = shapeNode.Value.Volume.Edges[i];
+						Gizmos.color = faceColors[i];
 						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
+//						var p1 = trans.Position + trans.Rotation * edge.CornerA.Position;
+//						var p2 = trans.Position + trans.Rotation * edge.CornerB.Position;
+//						Gizmos.DrawLine(p1, p2);
                     }
 
-					foreach (var corner in shapeNode.Value.Volume.Corners)
-					{
-						Gizmos.DrawSphere(corner.Position, 0.1f);
-					}
+					DrawVolumeGizmo(vol);
                 }
             });
         }
     }
+
+	private static void DrawVolumeGizmo(Volume vol)
+	{
+		var lineScale = 0.25f;
+
+		Gizmos.color = Color.red;
+		Gizmos.DrawLine(vol.Transform.Position, vol.Transform.Position + vol.Transform.Rotation * Vector3.right * lineScale);
+		Gizmos.color = Color.green;
+		Gizmos.DrawLine(vol.Transform.Position, vol.Transform.Position + vol.Transform.Rotation * Vector3.up * lineScale);
+		Gizmos.color = Color.blue;
+		Gizmos.DrawLine(vol.Transform.Position, vol.Transform.Position + vol.Transform.Rotation * Vector3.forward * lineScale);
+	}
     
     private void BuildProductionSystem(string sourceFile)
 	{
@@ -126,36 +145,29 @@ public class Demo : MonoBehaviour
 		this.system.Run(this.shapeConfiguration);
 		
 		Debug.Log("======= Finished Building System ========");
-		
-		Debug.Log(this.shapeConfiguration);
 	}
 
 	private void AddGeometry(ShapeNode tree)
 	{
-		Debug.Log(tree);
 		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
 		{
 			var name = leaf.Value.ShapeName;
 			if (!string.IsNullOrEmpty(name))
 			{
 				var mesh = this.shapeMeshes[name];
-				var matrix = leaf.Value.Matrix;
-				AddGeometryMesh(name, mesh, matrix);
+				var trans = leaf.Value.Transform;
+				AddGeometryMesh(name, mesh, trans);
 			}
 		}
 	}
 
-	private void AddGeometryMesh(string name, Mesh mesh, Matrix4x4 matrix)
+	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)
 	{
 		var go = new GameObject(name);
 
-		matrix = Matrix4x4.identity * matrix;
-
-		go.transform.FromMatrix4x4(matrix);
-
-//		go.transform.position = matrix.GetPosition();
-//		go.transform.rotation = matrix.GetRotation();
-//		go.transform.localScale = matrix.GetScale();
+		go.transform.position = trans.Position;
+		go.transform.rotation = trans.Rotation;
+		go.transform.localScale = trans.Scale;
 
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();

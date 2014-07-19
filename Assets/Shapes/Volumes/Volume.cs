@@ -3,6 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public class SimpleTransform
+{
+	public SimpleTransform()
+	{
+		this.Position = Vector3.zero;
+		this.Rotation = Quaternion.identity;
+		this.Scale = Vector3.one;
+	}
+
+	public SimpleTransform(Vector3 position, Quaternion rotation, Vector3 scale)
+	{
+		this.Position = position;
+		this.Rotation = rotation;
+		this.Scale = scale;
+	}
+
+	public Vector3 Position { get; set; }
+
+	public Quaternion Rotation { get; set; }
+
+	public Vector3 Scale { get; set; }
+
+	public static SimpleTransform operator +(SimpleTransform t1, SimpleTransform t2)
+	{
+		return new SimpleTransform(t1.Position + t2.Position, t1.Rotation * t2.Rotation, Vector3.Scale(t1.Scale, t2.Scale));
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[SimpleTransform: Position={0}, Rotation={1}, Scale={2}]", Position, Rotation, Scale);
+	}
+}
+
 public class Corner
 {
 	public Corner(string name, Vector3 pos)
@@ -34,15 +67,26 @@ public class Edge
 
 public class Face
 {
-	public Face(string name, IEnumerable<Corner> corners)
+	public Face(string name, IEnumerable<Corner> corners, SimpleTransform transform)
 	{
 		this.Name = name;
 		this.Corners = corners.ToList();
+		this.Transform = transform;
 	}
 
 	public string Name { get; set; }
 	
 	public IList<Corner> Corners { get; private set; }
+
+	public SimpleTransform Transform { get; set; }
+
+//	public Vector3 GetCentre()
+//	{
+////		var sum = this.Corners.Sum(x => x.Position);
+//		var x = this.Corners.Aggregate(Vector3.zero, (accum, c) => accum += c.Position);
+//
+//		return x / this.Corners.Count;
+//	}
 }
 
 public class Volume
@@ -52,6 +96,7 @@ public class Volume
 		this.Corners = new List<Corner>();
 		this.Edges = new List<Edge>();
 		this.Faces = new List<Face>();
+		this.Transform = new SimpleTransform();
 	}
 
 	public IList<Corner> Corners { get; private set; }
@@ -59,6 +104,8 @@ public class Volume
 	public IList<Edge> Edges { get; private set; }
 	
 	public IList<Face> Faces { get; private set; }
+
+	public SimpleTransform Transform { get; private set; }
 	
 	public IEnumerable<Corner> GetCorners(string query)
 	{
@@ -75,11 +122,17 @@ public class Volume
 		return this.Faces.Where(f => f.Name.StartsWith(query));
 	}
 	
-	public void ApplyTransform(Matrix4x4 matrix)
+	public void ApplyTransform(SimpleTransform transform)
 	{
+		this.Transform.Position = transform.Position;
+		this.Transform.Rotation = transform.Rotation;
+		this.Transform.Scale = transform.Scale;
+
 		foreach (var c in this.Corners)
 		{
-			c.Position = matrix.MultiplyPoint3x4(c.Position);
+			var p = c.Position;
+			p.Scale(this.Transform.Scale);
+			c.Position = this.Transform.Position + (this.Transform.Rotation * p);
 		}
 	}
 }

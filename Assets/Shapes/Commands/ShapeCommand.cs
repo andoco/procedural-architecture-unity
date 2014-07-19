@@ -56,7 +56,7 @@ public class ShapeCommand : IShapeCommand
 
 			break;
 		case "Comp":
-			configuration.SplitComponent(TrimArg(Arguments[0]), TrimArg(Arguments[1]), Shapes[0]);
+			configuration.SplitComponent(TrimArg(Arguments[0]), Shapes[0]);
 			break;
 		}
 	}

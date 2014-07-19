@@ -34,11 +34,19 @@ public interface IShapeConfiguration
 
 	void AddRule(ShapeRule rule);
 
+	/// <summary>
+	/// Adds a shape to the volume of the current scope.
+	/// </summary>
+	/// <param name="name">Name.</param>
 	void AddShape(string name);
 
+	/// <summary>
+	/// Adds a volume to the current scope, transformed according to the current matrix of the scope.
+	/// </summary>
+	/// <param name="name">The name of the volume to add.</param>
 	void AddVolume(string name);
 
 	void SplitDivideScope(string axis, float[] sizes, string[] shapes);
 
-	void SplitComponent(string componentType, string componentParam, string symbol);
+	void SplitComponent(string query, string symbol);
 }

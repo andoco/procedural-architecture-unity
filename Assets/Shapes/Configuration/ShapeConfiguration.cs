@@ -29,7 +29,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		set
 		{
 			this.currentNode = value;
-			this.SetScope(new Scope(this.currentNode.Value.Matrix));
+			this.SetScope(new Scope(this.currentNode.Value.Transform));
 		}
 		get
 		{
@@ -57,17 +57,22 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void TransformScope(Vector3 delta)
 	{
-		this.CurrentScope.Matrix *= Matrix4x4.TRS(delta, Quaternion.identity, Vector3.one);
+		this.CurrentScope.Transform.Position += delta;
+		Debug.Log(string.Format("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform));
 	}
 	
 	public void RotateScope(Vector3 delta)
 	{
-		this.CurrentScope.Matrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(delta), Vector3.one);
+		this.CurrentScope.Transform.Rotation *= Quaternion.Euler(delta);
+		Debug.Log(string.Format("ROTATED: {0} {1}", delta, this.CurrentScope.Transform));
 	}
 	
 	public void ScaleScope(Vector3 scale)
 	{
-		this.CurrentScope.Matrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.identity, scale);
+		var s = this.CurrentScope.Transform.Scale;
+		s.Scale(scale);
+		this.CurrentScope.Transform.Scale = s;
+		Debug.Log(string.Format("SCALED: {0} {1}", scale, this.CurrentScope.Transform));
 	}
 
 	public void AddRule(ShapeRule rule)
@@ -90,14 +95,12 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void AddVolume(string name)
 	{
-		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume"));
-		vol.ApplyTransform(this.CurrentScope.Matrix);
+		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
 
-		Debug.Log(string.Format("VOLUME: {0}", name));
-		var node = this.NewNode(this.currentNode);
-		node.Value.Volume = vol;
-		
-        this.AddNode(node);
+		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume"));
+		vol.ApplyTransform(this.CurrentScope.Transform);
+
+		this.currentNode.Value.Volume = vol;
 	}
 
 	public void SplitDivideScope(string axis, float[] sizes, string[] shapes)
@@ -105,9 +108,12 @@ public class ShapeConfiguration : IShapeConfiguration
 		if (sizes.Length != shapes.Length)
 			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
 
-		var pos = this.CurrentScope.Matrix.GetPosition();
-		var rot = this.CurrentScope.Matrix.GetRotation();
-		var scale = this.CurrentScope.Matrix.GetScale();
+//		var pos = this.CurrentScope.Matrix.GetPosition();
+//		var rot = this.CurrentScope.Matrix.GetRotation();
+//		var scale = this.CurrentScope.Matrix.GetScale();
+		var pos = this.CurrentScope.Transform.Position;
+		var rot = this.CurrentScope.Transform.Rotation;
+		var scale = this.CurrentScope.Transform.Scale;
 
 		Vector3 axisVector = Vector3.zero;
 		if (axis == "X")
@@ -136,21 +142,40 @@ public class ShapeConfiguration : IShapeConfiguration
 			var r = rot;
 			var s = (axisVector * sizes[i]) + Vector3.Scale(scale, oppAxisVector);
 
-			node.Value.Matrix = Matrix4x4.TRS(p, r, s);
+//			node.Value.Matrix = Matrix4x4.TRS(p, r, s);
+			node.Value.Transform = new SimpleTransform(p, r, s);
 
 			this.AddNode(node);
 		}
 	}
 
-	public void SplitComponent(string componentType, string componentParam, string symbol)
+	public void SplitComponent(string query, string symbol)
 	{
-//		var node = this.NewNode(this.currentNode);
-//		// TODO: Handle multiple scopes returned for component. E.g. faces.all, edges.vertical.
-//		var scope = this.CurrentScope.GetComponent(componentType, componentParam);
-//		node.Value.Matrix = scope.Matrix;
-//		node.Value.Rule = this.rules[symbol];
-//		
-//		this.AddNode(node);
+		foreach (var face in this.currentNode.Value.Volume.GetFaces(query))
+		{
+			var currentVol = currentNode.Value.Volume;
+
+			var newPos = currentVol.Transform.Position + (currentVol.Transform.Rotation * face.Transform.Position);
+			var newRot = currentVol.Transform.Rotation * face.Transform.Rotation;
+			var newScale = this.CurrentScope.Transform.Scale;
+
+			var trans = new SimpleTransform(newPos, newRot, newScale);
+
+//			float angle;
+//			Vector3 axis;
+//			matrix.GetRotation().ToAngleAxis(out angle, out axis);
+//
+//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0} - {1}", angle, axis));
+//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0}", matrix.GetRotation()));
+//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0}", matrix.GetRotation().eulerAngles));
+//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0}", matrix.GetRotation() * Vector3.forward));
+
+			var node = this.NewNode(this.currentNode);
+			node.Value.Transform = trans;
+			node.Value.Rule = this.rules[symbol];
+
+			this.AddNode(node);
+		}
 	}
 	
 	#endregion
@@ -168,7 +193,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		{
 			Value = new ShapeNodeValue
 			{
-				Matrix = this.CurrentScope.Matrix,
+				Transform = this.CurrentScope.Transform,
 				Volume = this.CurrentScope.Volume
 			}
 		};

@@ -11,12 +11,11 @@ public class ShapeNodeValue
 	public ShapeNodeValue()
 	{
 		this.Status = ShapeStatus.Active;
-		this.Matrix = Matrix4x4.identity;
 	}
 
 	public ShapeStatus Status { get; set; }
 
-	public Matrix4x4 Matrix { get; set; }
+	public SimpleTransform Transform { get; set; }
 
 	public Volume Volume { get; set; }
 
@@ -26,11 +25,9 @@ public class ShapeNodeValue
 
 	public override string ToString ()
 	{
-		var matrixInfo = string.Format("Matrix=(pos={0}, rot={1}, scale={2})", Matrix.GetPosition(), Matrix.GetRotation(), Matrix.GetScale());
-
 		if (Rule != null)
-			return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}, {2}]", Status, Rule, matrixInfo);
+			return string.Format ("[ShapeNodeValue: Status={0}, Rule={1}, {2}]", Status, Rule, Transform);
 		else
-			return string.Format ("[ShapeNodeValue: Status={0}, ShapeName={1}, {2}]", Status, ShapeName, matrixInfo);
+			return string.Format ("[ShapeNodeValue: Status={0}, ShapeName={1}, {2}]", Status, ShapeName, Transform);
 	}
 }
