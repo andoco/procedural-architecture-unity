@@ -138,20 +138,30 @@ public class Demo : MonoBehaviour
 
 	private void AddGeometry(ShapeNode tree)
 	{
-		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
-		{
-//			var name = leaf.Value.ShapeName;
-//			if (!string.IsNullOrEmpty(name))
-//			{
-//				var mesh = this.shapeMeshes[name];
-//				var trans = leaf.Value.Transform;
-//				AddGeometryMesh(name, mesh, trans);
-//			}
+		tree.TraverseBreadthFirst(node => {
+			var shapeNode = (ShapeNode)node;
+			var vol = shapeNode.Value.Volume;
+			if (vol != null)
+			{
+				var mesh = vol.BuildMesh();
+				AddGeometryMesh(shapeNode.Value.ShapeName, mesh, shapeNode.Value.Transform);
+			}
+		});
 
-//			var mesh = leaf.Value.Volume.CreateMesh();
-			var mesh = leaf.Value.Volume.BuildMesh();
-			AddGeometryMesh(leaf.Value.ShapeName, mesh, leaf.Value.Transform);
-		}
+//		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
+//		{
+////			var name = leaf.Value.ShapeName;
+////			if (!string.IsNullOrEmpty(name))
+////			{
+////				var mesh = this.shapeMeshes[name];
+////				var trans = leaf.Value.Transform;
+////				AddGeometryMesh(name, mesh, trans);
+////			}
+//
+////			var mesh = leaf.Value.Volume.CreateMesh();
+//			var mesh = leaf.Value.Volume.BuildMesh();
+//			AddGeometryMesh(leaf.Value.ShapeName, mesh, leaf.Value.Transform);
+//		}
 	}
 
 	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)
