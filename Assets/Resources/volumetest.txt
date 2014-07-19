@@ -1,2 +1,2 @@
-root ::- Vol("Box") Comp("face") { window };
+root ::- Vol("Box") Comp("face-vert-1") { window };
 window ::- Scale(0.25, 0.25, 0.25) Vol("Box");

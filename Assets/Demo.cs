@@ -140,13 +140,17 @@ public class Demo : MonoBehaviour
 	{
 		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
 		{
-			var name = leaf.Value.ShapeName;
-			if (!string.IsNullOrEmpty(name))
-			{
-				var mesh = this.shapeMeshes[name];
-				var trans = leaf.Value.Transform;
-				AddGeometryMesh(name, mesh, trans);
-			}
+//			var name = leaf.Value.ShapeName;
+//			if (!string.IsNullOrEmpty(name))
+//			{
+//				var mesh = this.shapeMeshes[name];
+//				var trans = leaf.Value.Transform;
+//				AddGeometryMesh(name, mesh, trans);
+//			}
+
+//			var mesh = leaf.Value.Volume.CreateMesh();
+			var mesh = leaf.Value.Volume.BuildMesh();
+			AddGeometryMesh(leaf.Value.ShapeName, mesh, leaf.Value.Transform);
 		}
 	}
 
@@ -154,9 +158,9 @@ public class Demo : MonoBehaviour
 	{
 		var go = new GameObject(name);
 
-		go.transform.position = trans.Position;
-		go.transform.rotation = trans.Rotation;
-		go.transform.localScale = trans.Scale;
+//		go.transform.position = trans.Position;
+//		go.transform.rotation = trans.Rotation;
+//		go.transform.localScale = trans.Scale;
 
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
