@@ -136,7 +136,7 @@ public abstract class Volume
 	{
 		this.Transform.Position = transform.Position;
 		this.Transform.Rotation = transform.Rotation;
-		this.Transform.Scale = transform.Scale;
+		this.Transform.Scale = transform.Rotation * transform.Scale;
 
 		foreach (var c in this.Corners)
 		{

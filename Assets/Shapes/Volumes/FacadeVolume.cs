@@ -25,13 +25,18 @@ public class FacadeVolume : Volume
 
 		this.Components["face"] = this.Faces[0].Transform;
 	}
-
+	
 	public override Mesh BuildMesh ()
 	{
 		var meshBuilder = new MeshBuilder();
 
 		var face = this.Faces[0];
+
 		var verts = face.Corners.Select(c => c.Position).ToArray();
+
+		// Reverse the vertex order if needed to ensure the correct ordering.
+		if (this.Transform.Rotation.eulerAngles.y > 180f)
+			verts = verts.Reverse().ToArray();
 
 		foreach (var v in verts)
 		{
