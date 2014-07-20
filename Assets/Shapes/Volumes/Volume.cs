@@ -140,9 +140,18 @@ public abstract class Volume
 
 		foreach (var c in this.Corners)
 		{
-			var p = c.Position;
-			p.Scale(this.Transform.Scale);
-			c.Position = this.Transform.Position + (this.Transform.Rotation * p);
+			c.Position = this.Transform.Position + this.Transform.Rotation * Vector3.Scale(c.Position, this.Transform.Scale);
+		}
+
+		foreach (var f in this.Faces)
+		{
+//			f.Transform.Position = Vector3.Scale(f.Transform.Position, transform.Scale);
+//			f.Transform.Scale = this.Transform.Scale;
+		}
+
+		foreach (var c in this.Components.Values)
+		{
+			c.Position = Vector3.Scale(c.Position, transform.Scale);
 		}
 	}
 
