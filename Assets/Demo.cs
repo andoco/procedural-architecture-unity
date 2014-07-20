@@ -9,9 +9,8 @@ public class Demo : MonoBehaviour
 {	
 	private IShapeProductionSystem system;
 	private IShapeConfiguration shapeConfiguration;
-	private Dictionary<string, Mesh> shapeMeshes;
+	private IDictionary<string, Mesh> shapeMeshes;
 	private Vector3 anchor = Vector3.one * 0.5f;
-//	private Vector3 anchor = new Vector3(0.5f, 0f, 0.5f);
 
 	private const int numColors = 50;
 	private Color[] faceColors = new Color[numColors];
@@ -59,17 +58,6 @@ public class Demo : MonoBehaviour
 			sb.AppendFormat("{0} {1}\n", "".PadLeft(depth, '-'), shapeNode.Value);
 		});
 		Debug.Log(sb);
-
-//		this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
-//			var shapeNode = (ShapeNode)node;
-//
-//			var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-//			go.transform.localPosition = new Vector3(0f, 0.5f, 0f);
-//			go.transform.position = shapeNode.Value.Volume.Transform.Position; // this.CurrentScope.Matrix.GetPosition();
-//			go.transform.rotation = shapeNode.Value.Volume.Transform.Rotation; // this.CurrentScope.Matrix.GetRotation();
-//			go.transform.localScale = shapeNode.Value.Volume.Transform.Scale;
-//
-//		});
 	}
 
 	void OnDrawGizmos()
@@ -91,19 +79,13 @@ public class Demo : MonoBehaviour
                 
 				if (shapeNode.Value.Volume != null)
 				{
-					var trans = shapeNode.Value.Transform;
 					var vol = shapeNode.Value.Volume;
 
-//					Gizmos.DrawLine(trans.Position, trans.Position + (trans.Rotation * Vector3.forward * 2f));
-
-					for (int i=0; i < shapeNode.Value.Volume.Edges.Count; i++)
+					for (int i=0; i < vol.Edges.Count; i++)
 					{
-						var edge = shapeNode.Value.Volume.Edges[i];
+						var edge = vol.Edges[i];
 						Gizmos.color = faceColors[i];
 						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
-//						var p1 = trans.Position + trans.Rotation * edge.CornerA.Position;
-//						var p2 = trans.Position + trans.Rotation * edge.CornerB.Position;
-//						Gizmos.DrawLine(p1, p2);
                     }
 
 					vol.DrawGizmos();
@@ -150,30 +132,11 @@ public class Demo : MonoBehaviour
                 }
 			}
 		});
-
-//		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
-//		{
-////			var name = leaf.Value.ShapeName;
-////			if (!string.IsNullOrEmpty(name))
-////			{
-////				var mesh = this.shapeMeshes[name];
-////				var trans = leaf.Value.Transform;
-////				AddGeometryMesh(name, mesh, trans);
-////			}
-//
-////			var mesh = leaf.Value.Volume.CreateMesh();
-//			var mesh = leaf.Value.Volume.BuildMesh();
-//			AddGeometryMesh(leaf.Value.ShapeName, mesh, leaf.Value.Transform);
-//		}
 	}
 
 	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)
 	{
 		var go = new GameObject(name);
-
-//		go.transform.position = trans.Position;
-//		go.transform.rotation = trans.Rotation;
-//		go.transform.localScale = trans.Scale;
 
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
