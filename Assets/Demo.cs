@@ -139,12 +139,15 @@ public class Demo : MonoBehaviour
 	private void AddGeometry(ShapeNode tree)
 	{
 		tree.TraverseBreadthFirst(node => {
-			var shapeNode = (ShapeNode)node;
-			var vol = shapeNode.Value.Volume;
-			if (vol != null)
+			if (node.IsLeaf)
 			{
-				var mesh = vol.BuildMesh();
-				AddGeometryMesh(shapeNode.Value.ShapeName, mesh, shapeNode.Value.Transform);
+				var shapeNode = (ShapeNode)node;
+				var vol = shapeNode.Value.Volume;
+				if (vol != null)
+				{
+					var mesh = vol.BuildMesh();
+					AddGeometryMesh(shapeNode.Value.ShapeName, mesh, shapeNode.Value.Transform);
+                }
 			}
 		});
 

@@ -9,10 +9,10 @@ public class FacadeVolume : Volume
 		: base()
 	{
 		// Corners
-		this.Corners.Add(new Corner("corner-top-right", new Vector3(0.5f, 1f, 0f)));
-		this.Corners.Add(new Corner("corner-bottom-right", new Vector3(0.5f, 0f, 0f)));
-		this.Corners.Add(new Corner("corner-bottom-left", new Vector3(-0.5f, 0f, 0f)));
-		this.Corners.Add(new Corner("corner-top-left", new Vector3(-0.5f, 1f, 0f)));
+		this.Corners.Add(new Corner("corner-top-right", new Vector3(-0.5f, 0.5f, 0f)));
+		this.Corners.Add(new Corner("corner-bottom-right", new Vector3(-0.5f, -0.5f, 0f)));
+		this.Corners.Add(new Corner("corner-bottom-left", new Vector3(0.5f, -0.5f, 0f)));
+		this.Corners.Add(new Corner("corner-top-left", new Vector3(0.5f, 0.5f, 0f)));
 
 		// Edges
 		this.Edges.Add(new Edge("edge-right", this.Corners[0], this.Corners[1]));
