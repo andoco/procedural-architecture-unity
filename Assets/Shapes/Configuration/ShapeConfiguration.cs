@@ -158,8 +158,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		{
 			var newPos = currentVol.Transform.Position + (currentVol.Transform.Rotation * trans.Position);
 			var newRot = currentVol.Transform.Rotation * trans.Rotation;
-//			var newScale = this.CurrentScope.Transform.Scale;
-			var newScale = currentVol.Transform.Scale;
+			var newScale = newRot * this.CurrentScope.Transform.Scale;
 			
 			var newTrans = new SimpleTransform(newPos, newRot, newScale);
 
