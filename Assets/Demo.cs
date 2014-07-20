@@ -66,7 +66,6 @@ public class Demo : MonoBehaviour
 		{
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var shapeNode = (ShapeNode)node;
-				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
 				
 				if (node.IsLeaf)
 				{
@@ -77,15 +76,15 @@ public class Demo : MonoBehaviour
                     Gizmos.color = Color.grey;
                 }
                 
-				if (shapeNode.Value.Volume != null)
-				{
-					var vol = shapeNode.Value.Volume;
+				var vol = shapeNode.Value.Volume;
 
+				if (vol != null)
+				{
 					for (int i=0; i < vol.Edges.Count; i++)
 					{
 						var edge = vol.Edges[i];
 						Gizmos.color = faceColors[i];
-						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
+						Gizmos.DrawLine(vol.Transform.Position + edge.CornerA.Position, vol.Transform.Position + edge.CornerB.Position);
                     }
 
 					vol.DrawGizmos();
@@ -137,6 +136,8 @@ public class Demo : MonoBehaviour
 	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)
 	{
 		var go = new GameObject(name);
+
+		go.transform.position = trans.Position;
 
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
