@@ -22,6 +22,8 @@ public class FacadeVolume : Volume
 
 		// Faces
 		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
+
+		this.Components["face"] = this.Faces[0].Transform;
 	}
 
 	public override Mesh BuildMesh ()

@@ -151,29 +151,21 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void SplitComponent(string query, string symbol)
 	{
-		foreach (var face in this.currentNode.Value.Volume.GetFaces(query))
+		var currentVol = currentNode.Value.Volume;
+		var componentTransforms = this.currentNode.Value.Volume.Query(query);
+
+		foreach (var trans in componentTransforms)
 		{
-			var currentVol = currentNode.Value.Volume;
-
-			var newPos = currentVol.Transform.Position + (currentVol.Transform.Rotation * face.Transform.Position);
-			var newRot = currentVol.Transform.Rotation * face.Transform.Rotation;
+			var newPos = currentVol.Transform.Position + (currentVol.Transform.Rotation * trans.Position);
+			var newRot = currentVol.Transform.Rotation * trans.Rotation;
 			var newScale = this.CurrentScope.Transform.Scale;
-
-			var trans = new SimpleTransform(newPos, newRot, newScale);
-
-//			float angle;
-//			Vector3 axis;
-//			matrix.GetRotation().ToAngleAxis(out angle, out axis);
-//
-//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0} - {1}", angle, axis));
-//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0}", matrix.GetRotation()));
-//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0}", matrix.GetRotation().eulerAngles));
-//			Debug.Log(string.Format("@@@@@@@ ROTATION = {0}", matrix.GetRotation() * Vector3.forward));
+			
+			var newTrans = new SimpleTransform(newPos, newRot, newScale);
 
 			var node = this.NewNode(this.currentNode);
-			node.Value.Transform = trans;
+			node.Value.Transform = newTrans;
 			node.Value.Rule = this.rules[symbol];
-
+			
 			this.AddNode(node);
 		}
 	}
