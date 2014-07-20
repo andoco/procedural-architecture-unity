@@ -78,7 +78,6 @@ public class Demo : MonoBehaviour
 		{
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var shapeNode = (ShapeNode)node;
-				var nodeType = node.IsLeaf ? "LEAF" : "PARENT";
 				
 				if (node.IsLeaf)
 				{
@@ -89,21 +88,15 @@ public class Demo : MonoBehaviour
                     Gizmos.color = Color.grey;
                 }
                 
-				if (shapeNode.Value.Volume != null)
+				var vol = shapeNode.Value.Volume;
+
+				if (vol != null)
 				{
-					var trans = shapeNode.Value.Transform;
-					var vol = shapeNode.Value.Volume;
-
-//					Gizmos.DrawLine(trans.Position, trans.Position + (trans.Rotation * Vector3.forward * 2f));
-
-					for (int i=0; i < shapeNode.Value.Volume.Edges.Count; i++)
+					for (int i=0; i < vol.Edges.Count; i++)
 					{
-						var edge = shapeNode.Value.Volume.Edges[i];
+						var edge = vol.Edges[i];
 						Gizmos.color = faceColors[i];
-						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
-//						var p1 = trans.Position + trans.Rotation * edge.CornerA.Position;
-//						var p2 = trans.Position + trans.Rotation * edge.CornerB.Position;
-//						Gizmos.DrawLine(p1, p2);
+						Gizmos.DrawLine(vol.Transform.Position + edge.CornerA.Position, vol.Transform.Position + edge.CornerB.Position);
                     }
 
 					vol.DrawGizmos();
@@ -171,9 +164,7 @@ public class Demo : MonoBehaviour
 	{
 		var go = new GameObject(name);
 
-//		go.transform.position = trans.Position;
-//		go.transform.rotation = trans.Rotation;
-//		go.transform.localScale = trans.Scale;
+		go.transform.position = trans.Position;
 
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
