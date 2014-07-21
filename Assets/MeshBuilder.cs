@@ -22,11 +22,14 @@ public class MeshBuilder : IMeshBuilder
 	/// </summary>
 	public IList<Vector2> UVs { get; private set; }
 
+	public IList<Color> Colors { get; private set; }
+
 	public MeshBuilder()
 	{
 		this.Vertices = new List<Vector3>();
 		this.Normals = new List<Vector3>();
 		this.UVs = new List<Vector2>();
+		this.Colors = new List<Color>();
 	}
 
 	/// <summary>
@@ -50,6 +53,7 @@ public class MeshBuilder : IMeshBuilder
 		//add our vertex and triangle values to the new mesh:
 		mesh.vertices = this.Vertices.ToArray();
 		mesh.triangles = this.indices.ToArray();
+		mesh.colors = this.Colors.ToArray();
 		
 		//Normals are optional. Only use them if we have the correct amount:
 		if (this.Normals.Count == this.Vertices.Count)

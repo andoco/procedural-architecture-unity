@@ -20,6 +20,8 @@ public interface IMeshBuilder
 	/// </summary>
 	IList<Vector2> UVs { get; }
 
+	IList<Color> Colors { get; }
+
 	#endregion
 
 	#region Methods
