@@ -110,9 +110,6 @@ public class ShapeConfiguration : IShapeConfiguration
 		if (sizes.Length != shapes.Length)
 			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
 
-//		var pos = this.CurrentScope.Matrix.GetPosition();
-//		var rot = this.CurrentScope.Matrix.GetRotation();
-//		var scale = this.CurrentScope.Matrix.GetScale();
 		var pos = this.CurrentScope.Transform.Position;
 		var rot = this.CurrentScope.Transform.Rotation;
 		var scale = this.CurrentScope.Transform.Scale;
@@ -127,6 +124,9 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		// Get vector with the other axes so we can maintain existing scale on those axes.
 		var oppAxisVector = new Vector3(1f-axisVector.x, 1f-axisVector.y, 1f-axisVector.z);
+
+		axisVector = rot * axisVector;
+		oppAxisVector = rot * oppAxisVector;
 
 		var numDivisions = sizes.Length;
 
@@ -144,7 +144,8 @@ public class ShapeConfiguration : IShapeConfiguration
 			var r = rot;
 			var s = (axisVector * sizes[i]) + Vector3.Scale(scale, oppAxisVector);
 
-//			node.Value.Matrix = Matrix4x4.TRS(p, r, s);
+			Debug.Log(s);
+
 			node.Value.Transform = new SimpleTransform(p, r, s);
 
 			this.AddNode(node);

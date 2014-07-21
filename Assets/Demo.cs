@@ -49,7 +49,7 @@ public class Demo : MonoBehaviour
 			{ "roof", roof },
 		};
 
-		BuildProductionSystem("volumetest");
+		BuildProductionSystem("split");
 		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
 
