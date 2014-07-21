@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GabledRoofVolume : Volume
 {
-	public GabledRoofVolume()
+	public GabledRoofVolume(IStyleConfig styleConfig)
 		: base()
 	{
 		// Corners
@@ -38,6 +38,15 @@ public class GabledRoofVolume : Volume
 		this.Faces.Add(new Face("face-end-1", new List<Corner> { this.Corners[0], this.Corners[4], this.Corners[3] }, new SimpleTransform(new Vector3(-0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
 		this.Faces.Add(new Face("face-end-2", new List<Corner> { this.Corners[1], this.Corners[2], this.Corners[5] }, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.back, Vector3.up), Vector3.one)));
 
+		var styles = styleConfig.GetByName("roof");
+		var topColor = (Color)styles["top-color"];
+		var sideColor = (Color)styles["side-color"];
+
+		this.Faces[0].Color = topColor;
+		this.Faces[1].Color = topColor;
+		this.Faces[2].Color = sideColor;
+		this.Faces[3].Color = sideColor;
+
 		foreach (var face in this.Faces)
 		{
 			this.Components[face.Name] = face.Transform;
@@ -58,6 +67,7 @@ public class GabledRoofVolume : Volume
 			{
 				meshBuilder.Vertices.Add(v);
 				meshBuilder.UVs.Add(Vector2.zero);
+				meshBuilder.Colors.Add(face.Color);
 			}
 			
 			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);

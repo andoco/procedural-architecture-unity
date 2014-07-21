@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FacadeVolume : Volume
 {
-	public FacadeVolume()
+	public FacadeVolume(IStyleConfig styleConfig)
 		: base()
 	{
 		// Corners
@@ -24,9 +24,13 @@ public class FacadeVolume : Volume
 		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
 
 		this.Components["face"] = this.Faces[0].Transform;
+
+		var styles = styleConfig.GetByName("facade");
+		var faceColor = (Color)styles["face-color"];
+		this.Faces[0].Color = faceColor;
 	}
 	
-	public override Mesh BuildMesh ()
+	public override Mesh BuildMesh()
 	{
 		var meshBuilder = new MeshBuilder();
 
@@ -42,6 +46,7 @@ public class FacadeVolume : Volume
 		{
 			meshBuilder.Vertices.Add(v);
 			meshBuilder.UVs.Add(Vector2.zero);
+			meshBuilder.Colors.Add(face.Color);
 		}
 		
 		meshBuilder.AddTriangle(0, 1, 2);

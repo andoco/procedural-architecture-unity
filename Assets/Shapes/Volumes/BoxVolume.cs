@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BoxVolume : Volume
 {
-	public BoxVolume()
+	public BoxVolume(IStyleConfig styleConfig)
 		: base()
 	{
 		// Corners

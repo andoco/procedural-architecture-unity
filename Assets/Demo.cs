@@ -122,8 +122,25 @@ public class Demo : MonoBehaviour
 	private void BuildProductionConfiguration()
 	{
 		Debug.Log("======= Building System ========");
+
+		var beige = new Color(208f/255f, 197f/255f, 133f/255f);
+		var grey = new Color(110f/255f, 110f/255f, 110f/255f);
+
+		var styles = new Dictionary<string, IDictionary<string, object>> {
+			{ "facade", new Dictionary<string, object> { 
+					{ "face-color", grey }
+				} 
+			},
+			{ "roof", new Dictionary<string, object> { 
+					{ "top-color", new Color(255f/255f, 195f/255f, 0) },
+					{ "side-color", grey }
+				}
+			}
+		};
+
+		var styleConfig = new StyleConfig(styles);
 		
-		this.shapeConfiguration = new ShapeConfiguration(this.system.Rules);
+		this.shapeConfiguration = new ShapeConfiguration(this.system.Rules, styleConfig);
 		this.system.Run(this.shapeConfiguration);
 		
 		Debug.Log("======= Finished Building System ========");

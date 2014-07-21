@@ -72,6 +72,7 @@ public class Face
 		this.Name = name;
 		this.Corners = corners.ToList();
 		this.Transform = transform;
+		this.Color = Color.grey;
 	}
 
 	public string Name { get; set; }
@@ -79,6 +80,8 @@ public class Face
 	public IList<Corner> Corners { get; private set; }
 
 	public SimpleTransform Transform { get; set; }
+
+	public Color Color { get; set; }
 
 //	public Vector3 GetCentre()
 //	{
@@ -109,6 +112,8 @@ public abstract class Volume
 	public IDictionary<string, SimpleTransform> Components { get; private set; }
 
 	public SimpleTransform Transform { get; private set; }
+
+	public string Style { get; set; }
 	
 	public IEnumerable<Corner> GetCorners(string query)
 	{
