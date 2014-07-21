@@ -99,7 +99,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	{
 		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
 
-		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume"),this.styleConfig);
+		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true),this.styleConfig);
 		vol.ApplyTransform(this.CurrentScope.Transform);
 
 		this.currentNode.Value.Volume = vol;
