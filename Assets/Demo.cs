@@ -72,6 +72,11 @@ public class Demo : MonoBehaviour
 //		});
 	}
 
+	void Update()
+	{
+		Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, 45f * Time.deltaTime);
+	}
+
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying)
