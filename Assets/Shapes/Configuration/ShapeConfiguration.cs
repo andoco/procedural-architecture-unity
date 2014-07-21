@@ -101,7 +101,6 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume"),this.styleConfig);
 		vol.ApplyTransform(this.CurrentScope.Transform);
-		vol.Style = style;
 
 		this.currentNode.Value.Volume = vol;
 	}

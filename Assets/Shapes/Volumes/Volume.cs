@@ -113,8 +113,6 @@ public abstract class Volume
 
 	public SimpleTransform Transform { get; private set; }
 
-	public string Style { get; set; }
-	
 	public IEnumerable<Corner> GetCorners(string query)
 	{
 		return this.Corners.Where(c => c.Name.StartsWith(query));
