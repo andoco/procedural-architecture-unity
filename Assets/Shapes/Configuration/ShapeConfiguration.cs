@@ -155,7 +155,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	public void SplitComponent(string query, string symbol)
 	{
 		var currentVol = currentNode.Value.Volume;
-		var componentTransforms = this.currentNode.Value.Volume.Query(query);
+		var componentTransforms = currentVol.Query(query);
 
 		foreach (var trans in componentTransforms)
 		{
