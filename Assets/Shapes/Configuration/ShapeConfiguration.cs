@@ -85,16 +85,7 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		this.AddNode(node);
 	}
-
-	public void AddShape(string name)
-	{
-		Debug.Log(string.Format("SHAPE: {0}", name));
-		var node = this.NewNode(this.currentNode);
-		node.Value.ShapeName = name;
-
-		this.AddNode(node);
-	}
-
+	
 	public void AddVolume(string name)
 	{
 		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));

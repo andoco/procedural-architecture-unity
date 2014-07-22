@@ -33,13 +33,7 @@ public interface IShapeConfiguration
 	void ScaleScope(Vector3 factor);
 
 	void AddRule(ShapeRule rule);
-
-	/// <summary>
-	/// Adds a shape to the volume of the current scope.
-	/// </summary>
-	/// <param name="name">Name.</param>
-	void AddShape(string name);
-
+	
 	/// <summary>
 	/// Adds a volume to the current scope, transformed according to the current matrix of the scope.
 	/// </summary>

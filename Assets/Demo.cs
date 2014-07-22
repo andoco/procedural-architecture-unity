@@ -9,7 +9,7 @@ public class Demo : MonoBehaviour
 {	
 	private IShapeProductionSystem system;
 	private IShapeConfiguration shapeConfiguration;
-	private Dictionary<string, Mesh> shapeMeshes;
+//	private Dictionary<string, Mesh> shapeMeshes;
 	private Vector3 anchor = Vector3.one * 0.5f;
 //	private Vector3 anchor = new Vector3(0.5f, 0f, 0.5f);
 
@@ -25,29 +25,29 @@ public class Demo : MonoBehaviour
 			faceColors[i] = new Color(Random.value, Random.value, Random.value);
 		}
 
-		var meshBuilder = new MeshBuilder();
-
-		meshBuilder.BuildQuad(Vector3.zero, 1f, 1f);
-		var quad = meshBuilder.BuildMesh();
-
-		meshBuilder.Clear();
-		meshBuilder.BuildCube(1f, 1f, 1f, anchor);
-		var cube = meshBuilder.BuildMesh();
-
-		meshBuilder.Clear();
-		meshBuilder.BuildFacade(1f, 1f, 1f, anchor);
-		var facade = meshBuilder.BuildMesh();
-        
-		meshBuilder.Clear();
-		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f, anchor);
-		var roof = meshBuilder.BuildMesh();
-        
-		this.shapeMeshes = new Dictionary<string, Mesh> { 
-			{ "quad", quad },
-			{ "cube", cube },
-			{ "facade", facade }, 
-			{ "roof", roof },
-		};
+//		var meshBuilder = new MeshBuilder();
+//
+//		meshBuilder.BuildQuad(Vector3.zero, 1f, 1f);
+//		var quad = meshBuilder.BuildMesh();
+//
+//		meshBuilder.Clear();
+//		meshBuilder.BuildCube(1f, 1f, 1f, anchor);
+//		var cube = meshBuilder.BuildMesh();
+//
+//		meshBuilder.Clear();
+//		meshBuilder.BuildFacade(1f, 1f, 1f, anchor);
+//		var facade = meshBuilder.BuildMesh();
+//        
+//		meshBuilder.Clear();
+//		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f, anchor);
+//		var roof = meshBuilder.BuildMesh();
+//        
+//		this.shapeMeshes = new Dictionary<string, Mesh> { 
+//			{ "quad", quad },
+//			{ "cube", cube },
+//			{ "facade", facade }, 
+//			{ "roof", roof },
+//		};
 
 		BuildProductionSystem("house1");
 		BuildProductionConfiguration();
@@ -161,25 +161,10 @@ public class Demo : MonoBehaviour
 				if (vol != null)
 				{
 					var mesh = vol.BuildMesh();
-					AddGeometryMesh(shapeNode.Value.ShapeName, mesh, shapeNode.Value.Transform);
+					AddGeometryMesh(vol.GetType().Name, mesh, shapeNode.Value.Transform);
                 }
 			}
 		});
-
-//		foreach (var leaf in tree.LeafNodeDescendants().Cast<ShapeNode>())
-//		{
-////			var name = leaf.Value.ShapeName;
-////			if (!string.IsNullOrEmpty(name))
-////			{
-////				var mesh = this.shapeMeshes[name];
-////				var trans = leaf.Value.Transform;
-////				AddGeometryMesh(name, mesh, trans);
-////			}
-//
-////			var mesh = leaf.Value.Volume.CreateMesh();
-//			var mesh = leaf.Value.Volume.BuildMesh();
-//			AddGeometryMesh(leaf.Value.ShapeName, mesh, leaf.Value.Transform);
-//		}
 	}
 
 	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)

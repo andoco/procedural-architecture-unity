@@ -23,9 +23,6 @@ public class ShapeCommand : IShapeCommand
 		switch (Name)
 		{
 		case "Set":
-			var shapeName = Arguments[0].Trim('"');
-			configuration.AddShape(shapeName);
-			break;
 		case "Vol":
 			configuration.AddVolume(TrimArg(Arguments[0]));
 			break;
