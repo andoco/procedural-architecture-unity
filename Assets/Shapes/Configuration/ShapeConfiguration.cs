@@ -189,8 +189,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		{
 			Value = new ShapeNodeValue
 			{
-				Transform = this.CurrentScope.Transform,
-				Volume = this.CurrentScope.Volume
+				Transform = this.CurrentScope.Transform
 			}
 		};
 
