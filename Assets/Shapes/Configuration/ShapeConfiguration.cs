@@ -8,6 +8,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	private int counter;
 	private readonly IDictionary<string, ShapeRule> rules;
 	private readonly IStyleConfig styleConfig;
+	private ShapeNode currentNode;
 
 	public ShapeConfiguration(IDictionary<string, ShapeRule> rules, IStyleConfig styleConfig)
 	{
@@ -24,8 +25,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	}
 
 	public ShapeNode RootNode { get; private set; }
-
-	private ShapeNode currentNode;
+	
 	public ShapeNode CurrentNode
 	{
 		set
@@ -90,7 +90,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	{
 		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
 
-		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true),this.styleConfig);
+		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true), this.styleConfig);
 		vol.ApplyTransform(this.CurrentScope.Transform);
 
 		this.currentNode.Value.Volume = vol;
