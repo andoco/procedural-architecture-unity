@@ -7,12 +7,12 @@ public class Scope : IScope
 	
 	public Scope(SimpleTransform transform)
 	{
-		this.Transform = transform;
+		this.Transform = new SimpleTransform(transform);
 	}
 
 	public Scope(IScope scope)
 	{
-		this.Transform = scope.Transform;
+		this.Transform = new SimpleTransform(scope.Transform);
 	}
 
 	public SimpleTransform Transform { get; set; }
