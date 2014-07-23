@@ -15,9 +15,12 @@ public class Demo : MonoBehaviour
 
 	private const int numColors = 50;
 	private Color[] faceColors = new Color[numColors];
-
-	public string source;
+	private TextAsset[] sourceFiles;
+	private int currentSourceFileIndex;
+	private GameObject rootGo;
+	
 	public Material material;
+	public GUIText guiText;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +28,10 @@ public class Demo : MonoBehaviour
 		{
 			faceColors[i] = new Color(Random.value, Random.value, Random.value);
 		}
+
+		this.sourceFiles = Resources.LoadAll<TextAsset>("");
+
+		this.ShowSystem();
 
 //		var meshBuilder = new MeshBuilder();
 //
@@ -49,38 +56,66 @@ public class Demo : MonoBehaviour
 //			{ "facade", facade }, 
 //			{ "roof", roof },
 //		};
-
-		BuildProductionSystem(this.source);
-		BuildProductionConfiguration();
-		AddGeometry(this.shapeConfiguration.RootNode);
-
-		var sb = new StringBuilder("======= Tree =======\n\n");
-		this.shapeConfiguration.RootNode.TraverseDepthFirst((n, depth) => {
-			var shapeNode = (ShapeNode)n;
-			sb.AppendFormat("{0} {1}\n", "".PadLeft(depth, '-'), shapeNode.Value);
-		});
-		Debug.Log(sb);
-
-//		this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
-//			var shapeNode = (ShapeNode)node;
-//
-//			var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-//			go.transform.localPosition = new Vector3(0f, 0.5f, 0f);
-//			go.transform.position = shapeNode.Value.Volume.Transform.Position; // this.CurrentScope.Matrix.GetPosition();
-//			go.transform.rotation = shapeNode.Value.Volume.Transform.Rotation; // this.CurrentScope.Matrix.GetRotation();
-//			go.transform.localScale = shapeNode.Value.Volume.Transform.Scale;
-//
-//		});
 	}
 
 	void Update()
 	{
 		Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, 45f * Time.deltaTime);
+
+		var showSystem = false;
+
+		if (Input.GetKeyUp(KeyCode.RightArrow) & this.currentSourceFileIndex < this.sourceFiles.Length - 1)
+		{
+			this.currentSourceFileIndex += 1;
+			showSystem = true;
+		}
+		else if (Input.GetKeyUp(KeyCode.LeftArrow) && this.currentSourceFileIndex > 0)
+		{
+			this.currentSourceFileIndex -= 1;
+			showSystem = true;
+		}
+
+		if (showSystem)
+		{
+			ShowSystem();
+		}
+	}
+
+	private void ShowSystem()
+	{
+		var asset = this.sourceFiles[this.currentSourceFileIndex];
+		var source = asset.text;
+
+		if (this.guiText != null)
+			this.guiText.text = asset.name;
+
+		if (this.rootGo != null)
+		{
+			GameObject.Destroy(this.rootGo);
+		}
+
+		try
+		{
+			BuildProductionSystem(source);
+			BuildProductionConfiguration();
+			AddGeometry(this.shapeConfiguration.RootNode);
+			
+			var sb = new StringBuilder("======= Tree =======\n\n");
+			this.shapeConfiguration.RootNode.TraverseDepthFirst((n, depth) => {
+				var shapeNode = (ShapeNode)n;
+				sb.AppendFormat("{0} {1}\n", "".PadLeft(depth, '-'), shapeNode.Value);
+			});
+			Debug.Log(sb);
+		}
+		catch (System.Exception e)
+		{
+			Debug.Log(e);
+		}
 	}
 
 	void OnDrawGizmos()
 	{
-		if (Application.isPlaying)
+		if (Application.isPlaying && this.shapeConfiguration != null)
 		{
 			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
 				var shapeNode = (ShapeNode)node;
@@ -102,7 +137,7 @@ public class Demo : MonoBehaviour
 					{
 						var edge = vol.Edges[i];
 						Gizmos.color = faceColors[i];
-						Gizmos.DrawLine(vol.Transform.Position + edge.CornerA.Position, vol.Transform.Position + edge.CornerB.Position);
+						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
                     }
 
 					vol.DrawGizmos();
@@ -113,10 +148,8 @@ public class Demo : MonoBehaviour
 	    
     private void BuildProductionSystem(string sourceFile)
 	{
-		var houseProg = Resources.Load<TextAsset>(sourceFile).text;
-
 		var builder = new IronyShapeProductionSystemBuilder();
-		this.system = builder.Build(houseProg);
+		this.system = builder.Build(sourceFile);
 		this.system.Axiom = "root";
 		
 		foreach (var item in this.system.Rules)
@@ -154,6 +187,8 @@ public class Demo : MonoBehaviour
 
 	private void AddGeometry(ShapeNode tree)
 	{
+		this.rootGo = new GameObject("Architecture");
+
 		tree.TraverseBreadthFirst(node => {
 			if (node.IsLeaf)
 			{
@@ -171,8 +206,7 @@ public class Demo : MonoBehaviour
 	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)
 	{
 		var go = new GameObject(name);
-
-		go.transform.position = trans.Position;
+		go.transform.parent = this.rootGo.transform;
 
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
