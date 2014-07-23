@@ -16,6 +16,7 @@ public class Demo : MonoBehaviour
 	private const int numColors = 50;
 	private Color[] faceColors = new Color[numColors];
 
+	public string source;
 	public Material material;
 
 	// Use this for initialization
@@ -49,7 +50,7 @@ public class Demo : MonoBehaviour
 //			{ "roof", roof },
 //		};
 
-		BuildProductionSystem("house1");
+		BuildProductionSystem(this.source);
 		BuildProductionConfiguration();
 		AddGeometry(this.shapeConfiguration.RootNode);
 
