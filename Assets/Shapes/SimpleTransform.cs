@@ -19,6 +19,13 @@ public class SimpleTransform
 		this.Scale = scale;
 	}
 
+	public SimpleTransform(SimpleTransform other)
+	{
+		this.Position = other.Position;
+		this.Rotation = other.Rotation;
+		this.Scale = other.Scale;
+	}
+
 	public Vector3 Position { get; set; }
 
 	public Quaternion Rotation { get; set; }
