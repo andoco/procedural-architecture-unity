@@ -178,7 +178,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		{
 			Value = new ShapeNodeValue
 			{
-				Transform = this.CurrentScope.Transform
+				Transform = new SimpleTransform(this.CurrentScope.Transform)
 			}
 		};
 
