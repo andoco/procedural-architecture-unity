@@ -126,9 +126,6 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		for (int i=0; i < numDivisions; i++)
 		{
-			var node = this.NewNode(this.currentNode);
-			node.Value.Rule = this.rules[shapes[i]];
-
 			currentPos += axisVector * sizes[i];
 
 			var p = currentPos - (axisVector * (sizes[i]/2f));
@@ -137,6 +134,8 @@ public class ShapeConfiguration : IShapeConfiguration
 
 			Debug.Log(s);
 
+			var node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[i]];
 			node.Value.Transform = new SimpleTransform(p, r, s);
 
 			this.AddNode(node);
