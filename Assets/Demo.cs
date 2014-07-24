@@ -9,9 +9,6 @@ public class Demo : MonoBehaviour
 {	
 	private IShapeProductionSystem system;
 	private IShapeConfiguration shapeConfiguration;
-//	private Dictionary<string, Mesh> shapeMeshes;
-	private Vector3 anchor = Vector3.one * 0.5f;
-//	private Vector3 anchor = new Vector3(0.5f, 0f, 0.5f);
 
 	private const int numColors = 50;
 	private Color[] faceColors = new Color[numColors];
@@ -32,30 +29,6 @@ public class Demo : MonoBehaviour
 		this.sourceFiles = Resources.LoadAll<TextAsset>("");
 
 		this.ShowSystem();
-
-//		var meshBuilder = new MeshBuilder();
-//
-//		meshBuilder.BuildQuad(Vector3.zero, 1f, 1f);
-//		var quad = meshBuilder.BuildMesh();
-//
-//		meshBuilder.Clear();
-//		meshBuilder.BuildCube(1f, 1f, 1f, anchor);
-//		var cube = meshBuilder.BuildMesh();
-//
-//		meshBuilder.Clear();
-//		meshBuilder.BuildFacade(1f, 1f, 1f, anchor);
-//		var facade = meshBuilder.BuildMesh();
-//        
-//		meshBuilder.Clear();
-//		meshBuilder.BuildRoof(1f, 1f, 1f, 0.2f, 0.2f, 0.02f, anchor);
-//		var roof = meshBuilder.BuildMesh();
-//        
-//		this.shapeMeshes = new Dictionary<string, Mesh> { 
-//			{ "quad", quad },
-//			{ "cube", cube },
-//			{ "facade", facade }, 
-//			{ "roof", roof },
-//		};
 	}
 
 	void Update()
