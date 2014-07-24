@@ -65,7 +65,9 @@ public class GabledRoofVolume : Volume
 			
 			foreach (var v in verts)
 			{
-				meshBuilder.Vertices.Add(v);
+				var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
+
+				meshBuilder.Vertices.Add(worldPos);
 				meshBuilder.UVs.Add(Vector2.zero);
 				meshBuilder.Colors.Add(face.Color);
 			}

@@ -43,10 +43,12 @@ public class BoxVolume : Volume
 		
 		this.Faces.Add(new Face("face-horiz-1", new List<Corner> { this.Corners[3], this.Corners[2], this.Corners[1], this.Corners[0] }, new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), Vector3.one)));
 		this.Faces.Add(new Face("face-horiz-2", new List<Corner> { this.Corners[4], this.Corners[5], this.Corners[6], this.Corners[7] }, new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
+//		this.Faces.Add(new Face("face-horiz-1", new List<Corner> { this.Corners[3], this.Corners[2], this.Corners[1], this.Corners[0] }, new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.down, Vector3.forward), Vector3.one)));
+//		this.Faces.Add(new Face("face-horiz-2", new List<Corner> { this.Corners[4], this.Corners[5], this.Corners[6], this.Corners[7] }, new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.up, Vector3.back), Vector3.one)));
 
 		foreach (var face in this.Faces)
 		{
-			this.Components[face.Name] = face.Transform;
+			this.Components[face.Name] = face.Transform; // TODO: possibly need to make new Transform instance?
 		}
 	}
 
@@ -62,8 +64,9 @@ public class BoxVolume : Volume
 
 			foreach (var v in verts)
 			{
-				meshBuilder.Vertices.Add(v);
-//				meshBuilder.Normals.Add(face.Transform.Rotation * face.Transform.Position);
+				var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
+
+				meshBuilder.Vertices.Add(worldPos);
 				meshBuilder.UVs.Add(Vector2.zero);
 			}
 

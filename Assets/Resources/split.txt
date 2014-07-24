@@ -1,4 +1,0 @@
-root ::- Scale(1, 1, 1) Vol("Box") Comp("face-vert") { horiz3 };
-vert2 ::- Subdiv("Y", 0.5, 0.5) { horiz3 | horiz3 };
-horiz3 ::- Subdiv("X", 0.5, 0.5) { facade | facade };
-facade ::- Vol("facade");

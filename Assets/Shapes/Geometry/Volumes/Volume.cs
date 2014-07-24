@@ -46,22 +46,12 @@ public abstract class Volume
 		return matching.Select(c => c.Value);
 	}
 	
-	public void ApplyTransform(SimpleTransform transform)
+	public virtual void ApplyTransform(SimpleTransform transform)
 	{
 		this.Transform.Position = transform.Position;
 		this.Transform.Rotation = transform.Rotation;
-		this.Transform.Scale = transform.Rotation * transform.Scale;
-
-		foreach (var c in this.Corners)
-		{
-			c.Position = this.Transform.Rotation * Vector3.Scale(c.Position, this.Transform.Scale);
-		}
-
-		foreach (var f in this.Faces)
-		{
-			f.Transform.Position = Vector3.Scale(f.Transform.Position, transform.Scale);
-		}
+		this.Transform.Scale = transform.Scale;
 	}
 
-	public abstract Mesh BuildMesh();
+	public abstract Mesh BuildMesh();	
 }

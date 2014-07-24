@@ -21,15 +21,16 @@ public class FacadeVolume : Volume
 		this.Edges.Add(new Edge("edge-top", this.Corners[3], this.Corners[0]));
 
 		// Faces
-		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
+//		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
+		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 1f, 0f))));
 
-		this.Components["face"] = this.Faces[0].Transform;
+		this.Components["face"] = this.Faces[0].Transform; // TODO: possibly need to make new Transform instance?
 
 		var styles = styleConfig.GetByName("facade");
 		var faceColor = (Color)styles["face-color"];
 		this.Faces[0].Color = faceColor;
 	}
-	
+
 	public override Mesh BuildMesh()
 	{
 		var meshBuilder = new MeshBuilder();
@@ -38,13 +39,11 @@ public class FacadeVolume : Volume
 
 		var verts = face.Corners.Select(c => c.Position).ToArray();
 
-		// Reverse the vertex order if needed to ensure the correct ordering.
-		if (this.Transform.Rotation.eulerAngles.y > 180f)
-			verts = verts.Reverse().ToArray();
-
 		foreach (var v in verts)
 		{
-			meshBuilder.Vertices.Add(v);
+			var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
+
+			meshBuilder.Vertices.Add(worldPos);
 			meshBuilder.UVs.Add(Vector2.zero);
 			meshBuilder.Colors.Add(face.Color);
 		}
