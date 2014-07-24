@@ -17,7 +17,7 @@ public class Demo : MonoBehaviour
 	private GameObject rootGo;
 	
 	public Material material;
-	public GUIText guiText;
+	public GUIText sourceGuiText;
 
 	// Use this for initialization
 	void Start () {
@@ -59,8 +59,8 @@ public class Demo : MonoBehaviour
 		var asset = this.sourceFiles[this.currentSourceFileIndex];
 		var source = asset.text;
 
-		if (this.guiText != null)
-			this.guiText.text = asset.name;
+		if (this.sourceGuiText != null)
+			this.sourceGuiText.text = asset.name;
 
 		if (this.rootGo != null)
 		{
