@@ -33,7 +33,14 @@ public class Demo : MonoBehaviour
 
 	void Update()
 	{
-		Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, 45f * Time.deltaTime);
+		if (Input.GetKey(KeyCode.UpArrow))
+		{
+			Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, 45f * Time.deltaTime);
+		}
+		else if (Input.GetKey(KeyCode.DownArrow))
+		{
+			Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, -45f * Time.deltaTime);
+		}
 
 		var showSystem = false;
 
