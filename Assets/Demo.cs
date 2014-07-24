@@ -106,13 +106,6 @@ public class Demo : MonoBehaviour
 
 				if (vol != null)
 				{
-					for (int i=0; i < vol.Edges.Count; i++)
-					{
-						var edge = vol.Edges[i];
-						Gizmos.color = faceColors[i];
-						Gizmos.DrawLine(edge.CornerA.Position, edge.CornerB.Position);
-                    }
-
 					vol.DrawGizmos();
                 }
             });
