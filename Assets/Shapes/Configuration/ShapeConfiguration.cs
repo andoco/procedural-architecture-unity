@@ -149,9 +149,9 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		foreach (var trans in componentTransforms)
 		{
-			var newPos = currentVol.Transform.Position + (currentVol.Transform.Rotation * trans.Position);
-			var newRot = currentVol.Transform.Rotation * trans.Rotation;
-			var newScale = currentVol.Transform.Scale;
+			var newPos = this.CurrentScope.Transform.Position + (this.CurrentScope.Transform.Rotation * trans.Position);
+			var newRot = this.CurrentScope.Transform.Rotation * trans.Rotation;
+			var newScale = trans.Scale;
 			
 			var newTrans = new SimpleTransform(newPos, newRot, newScale);
 
