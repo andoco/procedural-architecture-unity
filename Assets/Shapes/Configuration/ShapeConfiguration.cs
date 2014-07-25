@@ -96,7 +96,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		this.currentNode.Value.Volume = vol;
 	}
 
-	public void SplitDivideScope(string axis, float[] sizes, string[] shapes)
+	public void SplitDivideScopeOld(string axis, float[] sizes, string[] shapes)
 	{
 		if (sizes.Length != shapes.Length)
 			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
@@ -139,6 +139,53 @@ public class ShapeConfiguration : IShapeConfiguration
 			node.Value.Transform = new SimpleTransform(p, r, s);
 
 			this.AddNode(node);
+		}
+	}
+
+	public void SplitDivideScope(string axis, float[] sizes, string[] shapes)
+	{
+		if (sizes.Length != shapes.Length)
+			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
+		
+		var pos = this.CurrentScope.Transform.Position;
+		var rot = this.CurrentScope.Transform.Rotation;
+		var scale = this.CurrentScope.Transform.Scale;
+
+		if (axis == "X")
+		{
+			var newScale = new Vector3(scale.x / 2f, scale.y, scale.z);
+			var newPos1 = pos + (rot * (new Vector3(newScale.x / 2f, 0f, 0f)));
+			var newPos2 = pos - (rot * (new Vector3(newScale.x / 2f, 0f, 0f)));
+
+			var node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[0]];
+			node.Value.Transform = new SimpleTransform(newPos1, rot, newScale);
+			this.AddNode(node);
+
+			node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[1]];
+			node.Value.Transform = new SimpleTransform(newPos2, rot, newScale);
+			this.AddNode(node);
+		}
+		else if (axis == "Y")
+		{
+			var newScale = new Vector3(scale.x, scale.y / 2f, scale.z);
+			var newPos1 = pos + (rot * (new Vector3(0f, newScale.y / 2f, 0f)));
+			var newPos2 = pos - (rot * (new Vector3(0f, newScale.y / 2f, 0f)));
+			
+			var node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[0]];
+			node.Value.Transform = new SimpleTransform(newPos1, rot, newScale);
+			this.AddNode(node);
+			
+			node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[1]];
+			node.Value.Transform = new SimpleTransform(newPos2, rot, newScale);
+			this.AddNode(node);
+		}
+		else
+		{
+			throw new ArgumentException(string.Format("Unsupported subdivision axis \"{0}\"", axis), "axis");
 		}
 	}
 
