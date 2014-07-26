@@ -153,22 +153,26 @@ public class ShapeConfiguration : IShapeConfiguration
 		var scale = this.CurrentScope.Transform.Scale;
 
 		Func<Vector3, Vector3> startPosAction;
+		Func<Vector3, float> axisScaleFunc;
 		Func<float, Vector3> deltaAction;
 		Func<float, Vector3> newScaleAction;
 
 		switch (axis)
 		{
 		case "X":
+			axisScaleFunc = (v) => v.x;
 			startPosAction = (s) => new Vector3(s.x / 2f, 0f, 0f);
 			deltaAction = (s) => new Vector3(s / 2f, 0f, 0f);
 			newScaleAction = (s) => new Vector3(s, scale.y, scale.z);
 			break;
 		case "Y":
+			axisScaleFunc = (v) => v.y;
 			startPosAction = (s) => new Vector3(0f, s.y / 2f, 0f);
 			deltaAction = (s) => new Vector3(0f, s / 2f, 0f);
 			newScaleAction = (s) => new Vector3(scale.x, s, scale.z);
 			break;
 		case "Z":
+			axisScaleFunc = (v) => v.z;
 			startPosAction = (s) => new Vector3(0f, 0f, s.z / 2f);
 			deltaAction = (s) => new Vector3(0f, 0f, s / 2f);
 			newScaleAction = (s) => new Vector3(scale.x, scale.y, s);
@@ -192,7 +196,7 @@ public class ShapeConfiguration : IShapeConfiguration
 			if (sizes[i].IsRelative)
 			{
 				var relativeSize = sizes[i].Value;
-				size = relativeSize * (scale.x - totalAbsSize) / totalRelSize;
+				size = relativeSize * (axisScaleFunc(scale) - totalAbsSize) / totalRelSize;
 			}
 			else
 			{
