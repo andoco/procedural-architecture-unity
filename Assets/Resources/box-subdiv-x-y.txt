@@ -1,0 +1,4 @@
+root ::- Vol("Box") Comp("face-vert") { wall1 };
+wall1 ::- Subdiv("X", 0.5, 0.5) { wall2 | wall2 };
+wall2 ::- Subdiv("Y", 0.5, 0.5) { facade | facade };
+facade ::- Vol("facade");
