@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ShapeConfiguration : IShapeConfiguration
@@ -179,9 +180,25 @@ public class ShapeConfiguration : IShapeConfiguration
 		// Start at one end of the selected scope axis.
 		var startPos = pos - (rot * startPosAction(scale));
 
+		// Calculate total relative and absolute sizes supplied.
+		float totalRelSize = sizes.Select(x => x.IsRelative ? x.Value : 0f).Sum();
+		float totalAbsSize = sizes.Select(x => x.IsRelative ? 0f : x.Value).Sum();
+
 		for (int i=0; i < sizes.Length; i++)
 		{
-			var size = sizes[i].Value;
+			float size;
+
+			// Calculate size of segment based on it being absolute or relative.
+			if (sizes[i].IsRelative)
+			{
+				var relativeSize = sizes[i].Value;
+				size = relativeSize * (scale.x - totalAbsSize) / totalRelSize;
+			}
+			else
+			{
+				size = sizes[i].Value;
+			}
+
 			var delta = rot * deltaAction(size);
 
 			var newScale = newScaleAction(size);

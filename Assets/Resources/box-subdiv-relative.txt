@@ -1,3 +1,3 @@
 root ::- Scale(4, 4, 4) Vol("Box") Comp("face-vert") { wall };
-wall ::- Subdiv("X", 0.5r, 0.5r) { facade | facade };
+wall ::- Subdiv("X", 0.5r, 1, 0.5r) { facade | facade | facade };
 facade ::- Vol("facade");

@@ -9,8 +9,8 @@ public class PAGrammar : Grammar
 	{
 		var ID = TerminalFactory.CreateCSharpIdentifier("ID"); // IdentifierTerminal?
 		var STRING = new StringLiteral("String", "\"", StringOptions.AllowsAllEscapes);
-		var NUMBER = new NumberLiteral("number", NumberOptions.AllowSign | NumberOptions.AllowLetterAfter);
-		var NUMBER_RELATIVE = ToTerm("r");
+		var NUMBER = new NumberLiteral("number", NumberOptions.AllowSign);
+		NUMBER.AddSuffix(Size.RelativeSuffix, System.TypeCode.Single);
 
 		NonTerminal program = new NonTerminal("program"),
 		ruleStatement = new NonTerminal("ruleStatement"),
@@ -29,7 +29,7 @@ public class PAGrammar : Grammar
 		successor.Rule = command | ID;
 		command.Rule = ToTerm("[") | ToTerm("]") | ID + "(" + argumentList + ")" + commandBlock;
 		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), atom);
-		atom.Rule = NUMBER | NUMBER + NUMBER_RELATIVE | STRING;
+		atom.Rule = NUMBER | STRING;
 		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;
 		ruleList.Rule = MakeStarRule(ruleList, ToTerm("|"), ID);
 
