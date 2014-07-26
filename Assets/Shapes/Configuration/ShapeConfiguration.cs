@@ -151,46 +151,48 @@ public class ShapeConfiguration : IShapeConfiguration
 		var rot = this.CurrentScope.Transform.Rotation;
 		var scale = this.CurrentScope.Transform.Scale;
 
-		if (axis == "X")
+		Func<Vector3, Vector3> startPosAction;
+		Func<float, Vector3> deltaAction;
+		Func<float, Vector3> newScaleAction;
+
+		switch (axis)
 		{
-			// Start at one end of the selected scope axis.
-			var startPos = pos - (rot * new Vector3(scale.x / 2f, 0f, 0f));
-
-			for (int i=0; i < sizes.Length; i++)
-			{
-				var size = sizes[i];
-				var delta = rot * new Vector3(size / 2f, 0f, 0f); // Get a translation delta to middle of the new segment.
-
-				var newScale = new Vector3(size, scale.y, scale.z);
-				var newPos = startPos + delta;
-
-				var node = this.NewNode(this.currentNode);
-				node.Value.Rule = this.rules[shapes[i]];
-				node.Value.Transform = new SimpleTransform(newPos, rot, newScale);
-				this.AddNode(node);
-
-				startPos += delta * 2f; // Move to the end of the current segment.
-			}
-		}
-		else if (axis == "Y")
-		{
-			var newScale = new Vector3(scale.x, scale.y / 2f, scale.z);
-			var newPos1 = pos + (rot * (new Vector3(0f, newScale.y / 2f, 0f)));
-			var newPos2 = pos - (rot * (new Vector3(0f, newScale.y / 2f, 0f)));
-			
-			var node = this.NewNode(this.currentNode);
-			node.Value.Rule = this.rules[shapes[0]];
-			node.Value.Transform = new SimpleTransform(newPos1, rot, newScale);
-			this.AddNode(node);
-			
-			node = this.NewNode(this.currentNode);
-			node.Value.Rule = this.rules[shapes[1]];
-			node.Value.Transform = new SimpleTransform(newPos2, rot, newScale);
-			this.AddNode(node);
-		}
-		else
-		{
+		case "X":
+			startPosAction = (s) => new Vector3(s.x / 2f, 0f, 0f);
+			deltaAction = (s) => new Vector3(s / 2f, 0f, 0f);
+			newScaleAction = (s) => new Vector3(s, scale.y, scale.z);
+			break;
+		case "Y":
+			startPosAction = (s) => new Vector3(0f, s.y / 2f, 0f);
+			deltaAction = (s) => new Vector3(0f, s / 2f, 0f);
+			newScaleAction = (s) => new Vector3(scale.x, s, scale.z);
+			break;
+		case "Z":
+			startPosAction = (s) => new Vector3(0f, 0f, s.z / 2f);
+			deltaAction = (s) => new Vector3(0f, 0f, s / 2f);
+			newScaleAction = (s) => new Vector3(scale.x, scale.y, s);
+			break;
+		default:
 			throw new ArgumentException(string.Format("Unsupported subdivision axis \"{0}\"", axis), "axis");
+		}
+
+		// Start at one end of the selected scope axis.
+		var startPos = pos - (rot * startPosAction(scale));
+
+		for (int i=0; i < sizes.Length; i++)
+		{
+			var size = sizes[i];
+			var delta = rot * deltaAction(size);
+
+			var newScale = newScaleAction(size);
+			var newPos = startPos + delta;
+
+			var node = this.NewNode(this.currentNode);
+			node.Value.Rule = this.rules[shapes[i]];
+			node.Value.Transform = new SimpleTransform(newPos, rot, newScale);
+			this.AddNode(node);
+
+			startPos += delta * 2f; // Move to the end of the current segment.
 		}
 	}
 
