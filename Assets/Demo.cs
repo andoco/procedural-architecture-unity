@@ -53,6 +53,10 @@ public class Demo : MonoBehaviour
 
 	void OnGUI()
 	{
+		var screenScale = Screen.width / 960.0f;
+		var scaledMatrix = Matrix4x4.Scale(new Vector3(screenScale,screenScale,screenScale));
+		GUI.matrix = scaledMatrix;
+
 		if (GUILayout.Button("Previous"))
 		{
 			this.ShowPrevious();
