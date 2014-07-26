@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using System.Text;
 
-
 public class Demo : MonoBehaviour
 {	
 	private IShapeProductionSystem system;
@@ -35,30 +34,64 @@ public class Demo : MonoBehaviour
 	{
 		if (Input.GetKey(KeyCode.UpArrow))
 		{
-			Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, 45f * Time.deltaTime);
+			this.Rotate(45f);
 		}
 		else if (Input.GetKey(KeyCode.DownArrow))
 		{
-			Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, -45f * Time.deltaTime);
+			this.Rotate(-45f);
 		}
-
-		var showSystem = false;
 
 		if (Input.GetKeyUp(KeyCode.RightArrow) & this.currentSourceFileIndex < this.sourceFiles.Length - 1)
 		{
-			this.currentSourceFileIndex += 1;
-			showSystem = true;
+			this.ShowNext();
 		}
 		else if (Input.GetKeyUp(KeyCode.LeftArrow) && this.currentSourceFileIndex > 0)
 		{
-			this.currentSourceFileIndex -= 1;
-			showSystem = true;
+			this.ShowPrevious();
 		}
+	}
 
-		if (showSystem)
+	void OnGUI()
+	{
+		if (GUILayout.Button("Previous"))
 		{
+			this.ShowPrevious();
+		}
+		else if (GUILayout.Button("Next"))
+		{
+			this.ShowNext();
+		}
+		else if (GUILayout.RepeatButton("Rotate Clockwise"))
+		{
+			this.Rotate(45f);
+		}
+		else if (GUILayout.RepeatButton("Rotate Anticlockwise"))
+		{
+			this.Rotate(-45f);
+		}
+	}
+
+	private void ShowNext()
+	{
+		if (this.currentSourceFileIndex < this.sourceFiles.Length - 1)
+		{
+			this.currentSourceFileIndex += 1;
 			ShowSystem();
 		}
+	}
+
+	private void ShowPrevious()
+	{
+		if (this.currentSourceFileIndex > 0)
+		{
+			this.currentSourceFileIndex -= 1;
+			ShowSystem();
+		}
+	}
+
+	private void Rotate(float amount)
+	{
+		Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, amount * Time.deltaTime);
 	}
 
 	private void ShowSystem()
