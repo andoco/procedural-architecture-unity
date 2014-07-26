@@ -153,19 +153,24 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		if (axis == "X")
 		{
-			var newScale = new Vector3(scale.x / 2f, scale.y, scale.z);
-			var newPos1 = pos + (rot * (new Vector3(newScale.x / 2f, 0f, 0f)));
-			var newPos2 = pos - (rot * (new Vector3(newScale.x / 2f, 0f, 0f)));
+			// Start at one end of the selected scope axis.
+			var startPos = pos - (rot * new Vector3(scale.x / 2f, 0f, 0f));
 
-			var node = this.NewNode(this.currentNode);
-			node.Value.Rule = this.rules[shapes[0]];
-			node.Value.Transform = new SimpleTransform(newPos1, rot, newScale);
-			this.AddNode(node);
+			for (int i=0; i < sizes.Length; i++)
+			{
+				var size = sizes[i];
+				var delta = rot * new Vector3(size / 2f, 0f, 0f); // Get a translation delta to middle of the new segment.
 
-			node = this.NewNode(this.currentNode);
-			node.Value.Rule = this.rules[shapes[1]];
-			node.Value.Transform = new SimpleTransform(newPos2, rot, newScale);
-			this.AddNode(node);
+				var newScale = new Vector3(size, scale.y, scale.z);
+				var newPos = startPos + delta;
+
+				var node = this.NewNode(this.currentNode);
+				node.Value.Rule = this.rules[shapes[i]];
+				node.Value.Transform = new SimpleTransform(newPos, rot, newScale);
+				this.AddNode(node);
+
+				startPos += delta * 2f; // Move to the end of the current segment.
+			}
 		}
 		else if (axis == "Y")
 		{
