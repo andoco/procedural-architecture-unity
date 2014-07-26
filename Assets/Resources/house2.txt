@@ -1,7 +1,8 @@
 root ::- Scale(2, 2, 2) Vol("Box") Comp("face-vert") { sides } Comp("face-horiz-2") { roof };
-sides ::- Subdiv("X", 1, 1) { facade | facade };
+sides ::- Subdiv("Y", 1, 1) { lowerSide | upperSide };
 lowerSide ::- facade;
-upperSide ::- Subdiv("X", 0.4, 0.2, 0.4) { facade | facade | facade };
-window ::- Scale(0.5, 0.4, 0.25) Trans(0, -0.2, 0) Vol("Box");
+upperSide ::- Subdiv("X", 0.75, 0.5, 0.75) { facade | window | facade };
+window2 ::- Trans(0, 0, -0.1) facade;
+window ::- Trans(0, -0.5, 0) Scale(1, 1, 0.05) Vol("Box");
 facade ::- Vol("Facade");
 roof ::- Vol("GabledRoof");
