@@ -3,6 +3,6 @@ sides ::- Subdiv("Y", 1, 1) { lowerSide | upperSide };
 lowerSide ::- facade;
 upperSide ::- Subdiv("X", 0.75, 0.5, 0.75) { facade | window | facade };
 window2 ::- Trans(0, 0, -0.1) facade;
-window ::- Trans(0, -0.5, 0) Scale(1, 1, 0.05) Vol("Box");
+window ::- Trans(0, -0.5, 0) Scale(1, 0.9, 0.05) Vol("Box");
 facade ::- Vol("Facade");
 roof ::- Vol("GabledRoof");

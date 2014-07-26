@@ -59,7 +59,7 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void TransformScope(Vector3 delta)
 	{
-		this.CurrentScope.Transform.Position += delta;
+		this.CurrentScope.Transform.Position += this.CurrentScope.Transform.Rotation * delta;
 		Debug.Log(string.Format("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform));
 	}
 	
