@@ -40,7 +40,7 @@ public interface IShapeConfiguration
 	/// <param name="name">The name of the volume to add.</param>
 	void AddVolume(string name);
 
-	void SplitDivideScope(string axis, float[] sizes, string[] shapes);
+	void SplitDivideScope(string axis, Size[] sizes, string[] shapes);
 
 	void SplitComponent(string query, string symbol);
 }

@@ -48,7 +48,7 @@ public class ShapeCommand : IShapeCommand
 //			if (Arguments.Length -1 != Shapes.Length)
 //				throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
 
-			var sizes = Arguments.Skip(1).Select(arg => float.Parse(arg)).ToArray();
+			var sizes = Arguments.Skip(1).Select(arg => Size.Parse(arg)).ToArray();
 			configuration.SplitDivideScope(TrimArg(Arguments[0]), sizes, Shapes);
 
 			break;

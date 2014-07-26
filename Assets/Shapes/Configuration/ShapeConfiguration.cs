@@ -142,7 +142,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		}
 	}
 
-	public void SplitDivideScope(string axis, float[] sizes, string[] shapes)
+	public void SplitDivideScope(string axis, Size[] sizes, string[] shapes)
 	{
 		if (sizes.Length != shapes.Length)
 			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
@@ -181,7 +181,7 @@ public class ShapeConfiguration : IShapeConfiguration
 
 		for (int i=0; i < sizes.Length; i++)
 		{
-			var size = sizes[i];
+			var size = sizes[i].Value;
 			var delta = rot * deltaAction(size);
 
 			var newScale = newScaleAction(size);
