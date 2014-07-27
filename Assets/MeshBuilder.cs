@@ -49,6 +49,8 @@ public class MeshBuilder : IMeshBuilder
 	{
 		//Create an instance of the Unity Mesh class:
 		var mesh = new Mesh();
+
+		Debug.Log(string.Format("Building mesh for {0} vertices, {1} colors, {2} triangles", this.Vertices.Count, this.Colors.Count, this.indices.Count));
 		
 		//add our vertex and triangle values to the new mesh:
 		mesh.vertices = this.Vertices.ToArray();
