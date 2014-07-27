@@ -2,9 +2,9 @@
 using UnityEngine;
 using Irony.Parsing;
 
-public class PAGrammar : Grammar
+public class IronyArchitectureGrammar : Grammar
 {
-	public PAGrammar()
+	public IronyArchitectureGrammar()
 		: base(false)
 	{
 		var dot = ToTerm(".");

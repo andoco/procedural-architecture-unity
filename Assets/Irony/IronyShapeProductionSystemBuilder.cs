@@ -9,7 +9,7 @@ public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
 	{
 		var system = new ShapeProductionSystem();
 		var evaluator = new IronyArchitectureEvaluator(system);
-		var grammar = new PAGrammar();
+		var grammar = new IronyArchitectureGrammar();
 		var root = GetRoot(source, grammar);
 
 		var sb = new StringBuilder();
