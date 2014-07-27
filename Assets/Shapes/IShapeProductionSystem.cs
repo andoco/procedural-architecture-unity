@@ -7,5 +7,5 @@ public interface IShapeProductionSystem
 
 	string Axiom { get; set; }
 
-	void Run(IShapeConfiguration configuration);
+	void Run(IShapeConfiguration configuration, IList<string> args);
 }

@@ -1,2 +1,2 @@
-root ::- Vol("Box") Comp("face-vert") { facade };
+root(sx, sy, sz, tx) ::- Scale(sx, sy, sz) Vol("Box") Comp("face-vert") { facade };
 facade ::- Vol("facade");

@@ -78,11 +78,12 @@ public class ShapeConfiguration : IShapeConfiguration
 		Debug.Log(string.Format("SCALED: {0} {1}", scale, this.CurrentScope.Transform));
 	}
 
-	public void AddRule(ShapeRule rule)
+	public void AddRule(ShapeRule rule, IList<string> args)
 	{
 		Debug.Log(string.Format("RULE: {0}", rule));
 		var node = this.NewNode(this.currentNode);
 		node.Value.Rule = rule;
+		node.Value.Args = args;
 
 		this.AddNode(node);
 	}

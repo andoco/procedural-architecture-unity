@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum ShapeStatus
 {
@@ -20,6 +21,8 @@ public class ShapeNodeValue
 	public Volume Volume { get; set; }
 
 	public ShapeRule Rule { get; set; }
+
+	public IList<string> Args { get; set; }
 
 	public override string ToString ()
 	{

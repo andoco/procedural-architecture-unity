@@ -187,7 +187,7 @@ public class Demo : MonoBehaviour
 		var styleConfig = new StyleConfig(styles);
 		
 		this.shapeConfiguration = new ShapeConfiguration(this.system.Rules, styleConfig);
-		this.system.Run(this.shapeConfiguration);
+		this.system.Run(this.shapeConfiguration, new List<string> { "2", "3", "1" });
 		
 		Debug.Log("======= Finished Building System ========");
 	}

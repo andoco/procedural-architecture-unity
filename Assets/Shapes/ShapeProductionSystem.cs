@@ -15,13 +15,12 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 	public string Axiom { get; set; }
 
-	public void Run(IShapeConfiguration configuration)
+	public void Run(IShapeConfiguration configuration, IList<string> args)
 	{
 		if (string.IsNullOrEmpty(this.Axiom))
 			throw new InvalidOperationException("The axiom symbol has not been set");
 
-
-		configuration.AddRule(this.Rules[this.Axiom]);
+		configuration.AddRule(this.Rules[this.Axiom], args);
 		var currentNode = configuration.RootNode;
 
 		while (currentNode != null)
@@ -47,7 +46,7 @@ public class ShapeProductionSystem : IShapeProductionSystem
 					else if (successor is SymbolShapeSuccessor)
 					{
 						var symbolSuccessor = (SymbolShapeSuccessor)successor;
-						configuration.AddRule(this.Rules[symbolSuccessor.Symbol]);
+						configuration.AddRule(this.Rules[symbolSuccessor.Symbol], new List<string>());
 					}
 					else
 					{

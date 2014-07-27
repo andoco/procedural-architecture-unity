@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ public class ShapeCommand : IShapeCommand
 
 	public void Execute(IShapeConfiguration configuration)
 	{
+		var resolvedArgs = this.ResolveArgs(configuration);
+
 		switch (Name)
 		{
 		case "Set":
@@ -27,15 +30,15 @@ public class ShapeCommand : IShapeCommand
 			configuration.AddVolume(TrimArg(Arguments[0]));
 			break;
 		case "Trans":
-			var axes = Arguments.Select(x => float.Parse(x)).ToArray();
+			var axes = resolvedArgs.Select(x => float.Parse(x)).ToArray();
 			configuration.TransformScope(new Vector3(axes[0], axes[1], axes[2]));
 			break;
 		case "Rot":
-			var rotAxes = Arguments.Select(x => float.Parse(x)).ToArray();
+			var rotAxes = resolvedArgs.Select(x => float.Parse(x)).ToArray();
 			configuration.RotateScope(new Vector3(rotAxes[0], rotAxes[1], rotAxes[2]));
 			break;
 		case "Scale":
-			var scaleAxes = Arguments.Select(x => float.Parse(x)).ToArray();
+			var scaleAxes = resolvedArgs.Select(x => float.Parse(x)).ToArray();
 			configuration.ScaleScope(new Vector3(scaleAxes[0], scaleAxes[1], scaleAxes[2]));
 			break;
 		case "Push":
@@ -56,6 +59,29 @@ public class ShapeCommand : IShapeCommand
 			configuration.SplitComponent(TrimArg(Arguments[0]), Shapes[0]);
 			break;
 		}
+	}
+
+	private IList<string> ResolveArgs(IShapeConfiguration configuration)
+	{
+		var resolvedArgs = new List<string>();
+
+		foreach (var arg in this.Arguments)
+		{
+			if (configuration.CurrentNode.Value.Rule.ArgNames.Contains(arg))
+			{
+				// Variable argument value.
+				var argIndex = configuration.CurrentNode.Value.Rule.ArgNames.IndexOf(arg);
+				var argVal = configuration.CurrentNode.Value.Args[argIndex];
+				resolvedArgs.Add(argVal);
+			}
+			else
+			{
+				// Literal argument value.
+				resolvedArgs.Add(arg);
+			}
+		}
+
+		return resolvedArgs;
 	}
 
 	private static string TrimArg(string arg)
