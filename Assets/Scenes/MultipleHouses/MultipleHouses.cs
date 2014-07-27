@@ -148,9 +148,15 @@ public class MultipleHouses : MonoBehaviour
 		};
 
 		var styleConfig = new StyleConfig(styles);
-		
+
+		var args = new List<int> {
+			Random.Range(2, 5),
+			Random.Range(2, 5),
+			Random.Range(4, 8)
+		};
+
 		var shapeConfiguration = new ShapeConfiguration(this.system.Rules, styleConfig);
-		this.system.Run(shapeConfiguration, new List<string> { "2", "3", "1" });
+		this.system.Run(shapeConfiguration, args.Select(x => x.ToString()).ToList());
 		
 		Debug.Log("======= Finished Building System ========");
 

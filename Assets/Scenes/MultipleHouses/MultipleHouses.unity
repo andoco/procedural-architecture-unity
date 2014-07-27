@@ -189,7 +189,7 @@ MonoBehaviour:
   houseSource: house1
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   numHouses: 20
-  maxDist: 20
+  maxDist: 30
 --- !u!4 &871913584
 Transform:
   m_ObjectHideFlags: 0
