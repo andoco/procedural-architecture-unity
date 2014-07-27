@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BuildingMaterial
+  m_Name: BuildingMaterial-VertLitColored
   m_Shader: {fileID: 4800000, guid: 7b72e88d4d40341ae8c201a45e49f27a, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
