@@ -40,11 +40,19 @@ public class IronyArchitectureEvaluator
 
 	private void EnterRule(ParseTreeNode ruleNode)
 	{
+		var predecessor = ruleNode.FirstChild;
+		var ruleSymbol = predecessor.FirstChild.Token.Text;
+
+		var argNames = predecessor.ChildNodes.Count > 1
+			? this.GetArgs(predecessor.ChildNodes[1])
+			: new List<string>();
+
 		this.currentRule = new ShapeRule();
-		this.currentRule.Symbol = ruleNode.FirstChild.Token.Text;
+		this.currentRule.Symbol = ruleSymbol;
+		this.currentRule.ArgNames = argNames;
 		this.system.Rules[this.currentRule.Symbol] = this.currentRule;
 	}
-	 
+		 
 	private void EnterSuccessor(ParseTreeNode successorNode)
 	{
 		foreach (var child in successorNode.ChildNodes)
@@ -112,5 +120,19 @@ public class IronyArchitectureEvaluator
 				this.currentRule.Successors.Add(cmdSuccessor);
 			}
 		}
+	}
+
+	private IList<string> GetArgs(ParseTreeNode argsNode)
+	{
+		var args = new List<string>();
+		
+		foreach (var argAtomNode in argsNode.ChildNodes)
+		{
+			var argVal = argAtomNode.FirstChild.Token.Text;
+			Debug.Log(string.Format("ARG: {0}", argVal));
+			args.Add(argVal);
+		}
+		
+		return args;
 	}
 }
