@@ -25,7 +25,8 @@ public class ShapeCommand : IShapeCommand
 		{
 		case "Set":
 		case "Vol":
-			configuration.AddVolume(TrimArg(Arguments[0]));
+			var volName = configuration.ResolveArgs(this.Arguments)[0];
+			configuration.AddVolume(TrimArg(volName));
 			break;
 		case "Trans":
 			var axes = configuration.ResolveArgs(this.Arguments).Select(x => float.Parse(x)).ToArray();
@@ -46,11 +47,13 @@ public class ShapeCommand : IShapeCommand
 			configuration.PopScope();
 			break;
 		case "Subdiv":
-			var sizes = Arguments.Skip(1).Select(arg => Size.Parse(arg)).ToArray();
-			configuration.SplitDivideScope(TrimArg(Arguments[0]), sizes, Shapes);
+			var subdivArgs = configuration.ResolveArgs(this.Arguments);
+			var sizes = subdivArgs.Skip(1).Select(arg => Size.Parse(arg)).ToArray();
+			configuration.SplitDivideScope(TrimArg(subdivArgs[0]), sizes, Shapes);
 			break;
 		case "Comp":
-			configuration.SplitComponent(TrimArg(Arguments[0]), Shapes[0]);
+			var compArgs = configuration.ResolveArgs(this.Arguments);
+			configuration.SplitComponent(TrimArg(compArgs[0]), Shapes[0]);
 			break;
 		default:
 			throw new System.ArgumentException(string.Format("Unknown command: {0}", this.Name), "Name");
