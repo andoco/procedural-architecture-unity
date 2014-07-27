@@ -8,6 +8,8 @@ public class IronyArchitectureGrammar : Grammar
 		: base(false)
 	{
 		var dot = ToTerm(".");
+		var push = ToTerm("[");
+		var pop = ToTerm("]");
 
 		var ID = TerminalFactory.CreateCSharpIdentifier("ID"); // IdentifierTerminal?
 		var STRING = new StringLiteral("String", "\"", StringOptions.AllowsAllEscapes);
@@ -26,7 +28,8 @@ public class IronyArchitectureGrammar : Grammar
 		commandBlock = new NonTerminal("commandBlock"),
 		ruleList = new NonTerminal("ruleList"),
 		ruleSymbol = new NonTerminal("ruleSymbol"),
-		scopeCmd = new NonTerminal("scopeCmd");
+		scopeCmd = new NonTerminal("scopeCmd"),
+		simpleCmd = new NonTerminal("simpleCmd");
 
 		program.Rule = MakePlusRule(program, ruleStatement);
 
@@ -35,7 +38,8 @@ public class IronyArchitectureGrammar : Grammar
 		successorList.Rule = MakePlusRule(successorList, successor);
 		successor.Rule = command | ruleSymbol;
 		scopeCmd.Rule = "Scope" + dot + ID;
-		command.Rule = ToTerm("[") | ToTerm("]") | scopeCmd + "(" + argumentList + ")" + commandBlock;
+		simpleCmd.Rule = push | pop;
+		command.Rule = simpleCmd | scopeCmd + "(" + argumentList + ")" + commandBlock;
 		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), atom);
 		atom.Rule = NUMBER | STRING | VARIABLE;
 		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;

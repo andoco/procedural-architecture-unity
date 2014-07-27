@@ -21,8 +21,6 @@ public class ShapeCommand : IShapeCommand
 
 	public void Execute(IShapeConfiguration configuration)
 	{
-		var resolvedArgs = configuration.ResolveArgs(this.Arguments); //this.ResolveArgs(configuration);
-
 		switch (Name)
 		{
 		case "Set":
@@ -30,15 +28,15 @@ public class ShapeCommand : IShapeCommand
 			configuration.AddVolume(TrimArg(Arguments[0]));
 			break;
 		case "Trans":
-			var axes = resolvedArgs.Select(x => float.Parse(x)).ToArray();
+			var axes = configuration.ResolveArgs(this.Arguments).Select(x => float.Parse(x)).ToArray();
 			configuration.TransformScope(new Vector3(axes[0], axes[1], axes[2]));
 			break;
 		case "Rot":
-			var rotAxes = resolvedArgs.Select(x => float.Parse(x)).ToArray();
+			var rotAxes = configuration.ResolveArgs(this.Arguments).Select(x => float.Parse(x)).ToArray();
 			configuration.RotateScope(new Vector3(rotAxes[0], rotAxes[1], rotAxes[2]));
 			break;
 		case "Scale":
-			var scaleAxes = resolvedArgs.Select(x => float.Parse(x)).ToArray();
+			var scaleAxes = configuration.ResolveArgs(this.Arguments).Select(x => float.Parse(x)).ToArray();
 			configuration.ScaleScope(new Vector3(scaleAxes[0], scaleAxes[1], scaleAxes[2]));
 			break;
 		case "Push":

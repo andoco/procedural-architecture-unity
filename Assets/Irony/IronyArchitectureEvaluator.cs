@@ -74,8 +74,20 @@ public class IronyArchitectureEvaluator
 			}
 			else if (child.Term.Name == "command")
 			{
-				var cmdName = child.FirstChild.ChildNodes[2].Token.Text;
-				Debug.Log(cmdName);
+				string cmdName;
+
+				if (child.FirstChild.Term.Name == "simpleCmd")
+				{
+					cmdName = child.FirstChild.FirstChild.Token.Text;
+				}
+				else if (child.FirstChild.Term.Name == "scopeCmd")
+				{
+					cmdName = child.FirstChild.ChildNodes[2].Token.Text;
+				}
+				else
+				{
+					throw new System.ArgumentException(string.Format("Cannot evalute grammar command node: {0}", child.FirstChild));
+				}
 
 				var cmd = new ShapeCommand
 				{
@@ -84,11 +96,11 @@ public class IronyArchitectureEvaluator
 
 				if (cmdName == "[")
 				{
-					cmdName = "Push";
+					cmd.Name = "Push";
 				}
 				else if (cmdName == "]")
 				{
-					cmdName = "Pop";
+					cmd.Name = "Pop";
 				}
 				else
 				{
