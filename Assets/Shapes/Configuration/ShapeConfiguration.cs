@@ -19,6 +19,11 @@ public class ShapeConfiguration : IShapeConfiguration
 	}
 
 	#region IShapeConfiguration implementation
+
+	public IDictionary<string, ShapeRule> Rules
+	{
+		get { return this.rules; }
+	}
 	
 	public IScope CurrentScope
 	{
@@ -144,7 +149,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		}
 	}
 
-	public void SplitDivideScope(string axis, Size[] sizes, string[] shapes)
+	public void SplitDivideScope(string axis, Size[] sizes, ShapeSymbol[] shapes)
 	{
 		if (sizes.Length != shapes.Length)
 			throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
@@ -210,15 +215,16 @@ public class ShapeConfiguration : IShapeConfiguration
 			var newPos = startPos + delta;
 
 			var node = this.NewNode(this.currentNode);
-			node.Value.Rule = this.rules[shapes[i]];
+			node.Value.Rule = this.rules[shapes[i].Name];
 			node.Value.Transform = new SimpleTransform(newPos, rot, newScale);
+			node.Value.Args = this.ResolveArgs(shapes[i].UnresolvedArgs).ToList(); //shapes[i].ResolvedArgs.ToList();
 			this.AddNode(node);
 
 			startPos += delta * 2f; // Move to the end of the current segment.
 		}
 	}
 
-	public void SplitComponent(string query, string symbol)
+	public void SplitComponent(string query, ShapeSymbol symbol)
 	{
 		Debug.Log(string.Format("COMP: {0}, {1}", query, this.CurrentScope.Transform));
 
@@ -244,10 +250,34 @@ public class ShapeConfiguration : IShapeConfiguration
 
 			var node = this.NewNode(this.currentNode);
 			node.Value.Transform = newTrans;
-			node.Value.Rule = this.rules[symbol];
+			node.Value.Rule = this.rules[symbol.Name];
+			node.Value.Args = this.ResolveArgs(symbol.UnresolvedArgs).ToList(); //symbol.ResolvedArgs.ToList();
 			
 			this.AddNode(node);
 		}
+	}
+
+	public string[] ResolveArgs(IEnumerable<string> unresolvedArgs)
+	{
+		var resolvedArgs = new List<string>();
+		
+		foreach (var arg in unresolvedArgs)
+		{
+			if (this.CurrentNode.Value.Rule.ArgNames.Contains(arg))
+			{
+				// Variable argument value.
+				var argIndex = this.CurrentNode.Value.Rule.ArgNames.IndexOf(arg);
+				var argVal = this.CurrentNode.Value.Args[argIndex];
+				resolvedArgs.Add(argVal);
+			}
+			else
+			{
+				// Literal argument value.
+				resolvedArgs.Add(arg);
+			}
+		}
+		
+		return resolvedArgs.ToArray();
 	}
 	
 	#endregion

@@ -46,7 +46,9 @@ public class ShapeProductionSystem : IShapeProductionSystem
 					else if (successor is SymbolShapeSuccessor)
 					{
 						var symbolSuccessor = (SymbolShapeSuccessor)successor;
-						configuration.AddRule(this.Rules[symbolSuccessor.Symbol], new List<string>());
+						var resolvedArgs = configuration.ResolveArgs(symbolSuccessor.Symbol.UnresolvedArgs);
+						var rule = this.Rules[symbolSuccessor.Symbol.Name];
+						configuration.AddRule(rule, resolvedArgs);
 					}
 					else
 					{

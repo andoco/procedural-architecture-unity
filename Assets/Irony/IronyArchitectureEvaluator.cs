@@ -20,8 +20,6 @@ public class IronyArchitectureEvaluator
 	
 	private void EvaluatePATree(ParseTreeNode node)
 	{
-//        Debug.Log(node);
-		
 		switch (node.Term.Name)
 		{
 		case "ruleStatement":
@@ -57,22 +55,32 @@ public class IronyArchitectureEvaluator
 	{
 		foreach (var child in successorNode.ChildNodes)
 		{
-			if (child.Term.Name == "ID")
+			if (child.Term.Name == "ruleSymbol")
 			{
+				var symbolName = child.FirstChild.Token.Text;
+				var symbolArgs = child.ChildNodes.Count > 1
+					? this.GetArgs(child.ChildNodes[1])
+					: new List<string>();
+
+				var symbol = new ShapeSymbol(symbolName, symbolArgs);
+
 				var successor = new SymbolShapeSuccessor
 				{
-					Symbol = child.Token.Text,
+					Symbol = symbol,
 					Probability = 1f
 				};
+
 				this.currentRule.Successors.Add(successor);
 			}
 			else if (child.Term.Name == "command")
 			{
-				var cmdName = child.FirstChild.Token.Text;
+				var cmdName = child.FirstChild.ChildNodes[2].Token.Text;
 				Debug.Log(cmdName);
 
-				var args = new List<string>();
-				var shapes = new List<string>();
+				var cmd = new ShapeCommand
+				{
+					Name = cmdName,
+				};
 
 				if (cmdName == "[")
 				{
@@ -84,13 +92,12 @@ public class IronyArchitectureEvaluator
 				}
 				else
 				{
-					var argsNode = child.ChildNodes[1];
-					
-					foreach (var argAtomNode in argsNode.ChildNodes)
-					{
-//						Debug.Log(string.Format("ARG: {0}", argAtomNode.FirstChild.Token.Text));
-						args.Add(argAtomNode.FirstChild.Token.Text);
-					}
+					var cmdArgs = child.ChildNodes.Count > 1
+						? this.GetArgs(child.ChildNodes[1])
+						: new List<string>();
+					cmd.Arguments = cmdArgs.ToArray();
+	
+					var shapes = new List<ShapeSymbol>();
 
 					// Check if command block exists
 					if (child.ChildNodes.Count > 2)
@@ -99,19 +106,18 @@ public class IronyArchitectureEvaluator
 
 						foreach (var shapeNode in ruleListNode.ChildNodes)
 						{
-//							Debug.Log(string.Format("SHAPE: {0}", shapeNode.Token.Text));
-							shapes.Add(shapeNode.Token.Text);
+							var symbolName = shapeNode.FirstChild.Token.Text;
+							var symbolArgs = shapeNode.ChildNodes.Count > 1
+								? this.GetArgs(shapeNode.ChildNodes[1])
+								: new List<string>();
+
+							shapes.Add(new ShapeSymbol(symbolName, symbolArgs));
 						}
 					}
+
+					cmd.Shapes = shapes.ToArray();
 				}
 
-				var cmd = new ShapeCommand
-				{
-					Name = cmdName,
-					Arguments = args.ToArray(),
-					Shapes = shapes.ToArray()
-				};
-				
 				var cmdSuccessor = new CommandShapeSuccessor
 				{
 					Command = cmd

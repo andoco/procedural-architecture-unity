@@ -1,8 +1,8 @@
-root ::- Scale(2, 2, 2) Vol("Box") Comp("face-vert") { sides } Comp("face-horiz-2") { roof };
-sides ::- Subdiv("Y", 1, 1) { lowerSide | upperSide };
+root ::- Scope.Scale(2, 2, 2) Scope.Vol("Box") Scope.Comp("face-vert") { sides } Scope.Comp("face-horiz-2") { roof };
+sides ::- Scope.Subdiv("Y", 1, 1) { lowerSide | upperSide };
 lowerSide ::- facade;
-upperSide ::- Subdiv("X", 0.75, 0.5, 0.75) { facade | window | facade };
-window2 ::- Trans(0, 0, -0.1) facade;
-window ::- Trans(0, -0.5, 0) Scale(1, 0.9, 0.05) Vol("Box");
-facade ::- Vol("Facade");
-roof ::- Vol("GabledRoof");
+upperSide ::- Scope.Subdiv("X", 0.75, 0.5, 0.75) { facade | window | facade };
+window2 ::- Scope.Trans(0, 0, -0.1) facade;
+window ::- Scope.Trans(0, -0.5, 0) Scope.Scale(1, 0.9, 0.05) Scope.Vol("Box");
+facade ::- Scope.Vol("Facade");
+roof ::- Scope.Vol("GabledRoof");

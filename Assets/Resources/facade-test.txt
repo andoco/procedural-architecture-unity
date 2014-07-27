@@ -1,13 +1,13 @@
-root ::- Scale(2, 2, 0) front2 back2 right2 left2 top2 bottom2;
+root ::- Scope.Scale(2, 2, 0) front2 back2 right2 left2 top2 bottom2;
 
-front1 ::- Trans(0, 0, 1) Vol("facade");
-right1 ::- Trans(0, 0, -1) Trans(1, 0, 0) Rot(0, 90, 0) Vol("facade");
-back1 ::- Rot(0, -90, 0) Trans(-1, 0, 0) Trans(0, 0, -1) Rot(0, -180, 0) Vol("facade");
-left1 ::- Rot(0, 180, 0) Trans(0, 0, 1) Trans(-1, 0, 0) Rot(0, -90, 0) Vol("facade");
+front1 ::- Scope.Trans(0, 0, 1)Scope. Vol("facade");
+right1 ::- Scope.Trans(0, 0, -1) Scope.Trans(1, 0, 0) Scope.Rot(0, 90, 0) Scope.Vol("facade");
+back1 ::- Scope.Rot(0, -90, 0) Scope.Trans(-1, 0, 0) Scope.Trans(0, 0, -1) Scope.Rot(0, -180, 0) Scope.Vol("facade");
+left1 ::- Scope.Rot(0, 180, 0) Scope.Trans(0, 0, 1) Scope.Trans(-1, 0, 0) Scope.Rot(0, -90, 0) Scope.Vol("facade");
 
-front2 ::- Trans(0, 0, 1) Vol("facade");
-back2 ::- Trans(0, 0, -1) Rot(0, -180, 0) Vol("facade");
-right2 ::- Trans(1, 0, 0) Rot(0, 90, 0) Vol("facade");
-left2 ::- Trans(-1, 0, 0) Rot(0, -90, 0) Vol("facade");
-top2 ::- Trans(0, 1, 0) Rot(-90, 0, 0) Vol("facade");
-bottom2 ::- Trans(0, -1, 0) Rot(90, 0, 0) Vol("facade");
+front2 ::- Scope.Trans(0, 0, 1) Scope.Vol("facade");
+back2 ::- Scope.Trans(0, 0, -1) Scope.Rot(0, -180, 0) Scope.Vol("facade");
+right2 ::- Scope.Trans(1, 0, 0) Scope.Rot(0, 90, 0) Scope.Vol("facade");
+left2 ::- Scope.Trans(-1, 0, 0) Scope.Rot(0, -90, 0) Scope.Vol("facade");
+top2 ::- Scope.Trans(0, 1, 0) Scope.Rot(-90, 0, 0) Scope.Vol("facade");
+bottom2 ::- Scope.Trans(0, -1, 0) Scope.Rot(90, 0, 0) Scope.Vol("facade");

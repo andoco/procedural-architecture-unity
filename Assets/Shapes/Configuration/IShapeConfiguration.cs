@@ -14,6 +14,8 @@ public class ShapeNode : TreeNode
 
 public interface IShapeConfiguration
 {
+	IDictionary<string, ShapeRule> Rules { get; }
+
 	IScope CurrentScope { get; }
 
 	ShapeNode RootNode { get; }
@@ -40,7 +42,9 @@ public interface IShapeConfiguration
 	/// <param name="name">The name of the volume to add.</param>
 	void AddVolume(string name);
 
-	void SplitDivideScope(string axis, Size[] sizes, string[] shapes);
+	void SplitDivideScope(string axis, Size[] sizes, ShapeSymbol[] shapes);
 
-	void SplitComponent(string query, string symbol);
+	void SplitComponent(string query, ShapeSymbol symbol);
+
+	string[] ResolveArgs(IEnumerable<string> unresolvedArgs);
 }

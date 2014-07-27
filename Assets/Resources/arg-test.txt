@@ -1,0 +1,4 @@
+root(sx, sy, sz, tx) ::- Scope.Scale(sx, sy, sz) Scope.Vol("Box") Scope.Comp("face-vert-1") { box1(0.5, 0.5, 0.5) } box2(3) box2(-3) box3;
+box1(sx, sy, sz) ::- Scope.Scale(sx, sy, sz) Scope.Vol("Box");
+box2(tx) ::- Scope.Trans(tx, 0, 0) Scope.Vol("Box");
+box3 ::- Scope.Vol("Box");

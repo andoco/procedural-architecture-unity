@@ -1,2 +1,2 @@
 root ::- box;
-box ::- Vol("Box");
+box ::- Scope.Vol("Box");

@@ -7,6 +7,8 @@ public class PAGrammar : Grammar
 	public PAGrammar()
 		: base(false)
 	{
+		var dot = ToTerm(".");
+
 		var ID = TerminalFactory.CreateCSharpIdentifier("ID"); // IdentifierTerminal?
 		var STRING = new StringLiteral("String", "\"", StringOptions.AllowsAllEscapes);
 		var NUMBER = new NumberLiteral("number", NumberOptions.AllowSign);
@@ -22,19 +24,23 @@ public class PAGrammar : Grammar
 		argumentList = new NonTerminal("argumentList"),
 		atom = new NonTerminal("atom"),
 		commandBlock = new NonTerminal("commandBlock"),
-		ruleList = new NonTerminal("ruleList");
+		ruleList = new NonTerminal("ruleList"),
+		ruleSymbol = new NonTerminal("ruleSymbol"),
+		scopeCmd = new NonTerminal("scopeCmd");
 
 		program.Rule = MakePlusRule(program, ruleStatement);
 
 		predecessor.Rule = ID + "(" + argumentList + ")" | ID;
 		ruleStatement.Rule = predecessor + ToTerm("::-") + successorList + ";";
 		successorList.Rule = MakePlusRule(successorList, successor);
-		successor.Rule = command | ID;
-		command.Rule = ToTerm("[") | ToTerm("]") | ID + "(" + argumentList + ")" + commandBlock;
+		successor.Rule = command | ruleSymbol;
+		scopeCmd.Rule = "Scope" + dot + ID;
+		command.Rule = ToTerm("[") | ToTerm("]") | scopeCmd + "(" + argumentList + ")" + commandBlock;
 		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), atom);
 		atom.Rule = NUMBER | STRING | VARIABLE;
 		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;
-		ruleList.Rule = MakeStarRule(ruleList, ToTerm("|"), ID);
+		ruleSymbol.Rule = ID + "(" + argumentList + ")" | ID;
+		ruleList.Rule = MakeStarRule(ruleList, ToTerm("|"), ruleSymbol);
 
 		this.Root = program;
 

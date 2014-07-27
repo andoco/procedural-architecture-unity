@@ -1,2 +1,2 @@
-root ::- Scale(3, 2, 1) Vol("Box") Comp("face-vert") { facade };
-facade ::- Vol("facade");
+root ::- Scope.Scale(3, 2, 1) Scope.Vol("Box") Scope.Comp("face-vert") { facade };
+facade ::- Scope.Vol("facade");

@@ -1,2 +1,2 @@
-root ::- Scale(3, 2, 1) box;
-box ::- Vol("Box");
+root ::- Scope.Scale(3, 2, 1) box;
+box ::- Scope.Vol("Box");

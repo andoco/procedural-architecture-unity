@@ -15,13 +15,13 @@ public class ShapeCommand : IShapeCommand
 	public string[] Arguments { get; set; }
 
 	/// <summary>
-	/// Gets or sets the shapes that are present in the command body.
+	/// Gets or sets the shape symbols that are present in the command body.
 	/// </summary>
-	public string[] Shapes { get; set; }
+	public ShapeSymbol[] Shapes { get; set; }
 
 	public void Execute(IShapeConfiguration configuration)
 	{
-		var resolvedArgs = this.ResolveArgs(configuration);
+		var resolvedArgs = configuration.ResolveArgs(this.Arguments); //this.ResolveArgs(configuration);
 
 		switch (Name)
 		{
@@ -48,40 +48,15 @@ public class ShapeCommand : IShapeCommand
 			configuration.PopScope();
 			break;
 		case "Subdiv":
-//			if (Arguments.Length -1 != Shapes.Length)
-//				throw new System.ArgumentException("The number of supplied shapes does not match the number of size arguments");
-
 			var sizes = Arguments.Skip(1).Select(arg => Size.Parse(arg)).ToArray();
 			configuration.SplitDivideScope(TrimArg(Arguments[0]), sizes, Shapes);
-
 			break;
 		case "Comp":
 			configuration.SplitComponent(TrimArg(Arguments[0]), Shapes[0]);
 			break;
+		default:
+			throw new System.ArgumentException(string.Format("Unknown command: {0}", this.Name), "Name");
 		}
-	}
-
-	private IList<string> ResolveArgs(IShapeConfiguration configuration)
-	{
-		var resolvedArgs = new List<string>();
-
-		foreach (var arg in this.Arguments)
-		{
-			if (configuration.CurrentNode.Value.Rule.ArgNames.Contains(arg))
-			{
-				// Variable argument value.
-				var argIndex = configuration.CurrentNode.Value.Rule.ArgNames.IndexOf(arg);
-				var argVal = configuration.CurrentNode.Value.Args[argIndex];
-				resolvedArgs.Add(argVal);
-			}
-			else
-			{
-				// Literal argument value.
-				resolvedArgs.Add(arg);
-			}
-		}
-
-		return resolvedArgs;
 	}
 
 	private static string TrimArg(string arg)
