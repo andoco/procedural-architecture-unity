@@ -53,11 +53,9 @@ public class GabledRoofVolume : Volume
 		}
 	}
 	
-	public override Mesh BuildMesh()
+	public override void BuildMesh(IMeshBuilder meshBuilder)
 	{
-		var meshBuilder = new MeshBuilder();
-		
-		var baseIndex = 0;
+		var baseIndex = meshBuilder.Vertices.Count;
 		
 		foreach (var face in this.Faces)
 		{
@@ -79,12 +77,5 @@ public class GabledRoofVolume : Volume
 			
 			baseIndex = meshBuilder.Vertices.Count;
 		}
-		
-		var mesh = meshBuilder.BuildMesh();
-		
-		mesh.RecalculateNormals();
-		mesh.Optimize();
-		
-		return mesh;
 	}
 }

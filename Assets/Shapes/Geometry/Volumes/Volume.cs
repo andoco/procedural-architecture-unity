@@ -53,5 +53,19 @@ public abstract class Volume
 		this.Transform.Scale = transform.Scale;
 	}
 
-	public abstract Mesh BuildMesh();	
+	public abstract void BuildMesh(IMeshBuilder meshBuilder);
+
+	public Mesh BuildMesh()
+	{
+		var meshBuilder = new MeshBuilder();
+		this.BuildMesh(meshBuilder);
+
+		var mesh = meshBuilder.BuildMesh();
+
+		mesh.RecalculateBounds();
+		mesh.RecalculateNormals();
+		mesh.Optimize();
+
+		return mesh;
+	}
 }

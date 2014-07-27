@@ -52,11 +52,9 @@ public class BoxVolume : Volume
 		}
 	}
 
-	public override Mesh BuildMesh()
+	public override void BuildMesh(IMeshBuilder meshBuilder)
 	{
-		var meshBuilder = new MeshBuilder();
-
-		var baseIndex = 0;
+		var baseIndex = meshBuilder.Vertices.Count;
 
 		foreach (var face in this.Faces)
 		{
@@ -68,6 +66,7 @@ public class BoxVolume : Volume
 
 				meshBuilder.Vertices.Add(worldPos);
 				meshBuilder.UVs.Add(Vector2.zero);
+				meshBuilder.Colors.Add(face.Color);
 			}
 
 			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
@@ -75,12 +74,5 @@ public class BoxVolume : Volume
 
 			baseIndex = meshBuilder.Vertices.Count;
 		}
-
-		var mesh = meshBuilder.BuildMesh();
-
-		mesh.RecalculateNormals();
-		mesh.Optimize();
-
-		return mesh;
 	}
 }

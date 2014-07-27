@@ -31,9 +31,9 @@ public class FacadeVolume : Volume
 		this.Faces[0].Color = faceColor;
 	}
 
-	public override Mesh BuildMesh()
+	public override void BuildMesh(IMeshBuilder meshBuilder)
 	{
-		var meshBuilder = new MeshBuilder();
+		var baseIndex = meshBuilder.Vertices.Count;
 
 		var face = this.Faces[0];
 
@@ -48,14 +48,7 @@ public class FacadeVolume : Volume
 			meshBuilder.Colors.Add(face.Color);
 		}
 		
-		meshBuilder.AddTriangle(0, 1, 2);
-		meshBuilder.AddTriangle(0, 2, 3);
-		
-		var mesh = meshBuilder.BuildMesh();
-		
-		mesh.RecalculateNormals();
-		mesh.Optimize();
-		
-		return mesh;
+		meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+		meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);		
 	}
 }

@@ -111,25 +111,22 @@ public class Demo : MonoBehaviour
 			GameObject.Destroy(this.rootGo);
 		}
 
+		this.rootGo = new GameObject("Architecture");
+
 		try
 		{
 			BuildProductionSystem(source);
 			BuildProductionConfiguration();
-			AddGeometry(this.shapeConfiguration.RootNode);
-			
-			var sb = new StringBuilder("======= Tree =======\n\n");
-			this.shapeConfiguration.RootNode.TraverseDepthFirst((n, depth) => {
-				var shapeNode = (ShapeNode)n;
-				sb.AppendFormat("{0} {1}\n", "".PadLeft(depth, '-'), shapeNode.Value);
-			});
-			Debug.Log(sb);
+
+			var mesh = this.BuildMesh(this.shapeConfiguration);
+			BuildGameObject(mesh);
 		}
 		catch (System.Exception e)
 		{
 			Debug.Log(e);
 		}
 	}
-
+	
 	void OnDrawGizmos()
 	{
 		if (Application.isPlaying && this.shapeConfiguration != null)
@@ -195,32 +192,37 @@ public class Demo : MonoBehaviour
 		Debug.Log("======= Finished Building System ========");
 	}
 
-	private void AddGeometry(ShapeNode tree)
+	private Mesh BuildMesh(IShapeConfiguration configuration)
 	{
-		this.rootGo = new GameObject("Architecture");
+		var meshBuilder = new MeshBuilder();
 
-		tree.TraverseBreadthFirst(node => {
+		configuration.RootNode.TraverseBreadthFirst(node => {
 			if (node.IsLeaf)
 			{
 				var shapeNode = (ShapeNode)node;
 				var vol = shapeNode.Value.Volume;
 				if (vol != null)
 				{
-					var mesh = vol.BuildMesh();
-					AddGeometryMesh(vol.GetType().Name, mesh, shapeNode.Value.Transform);
-                }
+					vol.BuildMesh(meshBuilder);
+				}
 			}
 		});
+
+		var mesh = meshBuilder.BuildMesh();
+		
+		mesh.RecalculateBounds();
+		mesh.RecalculateNormals();
+		mesh.Optimize();
+
+		return mesh;
 	}
 
-	private void AddGeometryMesh(string name, Mesh mesh, SimpleTransform trans)
+	private void BuildGameObject(Mesh mesh)
 	{
-		var go = new GameObject(name);
+		var go = new GameObject();
 		go.transform.parent = this.rootGo.transform;
-
 		var meshFilter = go.AddComponent<MeshFilter>();
 		var meshRenderer = go.AddComponent<MeshRenderer>();
-		
 		meshFilter.sharedMesh = mesh;
 		meshRenderer.material = this.material;
 	}
