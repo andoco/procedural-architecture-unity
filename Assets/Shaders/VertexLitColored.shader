@@ -9,6 +9,15 @@
                         "Queue" = "Transparent"
                         "RenderType" = "Transparent"
                 }
+                
+		        Pass {
+					Blend SrcAlpha OneMinusSrcAlpha
+					
+		            SetTexture [_MainTex] {
+		                Combine texture * primary
+		            }
+		        }
+
                 CGPROGRAM
                 #pragma surface surf Lambert alpha
                 struct Input {
