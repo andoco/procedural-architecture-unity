@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FacadeVolume : Volume
 {
-	public FacadeVolume(IStyleConfig styleConfig)
+	public FacadeVolume()
 		: base()
 	{
 		// Corners
@@ -25,8 +25,11 @@ public class FacadeVolume : Volume
 		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(new Vector3(0f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 1f, 0f))));
 
 		this.Components["face"] = this.Faces[0].Transform; // TODO: possibly need to make new Transform instance?
+	}
 
-		var styles = styleConfig.GetByName("facade");
+	public override void ApplyStyle(IStyleConfig styleConfig)
+	{
+		var styles = styleConfig.GetByName(this.Style ?? "facade");
 		var faceColor = (Color)styles["face-color"];
 		this.Faces[0].Color = faceColor;
 	}

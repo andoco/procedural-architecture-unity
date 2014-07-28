@@ -1,0 +1,3 @@
+root ::- Scope.Vol("Box") Scope.Comp("face-vert") { vertFace } Scope.Comp("face-horiz") { horizFace };
+vertFace ::- Scope.Vol("facade", "vert");
+horizFace ::- Scope.Vol("facade", "horiz");

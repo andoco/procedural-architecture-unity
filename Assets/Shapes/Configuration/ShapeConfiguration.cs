@@ -8,13 +8,11 @@ public class ShapeConfiguration : IShapeConfiguration
 	private readonly Stack<IScope> scopeStack = new Stack<IScope>();
 	private int counter;
 	private readonly IDictionary<string, ShapeRule> rules;
-	private readonly IStyleConfig styleConfig;
 	private ShapeNode currentNode;
 
-	public ShapeConfiguration(IDictionary<string, ShapeRule> rules, IStyleConfig styleConfig)
+	public ShapeConfiguration(IDictionary<string, ShapeRule> rules)
 	{
 		this.rules = rules;
-		this.styleConfig = styleConfig;
 		this.scopeStack.Push(new Scope());
 	}
 
@@ -93,11 +91,12 @@ public class ShapeConfiguration : IShapeConfiguration
 		this.AddNode(node);
 	}
 	
-	public void AddVolume(string name)
+	public void AddVolume(string name, string style)
 	{
-		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
+		Debug.Log(string.Format("VOLUME: {0}, {1}, {2}", name, style, this.CurrentScope.Transform));
 
-		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true), this.styleConfig);
+		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true));
+		vol.Style = style;
 		vol.ApplyTransform(this.CurrentScope.Transform);
 
 		this.currentNode.Value.Volume = vol;

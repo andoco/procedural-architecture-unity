@@ -24,6 +24,8 @@ public abstract class Volume
 
 	public SimpleTransform Transform { get; private set; }
 
+	public string Style { get; set; }
+
 	public IEnumerable<Corner> GetCorners(string query)
 	{
 		return this.Corners.Where(c => c.Name.StartsWith(query));
@@ -53,6 +55,10 @@ public abstract class Volume
 		this.Transform.Scale = transform.Scale;
 	}
 
+	public virtual void ApplyStyle(IStyleConfig styleConfig)
+	{
+	}
+	
 	public abstract void BuildMesh(IMeshBuilder meshBuilder);
 
 	public Mesh BuildMesh()

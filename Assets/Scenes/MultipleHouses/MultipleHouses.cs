@@ -7,6 +7,7 @@ using System.Text;
 public class MultipleHouses : MonoBehaviour
 {	
 	private IShapeProductionSystem system;
+	private IStyleConfig styleConfig;
 
 	private GameObject rootGo;
 
@@ -72,6 +73,7 @@ public class MultipleHouses : MonoBehaviour
 		try
 		{
 			BuildProductionSystem(source);
+			BuildStyleConfig();
 
 			for (int i=0; i < this.numHouses; i++)
 			{
@@ -128,13 +130,11 @@ public class MultipleHouses : MonoBehaviour
 		}
 	}
 
-	private IShapeConfiguration BuildProductionConfiguration()
+	private void BuildStyleConfig()
 	{
-		Debug.Log("======= Building System ========");
-
 		var beige = new Color(208f/255f, 197f/255f, 133f/255f);
 		var grey = new Color(110f/255f, 110f/255f, 110f/255f);
-
+		
 		var styles = new Dictionary<string, IDictionary<string, object>> {
 			{ "facade", new Dictionary<string, object> { 
 					{ "face-color", grey }
@@ -144,10 +144,23 @@ public class MultipleHouses : MonoBehaviour
 					{ "top-color", new Color(255f/255f, 195f/255f, 0) },
 					{ "side-color", grey }
 				}
-			}
+			},
+			{ "vert", new Dictionary<string, object> { 
+					{ "face-color", grey }
+				} 
+			},
+			{ "horiz", new Dictionary<string, object> { 
+					{ "face-color", beige }
+				} 
+			},
 		};
+		
+		this.styleConfig = new StyleConfig(styles);
+	}
 
-		var styleConfig = new StyleConfig(styles);
+	private IShapeConfiguration BuildProductionConfiguration()
+	{
+		Debug.Log("======= Building System ========");
 
 		var args = new List<int> {
 			Random.Range(2, 5),
@@ -155,7 +168,7 @@ public class MultipleHouses : MonoBehaviour
 			Random.Range(4, 8)
 		};
 
-		var shapeConfiguration = new ShapeConfiguration(this.system.Rules, styleConfig);
+		var shapeConfiguration = new ShapeConfiguration(this.system.Rules);
 		this.system.Run(shapeConfiguration, args.Select(x => x.ToString()).ToList());
 		
 		Debug.Log("======= Finished Building System ========");
@@ -174,6 +187,7 @@ public class MultipleHouses : MonoBehaviour
 				var vol = shapeNode.Value.Volume;
 				if (vol != null)
 				{
+					vol.ApplyStyle(this.styleConfig);
 					vol.BuildMesh(meshBuilder);
 				}
 			}

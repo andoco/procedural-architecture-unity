@@ -25,8 +25,10 @@ public class ShapeCommand : IShapeCommand
 		{
 		case "Set":
 		case "Vol":
-			var volName = configuration.ResolveArgs(this.Arguments)[0];
-			configuration.AddVolume(TrimArg(volName));
+			var volArgs = configuration.ResolveArgs(this.Arguments);
+			var volName = volArgs[0];
+			var volStyle = volArgs.Length > 1 ? TrimArg(volArgs[1]) : null;
+			configuration.AddVolume(TrimArg(volName), volStyle);
 			break;
 		case "Trans":
 			var axes = configuration.ResolveArgs(this.Arguments).Select(x => float.Parse(x)).ToArray();

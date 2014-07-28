@@ -40,7 +40,7 @@ public interface IShapeConfiguration
 	/// Adds a volume to the current scope, transformed according to the current matrix of the scope.
 	/// </summary>
 	/// <param name="name">The name of the volume to add.</param>
-	void AddVolume(string name);
+	void AddVolume(string name, string style);
 
 	void SplitDivideScope(string axis, Size[] sizes, ShapeSymbol[] shapes);
 
