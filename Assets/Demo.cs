@@ -135,6 +135,7 @@ public class Demo : MonoBehaviour
 
 			var mesh = this.BuildMesh(this.shapeConfiguration);
 			BuildGameObject(mesh);
+			AddScopeComponentTextMeshes(this.shapeConfiguration);
 		}
 		catch (System.Exception e)
 		{
@@ -203,30 +204,10 @@ public class Demo : MonoBehaviour
 			var shapeNode = (ShapeNode)node;
 			var vol = shapeNode.Value.Volume;
 
-			if (node.IsLeaf)
+			if (node.IsLeaf && vol != null)
 			{
-				if (vol != null)
-				{
-					vol.ApplyStyle(this.styleConfig);
-					vol.BuildMesh(meshBuilder);
-				}
-			}
-
-			if (vol != null)
-			{
-				foreach (var comp in vol.Components)
-				{
-					var name = comp.Name;
-					var trans = comp.Transform;
-
-					var worldPos = vol.Transform.Position + (vol.Transform.Rotation * Vector3.Scale(trans.Position, vol.Transform.Scale));
-					
-					var textGo = (GameObject)GameObject.Instantiate(this.faceTextPrefab);
-					textGo.transform.parent = this.rootGo.transform;
-					var textMesh = textGo.GetComponent<TextMesh>();
-					textMesh.text = name;
-					textMesh.transform.position = worldPos;
-				}
+				vol.ApplyStyle(this.styleConfig);
+				vol.BuildMesh(meshBuilder);
 			}
 		});
 
@@ -247,5 +228,30 @@ public class Demo : MonoBehaviour
 		var meshRenderer = go.AddComponent<MeshRenderer>();
 		meshFilter.sharedMesh = mesh;
 		meshRenderer.material = this.material;
+	}
+
+	private void AddScopeComponentTextMeshes(IShapeConfiguration configuration)
+	{
+		configuration.RootNode.TraverseBreadthFirst(node => {
+			var shapeNode = (ShapeNode)node;
+			var vol = shapeNode.Value.Volume;
+
+			if (vol != null)
+			{
+				foreach (var comp in vol.Components)
+				{
+					var name = comp.Name;
+					var trans = comp.Transform;
+					
+					var worldPos = vol.Transform.Position + (vol.Transform.Rotation * Vector3.Scale(trans.Position, vol.Transform.Scale));
+					
+					var textGo = (GameObject)GameObject.Instantiate(this.faceTextPrefab);
+                    textGo.transform.parent = this.rootGo.transform;
+                    var textMesh = textGo.GetComponent<TextMesh>();
+                    textMesh.text = name;
+                    textMesh.transform.position = worldPos;
+                }
+			}
+		});
 	}
 }
