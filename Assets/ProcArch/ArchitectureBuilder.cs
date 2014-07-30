@@ -15,12 +15,12 @@ public class ArchitectureBuilder
 	private IDictionary<string, TextAsset> assetCache = new Dictionary<string, TextAsset>();
 	private IDictionary<string, IShapeProductionSystem> productionSystemCache = new Dictionary<string, IShapeProductionSystem>();
 
-	public Architecture Build(string source)
+	public Architecture Build(string source, IList<string> args)
 	{
 		var system = GetProductionSystem(source);
 
 		var shapeConfiguration = new ShapeConfiguration(system.Rules);
-		system.Run(shapeConfiguration, new List<string> { "2", "3", "4" });
+		system.Run(shapeConfiguration, args);
 
 		var styleConfig = new CommonArchitectureStyleConfig();
 		var mesh = BuildMesh(shapeConfiguration, styleConfig);

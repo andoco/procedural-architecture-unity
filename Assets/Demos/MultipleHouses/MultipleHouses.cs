@@ -71,7 +71,7 @@ public class MultipleHouses : MonoBehaviour
 
 		for (int i=0; i < this.numHouses; i++)
 		{
-			var architecture = architectureBuilder.Build(this.houseSource);
+			var architecture = architectureBuilder.Build(this.houseSource, new List<string> { "2", "3", "4" });
 
 			var go = BuildGameObject(architecture.Mesh);
 

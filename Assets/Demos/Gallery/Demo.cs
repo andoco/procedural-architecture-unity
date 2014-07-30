@@ -124,7 +124,7 @@ public class Demo : MonoBehaviour
 
 		try
 		{
-			this.architecture = architectureBuilder.Build(asset.name);
+			this.architecture = architectureBuilder.Build(asset.name, new List<string> { "2", "3", "4" });
 
 			BuildGameObject(this.architecture.Mesh);
 			AddScopeComponentTextMeshes(this.architecture.Configuration);
