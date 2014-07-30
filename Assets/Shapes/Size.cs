@@ -32,4 +32,9 @@ public struct Size
 			return new Size(float.Parse(value), false);
 		}
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[Size: Value={0}, IsRelative={1}]", Value, IsRelative);
+	}
 }
