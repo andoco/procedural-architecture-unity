@@ -1,4 +1,4 @@
 root ::- Scope.Vol("Box") Scope.Comp("face-vert") { wall1 };
 wall1 ::- Scope.Subdiv("X", 0.5, 0.5) { wall2 | wall2 };
-wall2 ::- Scope.Subdiv("Y", 0.5, 0.5) { facade | facade };
+wall2 ::- Scope.Subdiv("Z", 0.5, 0.5) { facade | facade };
 facade ::- Scope.Vol("facade");

@@ -1,3 +1,3 @@
 root ::- Scope.Scale(4, 4, 4) Scope.Vol("Box") Scope.Comp("face-vert") { wall };
-wall ::- Scope.Subdiv("Y", 0.5r, 1, 0.5r) { facade | facade | facade };
+wall ::- Scope.Subdiv("Z", 0.5r, 1, 0.5r) { facade | facade | facade };
 facade ::- Scope.Vol("facade");
