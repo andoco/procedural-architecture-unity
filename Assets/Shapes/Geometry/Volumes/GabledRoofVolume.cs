@@ -8,7 +8,7 @@ public class GabledRoofVolume : Volume
 	public GabledRoofVolume()
 		: base()
 	{
-		this.Style = "roof";
+		this.Style = "sided-roof";
 
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));

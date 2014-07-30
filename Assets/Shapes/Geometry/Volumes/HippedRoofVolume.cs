@@ -8,7 +8,7 @@ public class HippedRoofVolume : Volume
 	public HippedRoofVolume()
 		: base()
 	{
-		this.Style = "hipped-roof";
+		this.Style = "roof";
 
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));
@@ -48,13 +48,12 @@ public class HippedRoofVolume : Volume
 
 	public override void ApplyStyle (IStyleConfig styleConfig)
 	{
-		var topColor = styleConfig.GetStyle<Color>(this.Style, "top-color");
-		var sideColor = styleConfig.GetStyle<Color>(this.Style, "side-color");
+		var faceColor = styleConfig.GetStyle<Color>(this.Style, "face-color");
 		
-		this.Faces[0].Color = topColor;
-		this.Faces[1].Color = topColor;
-		this.Faces[2].Color = sideColor;
-		this.Faces[3].Color = sideColor;
+		this.Faces[0].Color = faceColor;
+		this.Faces[1].Color = faceColor;
+		this.Faces[2].Color = faceColor;
+		this.Faces[3].Color = faceColor;
 	}
 	
 	public override void BuildMesh(IMeshBuilder meshBuilder)

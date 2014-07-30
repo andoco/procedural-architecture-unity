@@ -26,14 +26,13 @@ public class CommonArchitectureStyleConfig : StyleConfig
 					{ "face-color", grey }
 				} 
 			},
-			{ "roof", new Dictionary<string, object> { 
+			{ "sided-roof", new Dictionary<string, object> { 
 					{ "top-color", roofTop },
 					{ "side-color", grey }
 				}
 			},
-			{ "hipped-roof", new Dictionary<string, object> { 
-					{ "top-color", roofTop },
-					{ "side-color", roofTop }
+			{ "roof", new Dictionary<string, object> { 
+					{ "face-color", roofTop },
 				}
 			},
 			{ "vert", new Dictionary<string, object> { 
