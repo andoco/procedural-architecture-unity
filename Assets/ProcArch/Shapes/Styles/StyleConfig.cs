@@ -12,12 +12,12 @@ public class StyleConfig : IStyleConfig
 		this.styles = styles;
 	}
 	
-	public T GetStyle<T>(string section, string key)
+	public object GetStyle(string section, string key)
 	{
-		return (T)this.styles[section][key];
+		return this.styles[section][key];
 	}
 
-	public T GetStyleOrDefault<T>(string section, string key, T defaultValue)
+	public object GetStyleOrDefault(string section, string key, object defaultValue)
 	{
 		var result = defaultValue;
 
@@ -27,7 +27,7 @@ public class StyleConfig : IStyleConfig
 			object val;
 			if (sectionStyles.TryGetValue(key, out val))
 			{
-				result = (T)val;
+				result = val;
 			}
 		}
 

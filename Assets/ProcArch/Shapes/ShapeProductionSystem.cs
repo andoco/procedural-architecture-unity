@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Andoco.Core.Graph.Tree;
 
 public class ShapeProductionSystem : IShapeProductionSystem
 {
@@ -66,7 +67,7 @@ public class ShapeProductionSystem : IShapeProductionSystem
 	private ShapeNode PickNextNode(ShapeNode root)
 	{
 		// TODO: Could auto-set geometry leaf nodes to Inactive.
-		Predicate<TreeNode> pred = (TreeNode node) => {
+		Predicate<TreeGraphNode> pred = (node) => {
 			return ((ShapeNode)node).Value.Status == ShapeStatus.Active;
 		};
 

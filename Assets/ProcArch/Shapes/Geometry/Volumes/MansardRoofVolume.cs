@@ -65,7 +65,7 @@ public class MansardRoofVolume : Volume
 
 	public override void ApplyStyle (IStyleConfig styleConfig)
 	{
-		var faceColor = styleConfig.GetStyle<Color>(this.Style, "face-color");
+		var faceColor = styleConfig.GetColor(this.Style, "face-color");
 
 		foreach (var f in this.Faces)
 			f.Color = faceColor;

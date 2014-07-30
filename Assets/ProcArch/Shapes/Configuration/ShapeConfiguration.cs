@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Andoco.Core.Graph;
+using Andoco.Core.Graph.Tree;
 
 public class ShapeConfiguration : IShapeConfiguration
 {
@@ -325,7 +327,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		{
 			if (this.currentNode != node.Parent)
 				throw new InvalidOperationException("The parent of the node is not the current node");
-			this.currentNode.Add(node);
+			this.currentNode.ConnectTo(node);
 		}
 	}
 

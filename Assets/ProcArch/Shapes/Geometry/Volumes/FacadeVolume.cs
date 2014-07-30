@@ -29,7 +29,7 @@ public class FacadeVolume : Volume
 
 	public override void ApplyStyle(IStyleConfig styleConfig)
 	{
-		this.Faces[0].Color = styleConfig.GetStyle<Color>(this.Style, "face-color");
+		this.Faces[0].Color = styleConfig.GetColor(this.Style, "face-color");
 	}
 
 	public override void BuildMesh(IMeshBuilder meshBuilder)

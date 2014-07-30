@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Andoco.Core.Graph.Tree;
 
-public class ShapeNode : TreeNode
+public class ShapeNode : TreeGraphNode
 {
 	public ShapeNode(string id, ShapeNode parent)
 		: base(id, parent)

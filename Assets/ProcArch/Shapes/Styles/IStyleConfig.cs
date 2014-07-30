@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public interface IStyleConfig
 {
-	T GetStyle<T>(string section, string key);
+	object GetStyle(string section, string key);
 
-	T GetStyleOrDefault<T>(string section, string key, T defaultValue);
+	object GetStyleOrDefault(string section, string key, object defaultValue);
 }
