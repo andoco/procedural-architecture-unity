@@ -59,6 +59,14 @@ public class BoxVolume : Volume
 		this.Components.Add(new ScopeComponent("face-horiz-2", new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 0.1f, 1f)), x => x));
 	}
 
+	public override void ApplyStyle (IStyleConfig styleConfig)
+	{
+		var faceColor = styleConfig.GetStyle<Color>(this.Style, "face-color");
+
+		foreach (var f in this.Faces)
+			f.Color = faceColor;
+	}
+
 	public override void BuildMesh(IMeshBuilder meshBuilder)
 	{
 		var baseIndex = meshBuilder.Vertices.Count;

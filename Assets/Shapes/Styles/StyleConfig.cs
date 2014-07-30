@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public interface IStyleConfig
-{
-	IDictionary<string, object> GetByName(string style);
-}
-
 public class StyleConfig : IStyleConfig
 {
 	private readonly IDictionary<string, IDictionary<string, object>> styles;
@@ -16,9 +11,26 @@ public class StyleConfig : IStyleConfig
 	{
 		this.styles = styles;
 	}
-
-	public IDictionary<string, object> GetByName(string style)
+	
+	public T GetStyle<T>(string section, string key)
 	{
-		return this.styles[style];
+		return (T)this.styles[section][key];
+	}
+
+	public T GetStyleOrDefault<T>(string section, string key, T defaultValue)
+	{
+		var result = defaultValue;
+
+		IDictionary<string, object> sectionStyles;
+		if (this.styles.TryGetValue(section, out sectionStyles))
+		{
+			object val;
+			if (sectionStyles.TryGetValue(key, out val))
+			{
+				result = (T)val;
+			}
+		}
+
+		return result;
 	}
 }

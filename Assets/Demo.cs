@@ -186,6 +186,10 @@ public class Demo : MonoBehaviour
 		var grey = new Color(110f/255f, 110f/255f, 110f/255f);
 		
 		var styles = new Dictionary<string, IDictionary<string, object>> {
+			{ "default", new Dictionary<string, object> { 
+					{ "face-color", grey }
+				}
+			},
 			{ "facade", new Dictionary<string, object> { 
 					{ "face-color", grey }
 				} 
@@ -201,6 +205,10 @@ public class Demo : MonoBehaviour
 			},
 			{ "horiz", new Dictionary<string, object> { 
 					{ "face-color", beige }
+				} 
+			},
+			{ "window", new Dictionary<string, object> { 
+					{ "face-color", new Color(0.95f, 0.95f, 1f) }
 				} 
 			},
 		};

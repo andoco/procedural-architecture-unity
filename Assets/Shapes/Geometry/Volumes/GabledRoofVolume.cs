@@ -8,6 +8,8 @@ public class GabledRoofVolume : Volume
 	public GabledRoofVolume()
 		: base()
 	{
+		this.Style = "roof";
+
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-2", new Vector3(0.5f, 0f, -0.5f)));
@@ -46,9 +48,8 @@ public class GabledRoofVolume : Volume
 
 	public override void ApplyStyle (IStyleConfig styleConfig)
 	{
-		var styles = styleConfig.GetByName("roof");
-		var topColor = (Color)styles["top-color"];
-		var sideColor = (Color)styles["side-color"];
+		var topColor = styleConfig.GetStyle<Color>(this.Style, "top-color");
+		var sideColor = styleConfig.GetStyle<Color>(this.Style, "side-color");
 		
 		this.Faces[0].Color = topColor;
 		this.Faces[1].Color = topColor;
