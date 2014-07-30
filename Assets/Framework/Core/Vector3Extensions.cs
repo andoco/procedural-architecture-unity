@@ -155,6 +155,43 @@ namespace Andoco.Unity.Framework.Core
 
             return scaled.Select(v => v + center);
         }
+
+		#region Axis mapping
+
+		/// <summary>
+		/// Maps Y to X, Z to Y, and X to Z.
+		/// </summary>
+		/// <example>
+		/// E.g. (1,2,3) => (2,3,1).
+		/// </example>
+		public static Vector3 ToYZX(this Vector3 v)
+		{
+			return new Vector3(v.y, v.z, v.x);
+		}
+		
+		/// <summary>
+		/// Maps Z to X, X to Y, and Y to Z.
+		/// </summary>
+		/// <example>
+		/// E.g. (1,2,3) => (3,1,2).
+		/// </example>
+		public static Vector3 ToZXY(this Vector3 v)
+		{
+			return new Vector3(v.z, v.x, v.y);
+		}
+		
+		/// <summary>
+		/// Maps X to X, Z to Y, and T to Z.
+		/// </summary>
+		/// <example>
+		/// E.g. (1,2,3) => (1,3,2).
+		/// </example>
+		public static Vector3 ToXZY(this Vector3 v)
+		{
+			return new Vector3(v.x, v.z, v.y);
+		}
+
+		#endregion
 	}
 }
 

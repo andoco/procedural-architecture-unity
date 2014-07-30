@@ -2,23 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Andoco.Unity.Framework.Core;
 using Andoco.Unity.Framework.Core.Meshes;
 
-public class BoxVolume : Volume
+public class MansardRoofVolume : Volume
 {
-	public BoxVolume()
+	public MansardRoofVolume()
 		: base()
 	{
+		this.Style = "roof";
+
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-2", new Vector3(0.5f, 0f, -0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-3", new Vector3(-0.5f, 0f, -0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-4", new Vector3(-0.5f, 0f, 0.5f)));
 
-		this.Corners.Add(new Corner("corner-top-1", new Vector3(0.5f, 1f, 0.5f)));
-		this.Corners.Add(new Corner("corner-top-2", new Vector3(0.5f, 1f, -0.5f)));
-		this.Corners.Add(new Corner("corner-top-3", new Vector3(-0.5f, 1f, -0.5f)));
-		this.Corners.Add(new Corner("corner-top-4", new Vector3(-0.5f, 1f, 0.5f)));
+		this.Corners.Add(new Corner("corner-top-1", new Vector3(0.3f, 1f, 0.3f)));
+		this.Corners.Add(new Corner("corner-top-2", new Vector3(0.3f, 1f, -0.3f)));
+		this.Corners.Add(new Corner("corner-top-3", new Vector3(-0.3f, 1f, -0.3f)));
+		this.Corners.Add(new Corner("corner-top-4", new Vector3(-0.3f, 1f, 0.3f)));
 
 		// Edges
 		this.Edges.Add(new Edge("edge-bottom-1", this.Corners[0], this.Corners[1]));

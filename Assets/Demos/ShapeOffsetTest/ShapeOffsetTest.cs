@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Andoco.Unity.Framework.Core;
 
 public class ShapeOffsetTest : MonoBehaviour {
 

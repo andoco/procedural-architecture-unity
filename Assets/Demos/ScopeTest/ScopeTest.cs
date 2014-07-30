@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Andoco.Unity.Framework.Core;
 
 public class ScopeTest : MonoBehaviour {
 
