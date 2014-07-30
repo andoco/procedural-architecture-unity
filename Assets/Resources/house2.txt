@@ -1,8 +1,7 @@
 root ::- Scope.Scale(2, 2, 2) Scope.Vol("Box") Scope.Comp("face-vert") { sides } Scope.Comp("face-horiz-2") { roof };
 sides ::- Scope.Subdiv("Z", 1, 1) { lowerSide | upperSide };
 lowerSide ::- facade;
-upperSide ::- Scope.Subdiv("X", 0.75, 0.5, 0.75) { facade | window | facade };
-window2 ::- Scope.Trans(0, -0.1, 0) facade;
-window ::- Scope.Trans(0, 0, -0.5) Scope.Scale(1r, 0.05r, 0.9r) Scope.Vol("Box");
+upperSide ::- Scope.Subdiv("X", 0.5r, 0.5, 0.5r) { facade | window | facade };
+window ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("Box");
 facade ::- Scope.Vol("Facade");
 roof ::- Scope.Scale(1r, 1, 1r) Scope.Vol("GabledRoof");
