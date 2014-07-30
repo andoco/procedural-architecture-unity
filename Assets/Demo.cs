@@ -18,6 +18,7 @@ public class Demo : MonoBehaviour
 	
 	public Material material;
 	public GUIText sourceGuiText;
+	public GameObject faceTextPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -210,14 +211,32 @@ public class Demo : MonoBehaviour
 		var meshBuilder = new MeshBuilder();
 
 		configuration.RootNode.TraverseBreadthFirst(node => {
+			var shapeNode = (ShapeNode)node;
+			var vol = shapeNode.Value.Volume;
+
 			if (node.IsLeaf)
 			{
-				var shapeNode = (ShapeNode)node;
-				var vol = shapeNode.Value.Volume;
 				if (vol != null)
 				{
 					vol.ApplyStyle(this.styleConfig);
 					vol.BuildMesh(meshBuilder);
+				}
+			}
+
+			if (vol != null)
+			{
+				foreach (var comp in vol.Components)
+				{
+					var name = comp.Name;
+					var trans = comp.Transform;
+
+					var worldPos = vol.Transform.Position + (vol.Transform.Rotation * Vector3.Scale(trans.Position, vol.Transform.Scale));
+					
+					var textGo = (GameObject)GameObject.Instantiate(this.faceTextPrefab);
+					textGo.transform.parent = this.rootGo.transform;
+					var textMesh = textGo.GetComponent<TextMesh>();
+					textMesh.text = name;
+					textMesh.transform.position = worldPos;
 				}
 			}
 		});
