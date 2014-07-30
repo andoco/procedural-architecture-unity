@@ -8,13 +8,11 @@ using Andoco.Unity.Framework.Core.Meshes;
 
 public class Demo : MonoBehaviour
 {	
-	private IShapeProductionSystem system;
-	private IShapeConfiguration shapeConfiguration;
-	private IStyleConfig styleConfig;
+	private ArchitectureBuilder architectureBuilder = new ArchitectureBuilder();
+	private Architecture architecture;
 
 	private Vector2 scrollPos;
 	private const int numColors = 50;
-	private Color[] faceColors = new Color[numColors];
 	private TextAsset[] sourceFiles;
 	private int currentSourceFileIndex;
 	private GameObject rootGo;
@@ -25,13 +23,7 @@ public class Demo : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		for (int i=0; i < numColors; i++)
-		{
-			faceColors[i] = new Color(Random.value, Random.value, Random.value);
-		}
-
 		this.sourceFiles = Resources.LoadAll<TextAsset>("");
-
 		this.ShowSystem();
 	}
 
@@ -116,6 +108,7 @@ public class Demo : MonoBehaviour
 
 	private void ShowSystem()
 	{
+		// TODO: Add a ResourceLoader class to Core that caches loaded resources.
 		var asset = this.sourceFiles[this.currentSourceFileIndex];
 		var source = asset.text;
 
@@ -131,13 +124,10 @@ public class Demo : MonoBehaviour
 
 		try
 		{
-			BuildProductionSystem(source);
-			BuildStyleConfig();
-			BuildProductionConfiguration();
+			this.architecture = architectureBuilder.Build(asset.name);
 
-			var mesh = this.BuildMesh(this.shapeConfiguration);
-			BuildGameObject(mesh);
-			AddScopeComponentTextMeshes(this.shapeConfiguration);
+			BuildGameObject(this.architecture.Mesh);
+			AddScopeComponentTextMeshes(this.architecture.Configuration);
 		}
 		catch (System.Exception e)
 		{
@@ -147,9 +137,9 @@ public class Demo : MonoBehaviour
 	
 	void OnDrawGizmos()
 	{
-		if (Application.isPlaying && this.shapeConfiguration != null)
+		if (Application.isPlaying && this.architecture != null)
 		{
-			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
+			this.architecture.Configuration.RootNode.TraverseBreadthFirst(node => {
 				var shapeNode = (ShapeNode)node;
 				
 				if (node.IsLeaf)
@@ -169,57 +159,6 @@ public class Demo : MonoBehaviour
                 }
             });
         }
-    }
-	    
-    private void BuildProductionSystem(string sourceFile)
-	{
-		var builder = new IronyShapeProductionSystemBuilder();
-		this.system = builder.Build(sourceFile);
-		this.system.Axiom = "root";
-		
-		foreach (var item in this.system.Rules)
-		{
-			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
-		}
-	}
-
-	private void BuildStyleConfig()
-	{
-		this.styleConfig = new CommonArchitectureStyleConfig();
-	}
-
-	private void BuildProductionConfiguration()
-	{
-		Debug.Log("======= Building System ========");
-		
-		this.shapeConfiguration = new ShapeConfiguration(this.system.Rules);
-		this.system.Run(this.shapeConfiguration, new List<string> { "2", "3", "4" });
-		
-		Debug.Log("======= Finished Building System ========");
-	}
-
-	private Mesh BuildMesh(IShapeConfiguration configuration)
-	{
-		var meshBuilder = new MeshBuilder();
-
-		configuration.RootNode.TraverseBreadthFirst(node => {
-			var shapeNode = (ShapeNode)node;
-			var vol = shapeNode.Value.Volume;
-
-			if (node.IsLeaf && vol != null)
-			{
-				vol.ApplyStyle(this.styleConfig);
-				vol.BuildMesh(meshBuilder);
-			}
-		});
-
-		var mesh = meshBuilder.BuildMesh();
-		
-		mesh.RecalculateBounds();
-		mesh.RecalculateNormals();
-		mesh.Optimize();
-
-		return mesh;
 	}
 
 	private void BuildGameObject(Mesh mesh)
