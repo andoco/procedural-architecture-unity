@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEngine;
 using System.Text;
 using Andoco.Core.Graph.Tree;
+using UnityEngine;
 using Andoco.Unity.Framework.Core.Meshes;
 
 public class MultipleHouses : MonoBehaviour
 {	
-	private IShapeProductionSystem system;
-	private IStyleConfig styleConfig;
+	private ArchitectureBuilder architectureBuilder = new ArchitectureBuilder();
+	private IStyleConfig styleConfig = new CommonArchitectureStyleConfig();
 
 	private GameObject rootGo;
 
@@ -62,9 +62,6 @@ public class MultipleHouses : MonoBehaviour
 
 	private void ShowSystem()
 	{
-		var asset = (TextAsset)Resources.Load(this.houseSource);
-		var source = asset.text;
-
 		if (this.rootGo != null)
 		{
 			GameObject.Destroy(this.rootGo);
@@ -72,113 +69,16 @@ public class MultipleHouses : MonoBehaviour
 
 		this.rootGo = new GameObject("Architecture");
 
-		try
+		for (int i=0; i < this.numHouses; i++)
 		{
-			BuildProductionSystem(source);
-			BuildStyleConfig();
+			var architecture = architectureBuilder.Build(this.houseSource);
 
-			for (int i=0; i < this.numHouses; i++)
-			{
-				var configuration = BuildProductionConfiguration();
-				var mesh = this.BuildMesh(configuration);
-				var go = BuildGameObject(mesh);
+			var go = BuildGameObject(architecture.Mesh);
 
-				var d = this.maxDist;
-				go.transform.position = new Vector3(Random.Range(-d, d), 0f, Random.Range(-d, d));
-				go.transform.Rotate(Vector3.up, Random.Range(0f, 180f));
-			}
+			var d = this.maxDist;
+			go.transform.position = new Vector3(Random.Range(-d, d), 0f, Random.Range(-d, d));
+			go.transform.Rotate(Vector3.up, Random.Range(0f, 180f));
 		}
-		catch (System.Exception e)
-		{
-			Debug.Log(e);
-		}
-	}
-	
-//	void OnDrawGizmos()
-//	{
-//		if (Application.isPlaying && this.shapeConfiguration != null)
-//		{
-//			this.shapeConfiguration.RootNode.TraverseBreadthFirst(node => {
-//				var shapeNode = (ShapeNode)node;
-//				
-//				if (node.IsLeaf)
-//				{
-//					Gizmos.color = Color.white;
-//				}
-//				else
-//                {
-//                    Gizmos.color = Color.grey;
-//                }
-//                
-//				var vol = shapeNode.Value.Volume;
-//
-//				if (vol != null)
-//				{
-//					vol.DrawGizmos();
-//                }
-//            });
-//        }
-//    }
-	    
-    private void BuildProductionSystem(string sourceFile)
-	{
-		var builder = new IronyShapeProductionSystemBuilder();
-		this.system = builder.Build(sourceFile);
-		this.system.Axiom = "root";
-		
-		foreach (var item in this.system.Rules)
-		{
-			Debug.Log(string.Format("RULE: {0} = {1}", item.Key, item.Value));
-		}
-	}
-
-	private void BuildStyleConfig()
-	{
-		this.styleConfig = new CommonArchitectureStyleConfig();
-	}
-
-	private IShapeConfiguration BuildProductionConfiguration()
-	{
-		Debug.Log("======= Building System ========");
-
-		var args = new List<int> {
-			Random.Range(2, 5),
-			Random.Range(2, 5),
-			Random.Range(4, 8)
-		};
-
-		var shapeConfiguration = new ShapeConfiguration(this.system.Rules);
-		this.system.Run(shapeConfiguration, args.Select(x => x.ToString()).ToList());
-		
-		Debug.Log("======= Finished Building System ========");
-
-		return shapeConfiguration;
-	}
-
-	private Mesh BuildMesh(IShapeConfiguration configuration)
-	{
-		var meshBuilder = new MeshBuilder();
-
-		configuration.RootNode.TraverseBreadthFirst(node => {
-			if (node.IsLeaf)
-			{
-				var shapeNode = (ShapeNode)node;
-				var vol = shapeNode.Value.Volume;
-				if (vol != null)
-				{
-					vol.ApplyStyle(this.styleConfig);
-					vol.BuildMesh(meshBuilder);
-				}
-			}
-		});
-
-		var mesh = meshBuilder.BuildMesh();
-		
-		mesh.RecalculateBounds();
-		mesh.RecalculateNormals();
-		mesh.Optimize();
-
-		return mesh;
 	}
 
 	private GameObject BuildGameObject(Mesh mesh)
