@@ -228,24 +228,29 @@ public class ShapeConfiguration : IShapeConfiguration
 		Debug.Log(string.Format("COMP: {0}, {1}", query, this.CurrentScope.Transform));
 
 		var currentVol = currentNode.Value.Volume;
-		var componentTransforms = currentVol.Query(query);
+		var components = currentVol.Query(query);
 
-		foreach (var trans in componentTransforms)
+		foreach (var cmp in components)
 		{
 			// Get the correct position of the component based on the current scope and volume.
-			var newPos = this.CurrentScope.Transform.Position + (this.CurrentScope.Transform.Rotation * Vector3.Scale(currentVol.Transform.Scale, trans.Position));
+			var newPos = this.CurrentScope.Transform.Position + (this.CurrentScope.Transform.Rotation * Vector3.Scale(currentVol.Transform.Scale, cmp.Transform.Position));
 
 			// Get the correct rotation of the component based on the current scope.
-			var newRot = this.CurrentScope.Transform.Rotation * trans.Rotation;
+			var newRot = this.CurrentScope.Transform.Rotation * cmp.Transform.Rotation;
 
 			// Rotate the volume's scale by the rotation of the component so that we can apply the correct scale to the component.
 			// Rotating a scale vector can result in negative values, so we need to make sure that they are all positive.
-			var s = currentVol.Transform.Scale;
-			s = trans.Rotation * s;
-			s = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
-			var newScale = s;
+//			var s = currentVol.Transform.Scale;
+//			s = cmp.Rotation * s;
+//			s = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
+//			var newScale = s;
+//			var newScale = cmp.AxisMap(currentVol.Transform.Scale);
+			var newScale = cmp.AxisMap(this.CurrentScope.Transform.Scale);
+			newScale = Vector3.Scale(newScale, cmp.Transform.Scale);
+            
+            var newTrans = new SimpleTransform(newPos, newRot, newScale);
 
-			var newTrans = new SimpleTransform(newPos, newRot, newScale);
+			Debug.Log(string.Format("**** {0}", newTrans));
 
 			var node = this.NewNode(this.currentNode);
 			node.Value.Transform = newTrans;

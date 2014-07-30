@@ -10,7 +10,7 @@ public abstract class Volume
 		this.Corners = new List<Corner>();
 		this.Edges = new List<Edge>();
 		this.Faces = new List<Face>();
-		this.Components = new Dictionary<string, SimpleTransform>();
+		this.Components = new List<ScopeComponent>();
 		this.Transform = new SimpleTransform();
 	}
 
@@ -20,7 +20,7 @@ public abstract class Volume
 	
 	public IList<Face> Faces { get; private set; }
 
-	public IDictionary<string, SimpleTransform> Components { get; private set; }
+	public IList<ScopeComponent> Components { get; private set; }
 
 	public SimpleTransform Transform { get; private set; }
 
@@ -41,11 +41,11 @@ public abstract class Volume
 		return this.Faces.Where(f => f.Name.StartsWith(query));
 	}
 
-	public IEnumerable<SimpleTransform> Query(string query)
+	public IEnumerable<ScopeComponent> Query(string query)
 	{
-		var matching = this.Components.Where(c => c.Key.StartsWith(query, StringComparison.InvariantCultureIgnoreCase));
+		var matching = this.Components.Where(c => c.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase));
 
-		return matching.Select(c => c.Value);
+		return matching;
 	}
 	
 	public virtual void ApplyTransform(SimpleTransform transform)

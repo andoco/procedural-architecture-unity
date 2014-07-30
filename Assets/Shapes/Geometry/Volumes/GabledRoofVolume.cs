@@ -38,10 +38,10 @@ public class GabledRoofVolume : Volume
 		this.Faces.Add(new Face("face-end-1", new List<Corner> { this.Corners[0], this.Corners[4], this.Corners[3] }, new SimpleTransform(new Vector3(-0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one)));
 		this.Faces.Add(new Face("face-end-2", new List<Corner> { this.Corners[1], this.Corners[2], this.Corners[5] }, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.back, Vector3.up), Vector3.one)));
 
-		foreach (var face in this.Faces)
-		{
-			this.Components[face.Name] = face.Transform;
-		}
+		this.Components.Add(new ScopeComponent(this.Faces[0].Name, new SimpleTransform(new Vector3(0.25f, 0.5f, 0f), Quaternion.AngleAxis(45f, Vector3.forward), Vector3.one), v => v));
+		this.Components.Add(new ScopeComponent(this.Faces[1].Name, new SimpleTransform(new Vector3(-0.25f, 0.5f, 0f), Quaternion.AngleAxis(-45, Vector3.forward), Vector3.one), v => v));
+		this.Components.Add(new ScopeComponent(this.Faces[2].Name, new SimpleTransform(new Vector3(-0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), Vector3.one), v => v.ToZXY()));
+		this.Components.Add(new ScopeComponent(this.Faces[3].Name, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.back, Vector3.up), Vector3.one), v => v.ToZXY()));
 	}
 
 	public override void ApplyStyle (IStyleConfig styleConfig)

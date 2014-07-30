@@ -9,15 +9,12 @@ public class Face
 	{
 		this.Name = name;
 		this.Corners = corners.ToList();
-		this.Transform = transform;
 		this.Color = Color.grey;
 	}
 
 	public string Name { get; set; }
 	
 	public IList<Corner> Corners { get; private set; }
-
-	public SimpleTransform Transform { get; set; }
 
 	public Color Color { get; set; }
 
