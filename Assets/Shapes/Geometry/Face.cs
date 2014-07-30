@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Face
 {
-	public Face(string name, IEnumerable<Corner> corners, SimpleTransform transform)
+	public Face(string name, IEnumerable<Corner> corners)
 	{
 		this.Name = name;
 		this.Corners = corners.ToList();

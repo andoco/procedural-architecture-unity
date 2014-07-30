@@ -21,7 +21,7 @@ public class FacadeVolume : Volume
 		this.Edges.Add(new Edge("edge-top", this.Corners[3], this.Corners[0]));
 
 		// Faces
-		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }, new SimpleTransform(Vector3.zero, Quaternion.identity, new Vector3(1f, 0f, 1f))));
+		this.Faces.Add(new Face("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }));
 
 		this.Components.Add(new ScopeComponent(this.Faces[0].Name, new SimpleTransform(Vector3.zero, Quaternion.identity, new Vector3(1f, 0f, 1f)), v => v));
 	}
