@@ -132,30 +132,7 @@ public class MultipleHouses : MonoBehaviour
 
 	private void BuildStyleConfig()
 	{
-		var beige = new Color(208f/255f, 197f/255f, 133f/255f);
-		var grey = new Color(110f/255f, 110f/255f, 110f/255f);
-		
-		var styles = new Dictionary<string, IDictionary<string, object>> {
-			{ "facade", new Dictionary<string, object> { 
-					{ "face-color", grey }
-				} 
-			},
-			{ "roof", new Dictionary<string, object> { 
-					{ "top-color", new Color(255f/255f, 195f/255f, 0) },
-					{ "side-color", grey }
-				}
-			},
-			{ "vert", new Dictionary<string, object> { 
-					{ "face-color", grey }
-				} 
-			},
-			{ "horiz", new Dictionary<string, object> { 
-					{ "face-color", beige }
-				} 
-			},
-		};
-		
-		this.styleConfig = new StyleConfig(styles);
+		this.styleConfig = new CommonArchitectureStyleConfig();
 	}
 
 	private IShapeConfiguration BuildProductionConfiguration()
