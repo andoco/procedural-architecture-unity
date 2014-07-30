@@ -155,8 +155,8 @@ public class ShapeConfiguration : IShapeConfiguration
 		var startPos = pos - (rot * startPosAction(scale));
 
 		// Calculate total relative and absolute sizes supplied.
-		float totalRelSize = sizes.Select(x => x.IsRelative ? x.Value : 0f).Sum();
-		float totalAbsSize = sizes.Select(x => x.IsRelative ? 0f : x.Value).Sum();
+		float totalRelSize = Size.SumRelative(sizes);
+		float totalAbsSize = Size.SumAbsolute(sizes);
 
 		for (int i=0; i < sizes.Length; i++)
 		{

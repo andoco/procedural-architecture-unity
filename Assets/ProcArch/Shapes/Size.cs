@@ -33,6 +33,36 @@ public struct Size
 		}
 	}
 
+	public static float SumRelative(IEnumerable<Size> sizes)
+	{
+		var sum = 0f;
+
+		foreach (var s in sizes)
+		{
+			if (s.IsRelative)
+			{
+				sum += s.Value;
+			}
+		}
+
+		return sum;
+	}
+
+	public static float SumAbsolute(IEnumerable<Size> sizes)
+	{
+		var sum = 0f;
+
+		foreach (var s in sizes)
+		{
+			if (!s.IsRelative)
+			{
+				sum += s.Value;
+			}
+		}
+
+		return sum;
+	}
+
 	public override string ToString ()
 	{
 		return string.Format ("[Size: Value={0}, IsRelative={1}]", Value, IsRelative);
