@@ -184,6 +184,7 @@ public class Demo : MonoBehaviour
 	{
 		var beige = new Color(208f/255f, 197f/255f, 133f/255f);
 		var grey = new Color(110f/255f, 110f/255f, 110f/255f);
+		var roofTop = new Color(255f/255f, 195f/255f, 0);
 		
 		var styles = new Dictionary<string, IDictionary<string, object>> {
 			{ "default", new Dictionary<string, object> { 
@@ -195,10 +196,15 @@ public class Demo : MonoBehaviour
 				} 
 			},
 			{ "roof", new Dictionary<string, object> { 
-					{ "top-color", new Color(255f/255f, 195f/255f, 0) },
+					{ "top-color", roofTop },
 					{ "side-color", grey }
 				}
 			},
+			{ "hipped-roof", new Dictionary<string, object> { 
+					{ "top-color", roofTop },
+					{ "side-color", roofTop }
+                }
+            },
 			{ "vert", new Dictionary<string, object> { 
 					{ "face-color", grey }
 				} 
@@ -221,7 +227,7 @@ public class Demo : MonoBehaviour
 		Debug.Log("======= Building System ========");
 		
 		this.shapeConfiguration = new ShapeConfiguration(this.system.Rules);
-		this.system.Run(this.shapeConfiguration, new List<string> { "2", "3", "1" });
+		this.system.Run(this.shapeConfiguration, new List<string> { "2", "3", "4" });
 		
 		Debug.Log("======= Finished Building System ========");
 	}
