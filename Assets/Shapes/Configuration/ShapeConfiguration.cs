@@ -73,12 +73,20 @@ public class ShapeConfiguration : IShapeConfiguration
 		Debug.Log(string.Format("ROTATED: {0} {1}", delta, this.CurrentScope.Transform));
 	}
 	
-	public void ScaleScope(Vector3 scale)
+	public void ScaleScope(Size x, Size y, Size z)
 	{
-		var s = this.CurrentScope.Transform.Scale;
-		s.Scale(scale);
-		this.CurrentScope.Transform.Scale = s;
-		Debug.Log(string.Format("SCALED: {0} {1}", scale, this.CurrentScope.Transform));
+		var currentScale = this.CurrentScope.Transform.Scale;
+
+		var newX = x.IsRelative ? currentScale.x * x.Value : x.Value;
+		var newY = y.IsRelative ? currentScale.y * y.Value : y.Value;
+		var newZ = z.IsRelative ? currentScale.z * z.Value : z.Value;
+
+		this.CurrentScope.Transform.Scale = new Vector3(newX, newY, newZ);
+
+//		var s = this.CurrentScope.Transform.Scale;
+//		s.Scale(scale);
+//		this.CurrentScope.Transform.Scale = s;
+		Debug.Log(string.Format("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
 	}
 
 	public void AddRule(ShapeRule rule, IList<string> args)

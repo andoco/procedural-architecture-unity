@@ -39,8 +39,8 @@ public class ShapeCommand : IShapeCommand
 			configuration.RotateScope(new Vector3(rotAxes[0], rotAxes[1], rotAxes[2]));
 			break;
 		case "Scale":
-			var scaleAxes = configuration.ResolveArgs(this.Arguments).Select(x => float.Parse(x)).ToArray();
-			configuration.ScaleScope(new Vector3(scaleAxes[0], scaleAxes[1], scaleAxes[2]));
+			var scaleSizes = configuration.ResolveArgs(this.Arguments).Select(x => Size.Parse(x)).ToArray();
+			configuration.ScaleScope(scaleSizes[0], scaleSizes[1], scaleSizes[2]);
 			break;
 		case "Push":
 			configuration.PushScope();

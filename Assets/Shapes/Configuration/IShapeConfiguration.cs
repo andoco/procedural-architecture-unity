@@ -32,7 +32,7 @@ public interface IShapeConfiguration
 
 	void RotateScope(Vector3 delta);
 
-	void ScaleScope(Vector3 factor);
+	void ScaleScope(Size x, Size y, Size z);
 
 	void AddRule(ShapeRule rule, IList<string> args);
 	
