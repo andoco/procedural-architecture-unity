@@ -10,6 +10,7 @@ public class Demo : MonoBehaviour
 	private IShapeConfiguration shapeConfiguration;
 	private IStyleConfig styleConfig;
 
+	private Vector2 scrollPos;
 	private const int numColors = 50;
 	private Color[] faceColors = new Color[numColors];
 	private TextAsset[] sourceFiles;
@@ -75,6 +76,17 @@ public class Demo : MonoBehaviour
 		{
 			this.Rotate(-45f);
 		}
+
+		this.scrollPos = GUILayout.BeginScrollView(this.scrollPos, GUILayout.Height(200f));
+		for (int i=0; i < this.sourceFiles.Length; i++)
+		{
+			if (GUILayout.Button(this.sourceFiles[i].name))
+			{
+				this.currentSourceFileIndex = i;
+				this.ShowSystem();
+			}
+		}
+		GUILayout.EndScrollView();
 	}
 
 	private void ShowNext()
