@@ -108,9 +108,7 @@ public class Demo : MonoBehaviour
 
 	private void ShowSystem()
 	{
-		// TODO: Add a ResourceLoader class to Core that caches loaded resources.
 		var asset = this.sourceFiles[this.currentSourceFileIndex];
-		var source = asset.text;
 
 		if (this.sourceGuiText != null)
 			this.sourceGuiText.text = asset.name;
@@ -124,7 +122,7 @@ public class Demo : MonoBehaviour
 
 		try
 		{
-			this.architecture = architectureBuilder.Build(asset.name, new List<string> { "2", "3", "4" });
+			this.architecture = architectureBuilder.Build(asset.name, asset.text, new List<string> { "2", "3", "4" });
 
 			BuildGameObject(this.architecture.Mesh);
 			AddScopeComponentTextMeshes(this.architecture.Configuration);

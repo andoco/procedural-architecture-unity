@@ -12,12 +12,11 @@ public class Architecture
 
 public class ArchitectureBuilder
 {
-	private IDictionary<string, TextAsset> assetCache = new Dictionary<string, TextAsset>();
 	private IDictionary<string, IShapeProductionSystem> productionSystemCache = new Dictionary<string, IShapeProductionSystem>();
 
-	public Architecture Build(string source, IList<string> args)
+	public Architecture Build(string name, string source, IList<string> args)
 	{
-		var system = GetProductionSystem(source);
+		var system = GetProductionSystem(name, source);
 
 		var shapeConfiguration = new ShapeConfiguration(system.Rules);
 		system.Run(shapeConfiguration, args);
@@ -32,31 +31,16 @@ public class ArchitectureBuilder
 		};
 	}
 
-	private string GetSourceContent(string source)
-	{
-		TextAsset asset;
-
-		if (!this.assetCache.TryGetValue(source, out asset))
-		{
-			asset = Resources.Load<TextAsset>(source);
-			this.assetCache.Add(source, asset);
-		}
-		
-		return asset.text;
-	}
-
-	private IShapeProductionSystem GetProductionSystem(string source)
+	private IShapeProductionSystem GetProductionSystem(string name, string source)
 	{
 		IShapeProductionSystem system;
 
-		if (!this.productionSystemCache.TryGetValue(source, out system))
+		if (!this.productionSystemCache.TryGetValue(name, out system))
 		{
-			var sourceContent = GetSourceContent(source);
-
 			var builder = new IronyShapeProductionSystemBuilder();
-			system = builder.Build(sourceContent);
+			system = builder.Build(source);
 			system.Axiom = "root";
-			this.productionSystemCache.Add(source, system);
+			this.productionSystemCache.Add(name, system);
 		}
 
 		return system;

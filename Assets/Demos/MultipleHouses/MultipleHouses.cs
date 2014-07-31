@@ -69,9 +69,11 @@ public class MultipleHouses : MonoBehaviour
 
 		this.rootGo = new GameObject("Architecture");
 
+		var asset = Resources.Load<TextAsset>(this.houseSource);
+
 		for (int i=0; i < this.numHouses; i++)
 		{
-			var architecture = architectureBuilder.Build(this.houseSource, new List<string> { "2", "3", "4" });
+			var architecture = architectureBuilder.Build(asset.name, asset.text, new List<string> { "2", "3", "4" });
 
 			var go = BuildGameObject(architecture.Mesh);
 
