@@ -14,17 +14,27 @@ public class Demo : MonoBehaviour
 	private Vector2 scrollPos;
 	private const int numColors = 50;
 	private TextAsset[] sourceFiles;
-	private int currentSourceFileIndex;
+	private TextAsset currentSourceFile;
 	private GameObject rootGo;
 	
 	public Material material;
 	public GUIText sourceGuiText;
 	public GameObject faceTextPrefab;
-
-	// Use this for initialization
+	public Menu menu;
+	
 	void Start () {
 		this.sourceFiles = Resources.LoadAll<TextAsset>("");
-		this.ShowSystem();
+
+		for (int i=0; i < this.sourceFiles.Length; i++)
+		{
+			var file = this.sourceFiles[i];
+
+			this.menu.AddItem(file.name, () => {
+				this.ShowSystem(file);
+			});
+		}
+
+		this.ShowSystem(this.sourceFiles[0]);
 	}
 
 	void Update()
@@ -38,11 +48,11 @@ public class Demo : MonoBehaviour
 			this.Rotate(-45f);
 		}
 
-		if (Input.GetKeyUp(KeyCode.RightArrow) & this.currentSourceFileIndex < this.sourceFiles.Length - 1)
+		if (Input.GetKeyUp(KeyCode.RightArrow))
 		{
 			this.ShowNext();
 		}
-		else if (Input.GetKeyUp(KeyCode.LeftArrow) && this.currentSourceFileIndex > 0)
+		else if (Input.GetKeyUp(KeyCode.LeftArrow))
 		{
 			this.ShowPrevious();
 		}
@@ -50,9 +60,12 @@ public class Demo : MonoBehaviour
 
 	void OnGUI()
 	{
+		var originalMatrix = GUI.matrix;
 		var screenScale = Screen.width / 960.0f;
 		var scaledMatrix = Matrix4x4.Scale(new Vector3(screenScale,screenScale,screenScale));
 		GUI.matrix = scaledMatrix;
+
+		this.menu.DrawMenuButton();
 
 		if (GUILayout.Button("Previous"))
 		{
@@ -71,33 +84,26 @@ public class Demo : MonoBehaviour
 			this.Rotate(-45f);
 		}
 
-		this.scrollPos = GUILayout.BeginScrollView(this.scrollPos, GUILayout.Height(200f));
-		for (int i=0; i < this.sourceFiles.Length; i++)
-		{
-			if (GUILayout.Button(this.sourceFiles[i].name))
-			{
-				this.currentSourceFileIndex = i;
-				this.ShowSystem();
-			}
-		}
-		GUILayout.EndScrollView();
+		GUI.matrix = originalMatrix;
 	}
 
 	private void ShowNext()
 	{
-		if (this.currentSourceFileIndex < this.sourceFiles.Length - 1)
+		var nextIndex = System.Array.IndexOf(this.sourceFiles, this.currentSourceFile) + 1;
+		if (nextIndex < this.sourceFiles.Length)
 		{
-			this.currentSourceFileIndex += 1;
-			ShowSystem();
+			var nextAsset = this.sourceFiles[nextIndex];
+			this.ShowSystem(nextAsset);
 		}
 	}
 
 	private void ShowPrevious()
 	{
-		if (this.currentSourceFileIndex > 0)
+		var nextIndex = System.Array.IndexOf(this.sourceFiles, this.currentSourceFile) - 1;
+		if (nextIndex >= 0)
 		{
-			this.currentSourceFileIndex -= 1;
-			ShowSystem();
+			var nextAsset = this.sourceFiles[nextIndex];
+			this.ShowSystem(nextAsset);
 		}
 	}
 
@@ -106,9 +112,9 @@ public class Demo : MonoBehaviour
 		Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, amount * Time.deltaTime);
 	}
 
-	private void ShowSystem()
+	private void ShowSystem(TextAsset asset)
 	{
-		var asset = this.sourceFiles[this.currentSourceFileIndex];
+		this.currentSourceFile = asset;
 
 		if (this.sourceGuiText != null)
 			this.sourceGuiText.text = asset.name;

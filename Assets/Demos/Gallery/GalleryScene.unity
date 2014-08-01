@@ -74,6 +74,62 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1001 &692672980
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_RootMapOrder
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: autoDraw
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+      propertyPath: guiLayout
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+  m_RootGameObject: {fileID: 1461897198}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &706375076
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +245,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   sourceGuiText: {fileID: 1755468608}
   faceTextPrefab: {fileID: 100000, guid: 91ae2a3930c054310bfbc1578a98f59b, type: 2}
+  menu: {fileID: 1461897199}
 --- !u!4 &871913584
 Transform:
   m_ObjectHideFlags: 0
@@ -287,6 +344,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1 &1461897198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+  m_PrefabInternal: {fileID: 692672980}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1461897200}
+  - 114: {fileID: 1461897199}
+  m_Layer: 0
+  m_Name: Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1461897199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 2e15f9b8e5b55451d81647de186173d4,
+    type: 2}
+  m_PrefabInternal: {fileID: 692672980}
+  m_GameObject: {fileID: 1461897198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc61522769ce40418a8a46d83e90504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoDraw: 0
+  guiLayout: 1
+  autoClose: 1
+  isOpen: 0
+--- !u!4 &1461897200
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 2e15f9b8e5b55451d81647de186173d4, type: 2}
+  m_PrefabInternal: {fileID: 692672980}
+  m_GameObject: {fileID: 1461897198}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
 --- !u!1 &1755468607
 GameObject:
   m_ObjectHideFlags: 0
