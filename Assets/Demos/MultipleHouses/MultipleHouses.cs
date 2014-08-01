@@ -9,7 +9,6 @@ using Andoco.Unity.Framework.Core.Meshes;
 public class MultipleHouses : MonoBehaviour
 {	
 	private ArchitectureBuilder architectureBuilder = new ArchitectureBuilder();
-	private IStyleConfig styleConfig = new CommonArchitectureStyleConfig();
 
 	private GameObject rootGo;
 
