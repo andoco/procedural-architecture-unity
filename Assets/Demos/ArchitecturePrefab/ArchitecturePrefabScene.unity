@@ -137,6 +137,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1 &957944952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 1334908532}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 957944954}
+  - 114: {fileID: 957944953}
+  m_Layer: 0
+  m_Name: ArchitecturePrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &957944953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1334908532}
+  m_GameObject: {fileID: 957944952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ba5fe3c25324022a3ae46eec9b50e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceName: test
+  sourceContent: 'root ::- Scope.Scale(3, 5, 3) Scope.Vol("box") Scope.Comp("face-vert")
+    { side } Scope.Comp("face-horiz-2") { roof };
+
+    side ::- Scope.Subdiv("Z", 0.5r, 0.5r) { level | level };
+
+    level ::- Scope.Subdiv("X", 0.25r, 0.75, 0.5r, 0.75, 0.25r) { facade | window
+    | facade | window | facade };
+
+    window ::- Scope.Subdiv("Z", 0.5r, 0.1, 1, 0.5r) { windowLower | windowSill |
+    windowMiddle | windowLower };
+
+    windowUpper ::- facade;
+
+    windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", "window");
+
+    windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
+
+    windowLower ::- facade;
+
+    facade ::- Scope.Vol("facade");
+
+    roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol("GabledRoof");'
+  material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  args: []
+--- !u!4 &957944954
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 1334908532}
+  m_GameObject: {fileID: 957944952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &1241082746
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,61 +280,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241082746}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: .258819073, y: 0, z: 0, w: .965925813}
+  m_LocalPosition: {x: 0, y: 10, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1 &1324917381
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
-  m_PrefabInternal: {fileID: 2000050928}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1324917383}
-  - 114: {fileID: 1324917382}
-  m_Layer: 0
-  m_Name: ArchitecturePrefab
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1324917382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff,
-    type: 2}
-  m_PrefabInternal: {fileID: 2000050928}
-  m_GameObject: {fileID: 1324917381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ba5fe3c25324022a3ae46eec9b50e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceName: test
-  sourceContent: 'root ::- box;
-
-    box ::- Scope.Vol("box");
-
-'
-  material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  args: []
---- !u!4 &1324917383
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
-  m_PrefabInternal: {fileID: 2000050928}
-  m_GameObject: {fileID: 1324917381}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
---- !u!1001 &2000050928
+--- !u!1001 &1334908532
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -318,14 +335,31 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: sourceContent
-      value: 'root ::- box;
+      value: 'root ::- Scope.Scale(3, 5, 3) Scope.Vol("box") Scope.Comp("face-vert")
+        { side } Scope.Comp("face-horiz-2") { roof };
 
-        box ::- Scope.Vol("box");
+        side ::- Scope.Subdiv("Z", 0.5r, 0.5r) { level | level };
 
-'
+        level ::- Scope.Subdiv("X", 0.25r, 0.75, 0.5r, 0.75, 0.25r) { facade | window
+        | facade | window | facade };
+
+        window ::- Scope.Subdiv("Z", 0.5r, 0.1, 1, 0.5r) { windowLower | windowSill
+        | windowMiddle | windowLower };
+
+        windowUpper ::- facade;
+
+        windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", "window");
+
+        windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
+
+        windowLower ::- facade;
+
+        facade ::- Scope.Vol("facade");
+
+        roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol("GabledRoof");'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
-  m_RootGameObject: {fileID: 1324917381}
+  m_RootGameObject: {fileID: 957944952}
   m_IsPrefabParent: 0
   m_IsExploded: 1
