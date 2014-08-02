@@ -13,6 +13,17 @@ namespace Andoco.Unity.Framework.Core
         public int horizNodes;
         public int vertNodes;
 
+		public GridSize()
+		{
+		}
+
+		public GridSize(float nodeSize, int width, int depth)
+		{
+			this.nodeSize = nodeSize;
+			this.horizNodes = width;
+			this.vertNodes = depth;
+		}
+
         public Vector3 GetSizeVector()
         {
             return new Vector3(horizNodes * nodeSize, 0f, vertNodes * nodeSize);

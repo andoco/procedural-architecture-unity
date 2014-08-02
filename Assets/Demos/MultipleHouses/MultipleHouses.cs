@@ -5,6 +5,7 @@ using System.Text;
 using Andoco.Core.Graph.Tree;
 using UnityEngine;
 using Andoco.Unity.Framework.Core.Meshes;
+using Andoco.Unity.Framework.Core;
 
 public class MultipleHouses : MonoBehaviour
 {	
@@ -70,15 +71,23 @@ public class MultipleHouses : MonoBehaviour
 
 		var asset = Resources.Load<TextAsset>(this.houseSource);
 
-		for (int i=0; i < this.numHouses; i++)
+		var gridSize = new GridSize(10f, 10, 10);
+		var offset = gridSize.GetSizeVector() * -0.5f;
+
+		for (int x=0; x < gridSize.horizNodes; x++)
 		{
-			var architecture = architectureBuilder.Build(asset.name, asset.text, new List<string> { "2", "3", "4" });
+			for (int y=0; y < gridSize.vertNodes; y++)
+			{
+				var w = 3f + (gridSize.nodeSize - 4f) * Random.value;
+				var d = 3f + (gridSize.nodeSize - 4f) * Random.value;
+				var h = 3f + 3f * Random.value;
+				var architecture = architectureBuilder.Build(asset.name, asset.text, new List<string> { w.ToString(), h.ToString(), d.ToString() });
 
-			var go = BuildGameObject(architecture.Mesh);
+				var pos = offset + new Vector3((float)x * gridSize.nodeSize, 0f, (float)y * gridSize.nodeSize);
+				var go = BuildGameObject(architecture.Mesh);
+				go.transform.position = pos;
 
-			var d = this.maxDist;
-			go.transform.position = new Vector3(Random.Range(-d, d), 0f, Random.Range(-d, d));
-			go.transform.Rotate(Vector3.up, Random.Range(0f, 180f));
+			}
 		}
 	}
 
