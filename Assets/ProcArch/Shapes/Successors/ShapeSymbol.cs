@@ -3,15 +3,16 @@ using System.Linq;
 
 public class ShapeSymbol
 {
-	public ShapeSymbol(string name, IEnumerable<string> args)
+	public ShapeSymbol(string name, IEnumerable<Argument> args)
 	{
+		// TODO: Validate all args as non-named?
 		this.Name = name;
 		this.UnresolvedArgs = args.ToArray();
 	}
 
 	public string Name { get; private set; }
 
-	public string[] UnresolvedArgs { get; private set; }
+	public Argument[] UnresolvedArgs { get; private set; }
 
 	public override string ToString ()
 	{
@@ -20,6 +21,6 @@ public class ShapeSymbol
 
 	private string FormatArgs()
 	{
-		return string.Format("[{0}]", string.Join(",", this.UnresolvedArgs));
+		return string.Format("[{0}]", string.Join(",", this.UnresolvedArgs.Select(x => x.ToString()).ToArray()));
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Andoco.Core.Graph.Tree;
 
@@ -21,7 +22,7 @@ public class ShapeProductionSystem : IShapeProductionSystem
 		if (string.IsNullOrEmpty(this.Axiom))
 			throw new InvalidOperationException("The axiom symbol has not been set");
 
-		configuration.AddRule(this.Rules[this.Axiom], rootArgs);
+		configuration.AddRule(this.Rules[this.Axiom], rootArgs.Select(x => new Argument(x)).ToList());
 		var currentNode = configuration.RootNode;
 
 		while (currentNode != null)

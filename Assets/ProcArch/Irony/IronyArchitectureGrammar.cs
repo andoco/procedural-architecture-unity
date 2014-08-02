@@ -8,6 +8,7 @@ public class IronyArchitectureGrammar : Grammar
 		: base(false)
 	{
 		var dot = ToTerm(".");
+		var colon = ToTerm(":");
 		var push = ToTerm("[");
 		var pop = ToTerm("]");
 
@@ -24,6 +25,8 @@ public class IronyArchitectureGrammar : Grammar
 		successor = new NonTerminal("successor"),
 		command = new NonTerminal("command"),
 		argumentList = new NonTerminal("argumentList"),
+		arg = new NonTerminal("arg"),
+		namedArg = new NonTerminal("namedArg"),
 		atom = new NonTerminal("atom"),
 		commandBlock = new NonTerminal("commandBlock"),
 		ruleList = new NonTerminal("ruleList"),
@@ -40,7 +43,9 @@ public class IronyArchitectureGrammar : Grammar
 		scopeCmd.Rule = "Scope" + dot + ID;
 		simpleCmd.Rule = push | pop;
 		command.Rule = simpleCmd | scopeCmd + "(" + argumentList + ")" + commandBlock;
-		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), atom);
+		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), arg);
+		arg.Rule = atom | namedArg;
+		namedArg.Rule = ID + colon + atom;
 		atom.Rule = NUMBER | STRING | VARIABLE;
 		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;
 		ruleSymbol.Rule = ID + "(" + argumentList + ")" | ID;

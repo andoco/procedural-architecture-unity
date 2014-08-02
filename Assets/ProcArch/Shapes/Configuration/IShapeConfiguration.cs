@@ -37,17 +37,17 @@ public interface IShapeConfiguration
 
 	void ScaleScope(Size x, Size y, Size z);
 
-	void AddRule(ShapeRule rule, IList<string> args);
+	void AddRule(ShapeRule rule, IList<Argument> args);
 	
 	/// <summary>
 	/// Adds a volume to the current scope, transformed according to the current matrix of the scope.
 	/// </summary>
 	/// <param name="name">The name of the volume to add.</param>
-	void AddVolume(string name, string style);
+	void AddVolume(string name, Argument[] args);
 
 	void SplitDivideScope(string axis, Size[] sizes, ShapeSymbol[] shapes);
 
 	void SplitComponent(string query, ShapeSymbol symbol);
 
-	string[] ResolveArgs(IEnumerable<string> unresolvedArgs);
+	Argument[] ResolveArgs(IEnumerable<Argument> unresolvedArgs);
 }

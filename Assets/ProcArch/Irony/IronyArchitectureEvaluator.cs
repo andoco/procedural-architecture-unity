@@ -1,5 +1,6 @@
 using UnityEngine;
 using Irony.Parsing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,7 +43,7 @@ public class IronyArchitectureEvaluator
 		var ruleSymbol = predecessor.FirstChild.Token.Text;
 
 		var argNames = predecessor.ChildNodes.Count > 1
-			? this.GetArgs(predecessor.ChildNodes[1])
+			? this.GetArgs(predecessor.ChildNodes[1]).Select(x => x.Value).ToList()
 			: new List<string>();
 
 		this.currentRule = new ShapeRule();
@@ -60,7 +61,7 @@ public class IronyArchitectureEvaluator
 				var symbolName = child.FirstChild.Token.Text;
 				var symbolArgs = child.ChildNodes.Count > 1
 					? this.GetArgs(child.ChildNodes[1])
-					: new List<string>();
+					: new List<Argument>();
 
 				var symbol = new ShapeSymbol(symbolName, symbolArgs);
 
@@ -106,7 +107,7 @@ public class IronyArchitectureEvaluator
 				{
 					var cmdArgs = child.ChildNodes.Count > 1
 						? this.GetArgs(child.ChildNodes[1])
-						: new List<string>();
+						: new List<Argument>();
 					cmd.Arguments = cmdArgs.ToArray();
 	
 					var shapes = new List<ShapeSymbol>();
@@ -121,7 +122,7 @@ public class IronyArchitectureEvaluator
 							var symbolName = shapeNode.FirstChild.Token.Text;
 							var symbolArgs = shapeNode.ChildNodes.Count > 1
 								? this.GetArgs(shapeNode.ChildNodes[1])
-								: new List<string>();
+								: new List<Argument>();
 
 							shapes.Add(new ShapeSymbol(symbolName, symbolArgs));
 						}
@@ -140,15 +141,32 @@ public class IronyArchitectureEvaluator
 		}
 	}
 
-	private IList<string> GetArgs(ParseTreeNode argsNode)
+	private IList<Argument> GetArgs(ParseTreeNode argsNode)
 	{
-		var args = new List<string>();
+		var args = new List<Argument>();
 		
-		foreach (var argAtomNode in argsNode.ChildNodes)
+		foreach (var argNode in argsNode.ChildNodes)
 		{
-			var argVal = argAtomNode.FirstChild.Token.Text;
-			Debug.Log(string.Format("ARG: {0}", argVal));
-			args.Add(argVal);
+			Argument arg;
+
+			switch (argNode.FirstChild.Term.Name)
+			{
+			case "atom":
+				arg = new Argument(argNode.FirstChild.FirstChild.Token.Text);
+				break;
+			case "namedArg":
+				arg = new Argument(argNode.FirstChild.ChildNodes[0].Token.Text, argNode.FirstChild.ChildNodes[2].ChildNodes[0].Token.Text);
+				break;
+			default:
+				throw new System.InvalidOperationException(string.Format("Unknown arg type: {0}", argNode.Term.Name));
+			}
+//			var argVal = argAtomNode.FirstChild.Token.Text;
+//			Debug.Log(string.Format("ARG: {0}", argVal));
+//			args.Add(argVal);
+
+			Debug.Log(string.Format("ARG: {0}", arg));
+
+			args.Add(arg);
 		}
 		
 		return args;

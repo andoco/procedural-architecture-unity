@@ -22,7 +22,7 @@ public class ShapeNodeValue
 
 	public ShapeRule Rule { get; set; }
 
-	public IList<string> Args { get; set; }
+	public IList<Argument> Args { get; set; }
 
 	public override string ToString ()
 	{

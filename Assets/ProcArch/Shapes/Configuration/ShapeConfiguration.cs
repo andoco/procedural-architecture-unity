@@ -100,7 +100,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		Debug.Log(string.Format("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
 	}
 
-	public void AddRule(ShapeRule rule, IList<string> args)
+	public void AddRule(ShapeRule rule, IList<Argument> args)
 	{
 		Debug.Log(string.Format("RULE: {0}", rule));
 		var node = this.NewNode(this.currentNode);
@@ -110,13 +110,16 @@ public class ShapeConfiguration : IShapeConfiguration
 		this.AddNode(node);
 	}
 	
-	public void AddVolume(string name, string style)
+	public void AddVolume(string name, Argument[] cmdArgs)
 	{
-		Debug.Log(string.Format("VOLUME: {0}, {1}, {2}", name, style, this.CurrentScope.Transform));
+		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
 
 		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true));
-		if (!string.IsNullOrEmpty(style))
-			vol.Style = style;
+//		if (!string.IsNullOrEmpty(style))
+//			vol.Style = style;
+		var style = cmdArgs.SingleOrDefault(x => x.Name == "style");
+		if (style != null)
+			vol.Style = style.Value;
 		vol.ApplyTransform(this.CurrentScope.Transform);
 
 		this.currentNode.Value.Volume = vol;
@@ -235,27 +238,27 @@ public class ShapeConfiguration : IShapeConfiguration
 		}
 	}
 
-	public string[] ResolveArgs(IEnumerable<string> unresolvedArgs)
+	public Argument[] ResolveArgs(IEnumerable<Argument> unresolvedArgs)
 	{
-		var resolvedArgs = new List<string>();
+		var resolvedArgs = new List<Argument>();
 		
 		foreach (var arg in unresolvedArgs)
 		{
-			if (this.CurrentNode.Value.Rule.ArgNames.Contains(arg))
+			if (this.CurrentNode.Value.Rule.ArgNames.Contains(arg.Value))
 			{
 				// Variable argument value.
-				var argIndex = this.CurrentNode.Value.Rule.ArgNames.IndexOf(arg);
+				var argIndex = this.CurrentNode.Value.Rule.ArgNames.IndexOf(arg.Value);
 				var argVal = this.CurrentNode.Value.Args[argIndex];
-				resolvedArgs.Add(argVal);
+				resolvedArgs.Add(new Argument(arg.Name, argVal.Value));
 			}
-			else if (this.globalArgs.ContainsKey(arg))
+			else if (this.globalArgs.ContainsKey(arg.Value))
 			{
-				resolvedArgs.Add(this.globalArgs[arg]);
+				resolvedArgs.Add(new Argument(arg.Name, this.globalArgs[arg.Value]));
 			}
 			else
 			{
 				// Literal argument value.
-				resolvedArgs.Add(arg);
+				resolvedArgs.Add(new Argument(arg.Name, arg.Value));
 			}
 		}
 		
