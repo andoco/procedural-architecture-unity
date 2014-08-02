@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Andoco.Unity.Framework.Core.Meshes;
+using System.Text.RegularExpressions;
 
 public abstract class Volume
 {
@@ -45,7 +46,7 @@ public abstract class Volume
 
 	public IEnumerable<ScopeComponent> Query(string query)
 	{
-		var matching = this.Components.Where(c => c.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase));
+		var matching = this.Components.Where(c => Regex.IsMatch(c.Name, query));
 
 		return matching;
 	}
