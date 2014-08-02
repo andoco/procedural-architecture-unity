@@ -45,7 +45,7 @@ public class IronyArchitectureGrammar : Grammar
 		command.Rule = simpleCmd | scopeCmd + "(" + argumentList + ")" + commandBlock;
 		argumentList.Rule = MakeStarRule(argumentList, ToTerm(","), arg);
 		arg.Rule = atom | namedArg;
-		namedArg.Rule = ID + colon + atom;
+		namedArg.Rule = VARIABLE + colon + atom;
 		atom.Rule = NUMBER | STRING | VARIABLE;
 		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;
 		ruleSymbol.Rule = ID + "(" + argumentList + ")" | ID;

@@ -15,14 +15,17 @@ public class HippedRoofVolume : Volume
 
 	public override void OnBuildVolume(Argument[] args)
 	{
+		var hipDistArg = args.SingleOrDefault(x => x.Name != null && x.Name.Equals("hipDist", StringComparison.InvariantCultureIgnoreCase));
+		var hipDist = hipDistArg == null ? 0.25f : float.Parse(hipDistArg.Value);
+
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-2", new Vector3(0.5f, 0f, -0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-3", new Vector3(-0.5f, 0f, -0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-4", new Vector3(-0.5f, 0f, 0.5f)));
 		
-		this.Corners.Add(new Corner("corner-top-1", new Vector3(0f, 1f, 0.3f)));
-		this.Corners.Add(new Corner("corner-top-2", new Vector3(0f, 1f, -0.3f)));
+		this.Corners.Add(new Corner("corner-top-1", new Vector3(0f, 1f, hipDist)));
+		this.Corners.Add(new Corner("corner-top-2", new Vector3(0f, 1f, -hipDist)));
 		
 		// Edges
 		this.Edges.Add(new Edge("edge-bottom-1", this.Corners[0], this.Corners[1]));
