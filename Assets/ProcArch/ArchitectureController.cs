@@ -33,25 +33,7 @@ public class ArchitectureController : MonoBehaviour {
 	{
 		if (Application.isPlaying && this.architecture != null)
 		{
-			this.architecture.Configuration.RootNode.TraverseBreadthFirst(node => {
-				var shapeNode = (ShapeNode)node;
-				
-				if (node.IsLeaf)
-				{
-					Gizmos.color = Color.white;
-				}
-				else
-				{
-					Gizmos.color = Color.grey;
-				}
-				
-				var vol = shapeNode.Value.Volume;
-				
-				if (vol != null)
-				{
-					vol.DrawGizmos();
-				}
-			});
+			this.architecture.Configuration.DrawGizmos();
 		}
 	}
 }
