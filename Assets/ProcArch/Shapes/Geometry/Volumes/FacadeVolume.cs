@@ -9,6 +9,8 @@ public class FacadeVolume : Volume
 	public FacadeVolume()
 		: base()
 	{
+		this.Style = "facade";
+
 		// Corners
 		this.Corners.Add(new Corner("corner-top-right", new Vector3(0.5f, 0f, 0.5f)));
 		this.Corners.Add(new Corner("corner-bottom-right", new Vector3(0.5f, 0f, -0.5f)));
