@@ -127,7 +127,7 @@ public class ShapeConfiguration : IShapeConfiguration
 		Func<float, Vector3> deltaAction;
 		Func<float, Vector3> newScaleAction;
 
-		switch (axis)
+		switch (axis.ToUpper())
 		{
 		case "X":
 			axisScaleFunc = (v) => v.x;
