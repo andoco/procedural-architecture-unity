@@ -50,6 +50,17 @@ public abstract class Volume
 
 		return matching;
 	}
+
+	public void BuildVolume(Argument[] args)
+	{
+		var style = args.SingleOrDefault(x => x.Name == "style");
+		if (style != null)
+			this.Style = style.Value;
+
+		this.OnBuildVolume(args);
+	}
+
+	public abstract void OnBuildVolume(Argument[] args);
 	
 	public virtual void ApplyTransform(SimpleTransform transform)
 	{
