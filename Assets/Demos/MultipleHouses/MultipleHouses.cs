@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Andoco.Core.Graph.Tree;
 using UnityEngine;
+using Andoco.Core;
 using Andoco.Unity.Framework.Core.Meshes;
 using Andoco.Unity.Framework.Core;
 
@@ -74,16 +75,18 @@ public class MultipleHouses : MonoBehaviour
 		var gridSize = new GridSize(10f, 10, 10);
 		var offset = gridSize.GetSizeVector() * -0.5f;
 
+		var roofs = new [] { "GabledRoof", "HippedRoof", "MansardRoof" };
+
 		for (int x=0; x < gridSize.horizNodes; x++)
 		{
 			for (int y=0; y < gridSize.vertNodes; y++)
 			{
 				var w = 3f + (gridSize.nodeSize - 4f) * Random.value;
 				var d = 3f + (gridSize.nodeSize - 4f) * Random.value;
-				var h = 3f + 3f * Random.value;
+				var h = 3f + 5f * Random.value;
 
 				var rootArgs = new List<string> { w.ToString(), h.ToString(), d.ToString() };
-				var globalArgs = new Dictionary<string, string>();
+				var globalArgs = new Dictionary<string, string> { { "roof", roofs.PickRandom(UnityRandomNumber.Instance) } };
 
 				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
 

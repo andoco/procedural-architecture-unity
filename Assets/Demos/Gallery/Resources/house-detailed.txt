@@ -11,4 +11,4 @@ windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", "window");
 windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
 windowLower ::- facade;
 facade ::- Scope.Vol("facade");
-roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol("GabledRoof");
+roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof);
