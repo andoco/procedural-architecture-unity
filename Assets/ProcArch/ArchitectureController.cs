@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Andoco.Core;
 using Andoco.Core.Graph.Tree;
 
 public class ArchitectureController : MonoBehaviour {
@@ -12,7 +13,8 @@ public class ArchitectureController : MonoBehaviour {
 	public string sourceName;
 	public string sourceContent;
 	public Material material;
-	public string[] args;
+	public string rootArgs;
+	public string globalArgs;
 	
 	void Start()
 	{
@@ -21,7 +23,11 @@ public class ArchitectureController : MonoBehaviour {
 			throw new ArgumentException("Requires sourceName and sourceContent");
 		}
 
-		this.architecture = this.architectureBuilder.Build(this.sourceName, this.sourceContent, this.args.ToList());
+		this.architecture = this.architectureBuilder.Build(
+			this.sourceName, 
+			this.sourceContent, 
+			this.rootArgs == null ? new List<string>() : this.rootArgs.Split(',').ToList(), 
+			this.globalArgs.ParseCsv());
 
 		var meshFilter = this.gameObject.AddComponent<MeshFilter>();
 		var meshRenderer = this.gameObject.AddComponent<MeshRenderer>();

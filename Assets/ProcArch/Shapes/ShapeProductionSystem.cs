@@ -16,12 +16,12 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 	public string Axiom { get; set; }
 
-	public void Run(IShapeConfiguration configuration, IList<string> args)
+	public void Run(IShapeConfiguration configuration, IList<string> rootArgs)
 	{
 		if (string.IsNullOrEmpty(this.Axiom))
 			throw new InvalidOperationException("The axiom symbol has not been set");
 
-		configuration.AddRule(this.Rules[this.Axiom], args);
+		configuration.AddRule(this.Rules[this.Axiom], rootArgs);
 		var currentNode = configuration.RootNode;
 
 		while (currentNode != null)

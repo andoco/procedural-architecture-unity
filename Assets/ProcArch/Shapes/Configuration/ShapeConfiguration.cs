@@ -10,6 +10,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	private readonly Stack<IScope> scopeStack = new Stack<IScope>();
 	private int counter;
 	private readonly IDictionary<string, ShapeRule> rules;
+	private readonly IDictionary<string, string> globalArgs = new Dictionary<string, string>();
 	private ShapeNode currentNode;
 
 	public ShapeConfiguration(IDictionary<string, ShapeRule> rules)
@@ -42,6 +43,14 @@ public class ShapeConfiguration : IShapeConfiguration
 		get
 		{
 			return this.currentNode;
+		}
+	}
+
+	public void AddGlobalArgs(IDictionary<string, string> args)
+	{
+		foreach (var arg in args)
+		{
+			this.globalArgs.Add(arg);
 		}
 	}
 	
@@ -238,6 +247,10 @@ public class ShapeConfiguration : IShapeConfiguration
 				var argIndex = this.CurrentNode.Value.Rule.ArgNames.IndexOf(arg);
 				var argVal = this.CurrentNode.Value.Args[argIndex];
 				resolvedArgs.Add(argVal);
+			}
+			else if (this.globalArgs.ContainsKey(arg))
+			{
+				resolvedArgs.Add(this.globalArgs[arg]);
 			}
 			else
 			{

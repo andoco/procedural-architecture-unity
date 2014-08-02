@@ -128,7 +128,10 @@ public class Demo : MonoBehaviour
 
 		try
 		{
-			this.architecture = architectureBuilder.Build(asset.name, asset.text, new List<string> { "2", "3", "4" });
+			var rootArgs = new List<string> { "2", "3", "4" };
+			var globalArgs = new Dictionary<string, string>();
+
+			this.architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
 
 			BuildGameObject(this.architecture.Mesh);
 			AddScopeComponentTextMeshes(this.architecture.Configuration);

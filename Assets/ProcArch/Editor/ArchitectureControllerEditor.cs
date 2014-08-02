@@ -15,6 +15,12 @@ public class TestUI : Editor {
 		EditorGUILayout.LabelField("Architecture Source");
 		arch.sourceContent = EditorGUILayout.TextArea(arch.sourceContent);
 
+		EditorGUILayout.LabelField("Root Args");
+		arch.rootArgs = EditorGUILayout.TextField(arch.rootArgs);
+
+		EditorGUILayout.LabelField("Global Args");
+		arch.globalArgs = EditorGUILayout.TextField(arch.globalArgs);
+
 		EditorUtility.SetDirty(arch);
 	}
 }

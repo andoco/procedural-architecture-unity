@@ -14,12 +14,13 @@ public class ArchitectureBuilder
 {
 	private IDictionary<string, IShapeProductionSystem> productionSystemCache = new Dictionary<string, IShapeProductionSystem>();
 
-	public Architecture Build(string name, string source, IList<string> args)
+	public Architecture Build(string name, string source, IList<string> rootArgs, IDictionary<string, string> globalArgs)
 	{
 		var system = GetProductionSystem(name, source);
 
 		var shapeConfiguration = new ShapeConfiguration(system.Rules);
-		system.Run(shapeConfiguration, args);
+		shapeConfiguration.AddGlobalArgs(globalArgs);
+		system.Run(shapeConfiguration, rootArgs);
 
 		var styleConfig = new CommonArchitectureStyleConfig();
 		var mesh = BuildMesh(shapeConfiguration, styleConfig);

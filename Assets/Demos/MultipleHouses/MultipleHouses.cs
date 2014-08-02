@@ -81,7 +81,11 @@ public class MultipleHouses : MonoBehaviour
 				var w = 3f + (gridSize.nodeSize - 4f) * Random.value;
 				var d = 3f + (gridSize.nodeSize - 4f) * Random.value;
 				var h = 3f + 3f * Random.value;
-				var architecture = architectureBuilder.Build(asset.name, asset.text, new List<string> { w.ToString(), h.ToString(), d.ToString() });
+
+				var rootArgs = new List<string> { w.ToString(), h.ToString(), d.ToString() };
+				var globalArgs = new Dictionary<string, string>();
+
+				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
 
 				var pos = offset + new Vector3((float)x * gridSize.nodeSize, 0f, (float)y * gridSize.nodeSize);
 				var go = BuildGameObject(architecture.Mesh);

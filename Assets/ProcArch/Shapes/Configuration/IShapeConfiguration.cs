@@ -23,6 +23,8 @@ public interface IShapeConfiguration
 
 	ShapeNode CurrentNode { get; set; }
 
+	void AddGlobalArgs(IDictionary<string, string> args);
+
 	void PushScope();
 
 	void PopScope();
