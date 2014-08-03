@@ -36,6 +36,16 @@ public class CylinderVolume : Volume
 			{
 				this.Faces.Add(new Face(string.Format("face-side-{0}", i), new List<Corner> { this.Corners[numCorners - 4], this.Corners[numCorners - 2], this.Corners[numCorners - 1], this.Corners[numCorners - 3] }));
 			}
+
+			if (i > 0)
+			{
+				var lastFace = this.Faces.Last();
+				
+				this.Components.Add(
+					new ScopeComponent(
+					string.Format("face-side-{0}", i),
+					new SimpleTransform(lastFace.GetCentre(), Quaternion.LookRotation(Vector3.up, Vector3.right), new Vector3(1f, 0f, 1f)), x => x.ToZXY()));
+			}
 		}
 
 //		// right
