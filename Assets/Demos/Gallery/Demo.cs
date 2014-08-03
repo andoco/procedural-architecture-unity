@@ -146,7 +146,7 @@ public class Demo : MonoBehaviour
 	{
 		if (Application.isPlaying && this.architecture != null)
 		{
-			this.architecture.Configuration.DrawGizmos();
+			this.architecture.Configuration.DrawGizmos(this.rootGo.transform);
         }
 	}
 

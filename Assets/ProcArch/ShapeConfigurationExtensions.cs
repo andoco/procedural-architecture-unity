@@ -3,7 +3,7 @@ using Andoco.Core.Graph.Tree;
 
 public static class ShapeConfigurationExtensions
 {
-	public static void DrawGizmos(this IShapeConfiguration configuration)
+	public static void DrawGizmos(this IShapeConfiguration configuration, Transform parent)
 	{
 		configuration.RootNode.TraverseBreadthFirst(node => {
 			var shapeNode = (ShapeNode)node;
@@ -21,7 +21,7 @@ public static class ShapeConfigurationExtensions
 			
 			if (vol != null)
 			{
-				vol.DrawGizmos();
+				vol.DrawGizmos(parent);
 			}
 		});
 	}
