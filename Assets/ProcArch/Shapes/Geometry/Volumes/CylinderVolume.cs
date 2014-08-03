@@ -12,9 +12,12 @@ public class CylinderVolume : Volume
 		var segmentsArg = args.SingleOrDefault(x => x.Name != null && x.Name.Equals("segments", StringComparison.InvariantCultureIgnoreCase));
 		var segments = segmentsArg == null ? 8 : int.Parse(segmentsArg.Value);
 
+		var angleDelta = Mathf.PI * 2f / segments;
+		var segWidth = Mathf.Sin(angleDelta/2f);
+
 		for (int i=0; i <= segments; i++)
 		{
-			var a = Mathf.PI * 2f / segments * -i;
+			var a = angleDelta * -i;
 
 			var p1 = new Vector3(Mathf.Cos(a) * 0.5f, 0f, Mathf.Sin(a) * 0.5f);
 			var p2 = new Vector3(Mathf.Cos(a) * 0.5f, 1f, Mathf.Sin(a) * 0.5f);
@@ -40,26 +43,16 @@ public class CylinderVolume : Volume
 			if (i > 0)
 			{
 				var lastFace = this.Faces.Last();
+
+				var upDir = lastFace.GetCentre();
+				upDir.y = 0;
 				
 				this.Components.Add(
 					new ScopeComponent(
 					string.Format("face-side-{0}", i),
-					new SimpleTransform(lastFace.GetCentre(), Quaternion.LookRotation(Vector3.up, Vector3.right), new Vector3(1f, 0f, 1f)), x => x.ToZXY()));
+					new SimpleTransform(lastFace.GetCentre(), Quaternion.LookRotation(Vector3.up, upDir), new Vector3(segWidth, 0f, 1f)), x => x.ToZXY()));
 			}
 		}
-
-//		// right
-//		this.Components.Add(new ScopeComponent("face-vert-1", new SimpleTransform(new Vector3(0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.up, Vector3.right), new Vector3(1f, 0f, 1f)), x => x.ToZXY()));
-//		// left
-//		this.Components.Add(new ScopeComponent("face-vert-3", new SimpleTransform(new Vector3(-0.5f, 0.5f, 0f), Quaternion.LookRotation(Vector3.up, Vector3.left), new Vector3(1f, 0f, 1f)), x => x.ToZXY()));
-//		// forward
-//		this.Components.Add(new ScopeComponent("face-vert-4", new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.up, Vector3.forward), new Vector3(1f, 0f, 1f)), x => x.ToXZY()));
-//		// backward
-//		this.Components.Add(new ScopeComponent("face-vert-2", new SimpleTransform(new Vector3(0f, 0.5f, -0.5f), Quaternion.LookRotation(Vector3.up, Vector3.back), new Vector3(1f, 0f, 1f)), x => x.ToXZY()));
-//		// down
-//		this.Components.Add(new ScopeComponent("face-horiz-1", new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), new Vector3(1f, 0f, 1f)), x => x));
-//		// up
-//		this.Components.Add(new ScopeComponent("face-horiz-2", new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 0f, 1f)), x => x));
 	}
 
 	public override void ApplyStyle (IStyleConfig styleConfig)
