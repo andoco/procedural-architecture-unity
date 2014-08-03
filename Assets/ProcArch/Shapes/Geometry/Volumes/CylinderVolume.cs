@@ -7,7 +7,7 @@ using Andoco.Unity.Framework.Core.Meshes;
 
 public class CylinderVolume : Volume
 {
-	public override void OnBuildVolume(Argument[] args)
+	protected override void OnBuildVolume(Argument[] args)
 	{
 		var segmentsArg = args.SingleOrDefault(x => x.Name != null && x.Name.Equals("segments", StringComparison.InvariantCultureIgnoreCase));
 		var segments = segmentsArg == null ? 8 : int.Parse(segmentsArg.Value);
@@ -65,7 +65,7 @@ public class CylinderVolume : Volume
         
     }
     
-    public override void ApplyStyle (IStyleConfig styleConfig)
+    protected override void ApplyStyle (IStyleConfig styleConfig)
 	{
 		var faceColor = styleConfig.GetColor(this.Style, "face-color");
 

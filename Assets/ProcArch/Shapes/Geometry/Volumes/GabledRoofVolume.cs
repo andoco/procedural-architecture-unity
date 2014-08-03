@@ -13,7 +13,7 @@ public class GabledRoofVolume : Volume
 		this.Style = "sided-roof";
 	}
 
-	public override void OnBuildVolume(Argument[] args)
+	protected override void OnBuildVolume(Argument[] args)
 	{
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));
@@ -51,7 +51,7 @@ public class GabledRoofVolume : Volume
 		this.Components.Add(new ScopeComponent(this.Faces[3].Name, new SimpleTransform(new Vector3(0f, 0.5f, 0.5f), Quaternion.LookRotation(Vector3.back, Vector3.up), new Vector3(1f, 0f, 1f)), v => v.ToZXY()));
 	}
 
-	public override void ApplyStyle (IStyleConfig styleConfig)
+	protected override void ApplyStyle (IStyleConfig styleConfig)
 	{
 		var topColor = styleConfig.GetColor(this.Style, "top-color");
 		var sideColor = styleConfig.GetColor(this.Style, "side-color");

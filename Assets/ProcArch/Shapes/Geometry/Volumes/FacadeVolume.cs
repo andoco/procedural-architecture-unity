@@ -12,7 +12,7 @@ public class FacadeVolume : Volume
 		this.Style = "facade";
 	}
 
-	public override void OnBuildVolume(Argument[] args)
+	protected override void OnBuildVolume(Argument[] args)
 	{
 		// Corners
 		this.Corners.Add(new Corner("corner-top-right", new Vector3(0.5f, 0f, 0.5f)));
@@ -32,7 +32,7 @@ public class FacadeVolume : Volume
 		this.Components.Add(new ScopeComponent(this.Faces[0].Name, new SimpleTransform(Vector3.zero, Quaternion.identity, new Vector3(1f, 0f, 1f)), v => v));
 	}
 
-	public override void ApplyStyle(IStyleConfig styleConfig)
+	protected override void ApplyStyle(IStyleConfig styleConfig)
 	{
 		this.Faces[0].Color = styleConfig.GetColor(this.Style, "face-color");
 	}	

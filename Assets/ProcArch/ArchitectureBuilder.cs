@@ -55,8 +55,7 @@ public class ArchitectureBuilder
 			
 			if (node.IsLeaf && vol != null)
 			{
-				vol.ApplyStyle(styleConfig);
-				vol.BuildMesh(meshBuilder);
+				vol.BuildMesh(meshBuilder, styleConfig);
 			}
 		});
 		

@@ -7,7 +7,7 @@ using Andoco.Unity.Framework.Core.Meshes;
 
 public class ConeVolume : Volume
 {
-	public override void OnBuildVolume(Argument[] args)
+	protected override void OnBuildVolume(Argument[] args)
 	{
 		var segmentsArg = args.SingleOrDefault(x => x.Name != null && x.Name.Equals("segments", StringComparison.InvariantCultureIgnoreCase));
 		var segments = segmentsArg == null ? 8 : int.Parse(segmentsArg.Value);
@@ -59,7 +59,7 @@ public class ConeVolume : Volume
 		this.Components.Add(new ScopeComponent("face-bottom", new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), new Vector3(1f, 0f, 1f)), x => x));
     }
     
-    public override void ApplyStyle(IStyleConfig styleConfig)
+    protected override void ApplyStyle(IStyleConfig styleConfig)
 	{
 		var faceColor = styleConfig.GetColor(this.Style, "face-color");
 

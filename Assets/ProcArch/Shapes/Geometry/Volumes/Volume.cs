@@ -50,17 +50,17 @@ public abstract class Volume
 
 		return matching;
 	}
-
+	
 	public void BuildVolume(Argument[] args)
 	{
+		this.ApplyArguments(args);
+
 		var style = args.SingleOrDefault(x => x.Name == "style");
 		if (style != null)
 			this.Style = style.Value;
 
 		this.OnBuildVolume(args);
 	}
-
-	public abstract void OnBuildVolume(Argument[] args);
 	
 	public virtual void ApplyTransform(SimpleTransform transform)
 	{
@@ -69,12 +69,10 @@ public abstract class Volume
 		this.Transform.Scale = transform.Scale;
 	}
 
-	public virtual void ApplyStyle(IStyleConfig styleConfig)
+	public virtual void BuildMesh(IMeshBuilder meshBuilder, IStyleConfig styleConfig)
 	{
-	}
-	
-	public virtual void BuildMesh(IMeshBuilder meshBuilder)
-	{
+		this.ApplyStyle(styleConfig);
+
 		var baseIndex = meshBuilder.Vertices.Count;
 		
 		foreach (var face in this.Faces)
@@ -108,10 +106,10 @@ public abstract class Volume
 		}
 	}
 
-	public Mesh BuildMesh()
+	public Mesh BuildMesh(IStyleConfig styleConfig)
 	{
 		var meshBuilder = new MeshBuilder();
-		this.BuildMesh(meshBuilder);
+		this.BuildMesh(meshBuilder, styleConfig);
 
 		var mesh = meshBuilder.BuildMesh();
 
@@ -121,4 +119,18 @@ public abstract class Volume
 
 		return mesh;
 	}
+
+	#region Protected methods
+
+	protected virtual void ApplyArguments(Argument[] args)
+	{
+	}
+	
+	protected abstract void OnBuildVolume(Argument[] args);
+	
+	protected virtual void ApplyStyle(IStyleConfig styleConfig)
+	{
+	}
+
+	#endregion
 }

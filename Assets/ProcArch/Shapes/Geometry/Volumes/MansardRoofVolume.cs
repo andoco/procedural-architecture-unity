@@ -13,7 +13,7 @@ public class MansardRoofVolume : Volume
 		this.Style = "roof";
 	}
 
-	public override void OnBuildVolume (Argument[] args)
+	protected override void OnBuildVolume (Argument[] args)
 	{
 		// Corners
 		this.Corners.Add(new Corner("corner-bottom-1", new Vector3(0.5f, 0f, 0.5f)));
@@ -66,7 +66,7 @@ public class MansardRoofVolume : Volume
 		this.Components.Add(new ScopeComponent("face-horiz-2", new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 0f, 1f)), x => x));
 	}
 
-	public override void ApplyStyle (IStyleConfig styleConfig)
+	protected override void ApplyStyle (IStyleConfig styleConfig)
 	{
 		var faceColor = styleConfig.GetColor(this.Style, "face-color");
 
