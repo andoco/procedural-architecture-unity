@@ -39,9 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ba5fe3c25324022a3ae46eec9b50e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: house2
-  material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  args: []
+  sourceName: 
+  sourceContent: 
+  material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
+  rootArgs: 
+  globalArgs: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

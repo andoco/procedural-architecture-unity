@@ -21,6 +21,8 @@ public class TestUI : Editor {
 		EditorGUILayout.LabelField("Global Args");
 		arch.globalArgs = EditorGUILayout.TextField(arch.globalArgs);
 
+		arch.material = (Material)EditorGUILayout.ObjectField("Material", arch.material, typeof(Material));
+
 		EditorUtility.SetDirty(arch);
 	}
 }
