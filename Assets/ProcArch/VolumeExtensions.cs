@@ -40,6 +40,16 @@ public static class VolumeExtensions
 		}
 	}
 
+	public static void DrawComponentGizmos(this Volume vol, Transform parent)
+	{
+		foreach (var c in vol.Components)
+		{
+			var world = vol.LocalToWorldPos(c.Transform.Position, parent);
+			
+			Gizmos.DrawWireSphere(world, 0.05f);
+		}
+	}
+
 	/// <summary>
 	/// Transforms a point in the volume's local space to a point in the space of a parent <see cref="Transform"/>.
 	/// </summary>
