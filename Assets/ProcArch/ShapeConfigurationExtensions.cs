@@ -22,6 +22,8 @@ public static class ShapeConfigurationExtensions
 			if (vol != null)
 			{
 				vol.DrawGizmos(parent);
+				vol.DrawCornerGizmos(parent);
+				vol.DrawEdgeGizmos(parent);
 			}
 		});
 	}

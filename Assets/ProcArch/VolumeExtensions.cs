@@ -18,4 +18,40 @@ public static class VolumeExtensions
 		Gizmos.color = Color.blue;
 		Gizmos.DrawLine(p1, p1 + rot * Vector3.Scale(Vector3.forward, lineScale));
 	}
+
+	public static void DrawCornerGizmos(this Volume vol, Transform parent)
+	{
+		foreach (var c in vol.Corners)
+		{
+			var world = vol.LocalToWorldPos(c.Position, parent);
+
+			Gizmos.DrawSphere(world, 0.025f);
+		}
+	}
+
+	public static void DrawEdgeGizmos(this Volume vol, Transform parent)
+	{
+		foreach (var e in vol.Edges)
+		{
+			var p1 = vol.LocalToWorldPos(e.CornerA.Position, parent);
+			var p2 = vol.LocalToWorldPos(e.CornerB.Position, parent);
+
+			Gizmos.DrawLine(p1, p2);
+		}
+	}
+
+	/// <summary>
+	/// Transforms a point in the volume's local space to a point in the space of a parent <see cref="Transform"/>.
+	/// </summary>
+	/// <returns>The to world position.</returns>
+	/// <param name="vol">Vol.</param>
+	/// <param name="p">Vector to find the world position of.</param>
+	/// <param name="parent">Parent transform of the volume.</param>
+	public static Vector3 LocalToWorldPos(this Volume vol, Vector3 p, Transform parent)
+	{
+		var local = vol.Transform.Position + (vol.Transform.Rotation * Vector3.Scale(p, vol.Transform.Scale));
+		var world = parent.transform.position + parent.transform.rotation * local;
+
+		return world;
+	}
 }
