@@ -7,16 +7,7 @@ public static class ShapeConfigurationExtensions
 	{
 		configuration.RootNode.TraverseBreadthFirst(node => {
 			var shapeNode = (ShapeNode)node;
-			
-			if (node.IsLeaf)
-			{
-				Gizmos.color = Color.white;
-			}
-			else
-			{
-				Gizmos.color = Color.grey;
-			}
-			
+
 			var vol = shapeNode.Value.Volume;
 			
 			if (vol != null)
@@ -24,6 +15,7 @@ public static class ShapeConfigurationExtensions
 				vol.DrawGizmos(parent);
 				vol.DrawCornerGizmos(parent);
 				vol.DrawEdgeGizmos(parent);
+				vol.DrawComponentGizmos(parent);
 			}
 		});
 	}
