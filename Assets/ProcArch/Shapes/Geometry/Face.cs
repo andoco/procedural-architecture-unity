@@ -18,11 +18,11 @@ public class Face
 
 	public Color Color { get; set; }
 
-//	public Vector3 GetCentre()
-//	{
-////		var sum = this.Corners.Sum(x => x.Position);
-//		var x = this.Corners.Aggregate(Vector3.zero, (accum, c) => accum += c.Position);
-//
-//		return x / this.Corners.Count;
-//	}
+	public Vector3 GetCentre()
+	{
+//		var sum = this.Corners.Sum(x => x.Position);
+		var x = this.Corners.Aggregate(Vector3.zero, (accum, c) => accum += c.Position);
+
+		return x / this.Corners.Count;
+	}
 }
