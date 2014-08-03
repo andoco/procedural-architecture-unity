@@ -11,18 +11,24 @@ public class ShapeProductionSystem : IShapeProductionSystem
 	public ShapeProductionSystem()
 	{
 		this.Rules = new Dictionary<string, ShapeRule>();
+		this.DefaultArgs = new Dictionary<string, string>();
 	}
 	
 	public IDictionary<string, ShapeRule> Rules { get; private set; }
 
+	public IDictionary<string, string> DefaultArgs { get; private set; }
+
 	public string Axiom { get; set; }
 
-	public void Run(IShapeConfiguration configuration, IList<string> rootArgs)
+	public void Run(IShapeConfiguration configuration, IList<string> rootArgs, IDictionary<string, string> globalArgs)
 	{
 		if (string.IsNullOrEmpty(this.Axiom))
 			throw new InvalidOperationException("The axiom symbol has not been set");
 
 		configuration.AddRule(this.Rules[this.Axiom], rootArgs.Select(x => new Argument(x)).ToList());
+		configuration.AddGlobalArgs(this.DefaultArgs);
+		configuration.AddGlobalArgs(globalArgs);
+
 		var currentNode = configuration.RootNode;
 
 		while (currentNode != null)

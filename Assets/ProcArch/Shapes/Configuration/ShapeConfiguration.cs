@@ -50,7 +50,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	{
 		foreach (var arg in args)
 		{
-			this.globalArgs.Add(arg);
+			this.globalArgs[arg.Key] = arg.Value;
 		}
 	}
 	

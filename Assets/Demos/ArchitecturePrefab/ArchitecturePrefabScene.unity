@@ -166,9 +166,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceName: test
-  sourceContent: 'root ::- Scope.Scale(3, 5, 3) Scope.Vol("box") Scope.Comp("face-vert-[^1]")
-    { side } Scope.Comp("face-vert-1") { sideWithDoor } Scope.Comp("face-horiz-2")
-    { roof };
+  sourceContent: 'let roof = "HippedRoof";
+
+    let hipDist = 0.25;
+
+
+    root ::- Scope.Scale(3, 5, 3) Scope.Vol("box") Scope.Comp("face-vert-[^1]") {
+    side } Scope.Comp("face-vert-1") { sideWithDoor } Scope.Comp("face-horiz-2") {
+    roof };
 
     side ::- Scope.Subdiv("Z", 0.5r, 0.5r) { level | level };
 
@@ -196,10 +201,10 @@ MonoBehaviour:
 
     facade ::- Scope.Vol("facade");
 
-    roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof, hipDist:0.25);'
+    roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof, hipDist:hipDist);'
   material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   rootArgs: 
-  globalArgs: roof=HippedRoof
+  globalArgs: 
 --- !u!4 &957944954
 Transform:
   m_ObjectHideFlags: 0
@@ -345,7 +350,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: sourceContent
-      value: 'root ::- Scope.Scale(3, 5, 3) Scope.Vol("box") Scope.Comp("face-vert-[^1]")
+      value: 'let roof = "HippedRoof";
+
+        let hipDist = 0.25;
+
+
+        root ::- Scope.Scale(3, 5, 3) Scope.Vol("box") Scope.Comp("face-vert-[^1]")
         { side } Scope.Comp("face-vert-1") { sideWithDoor } Scope.Comp("face-horiz-2")
         { roof };
 
@@ -376,11 +386,11 @@ Prefab:
 
         facade ::- Scope.Vol("facade");
 
-        roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof, hipDist:0.25);'
+        roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof, hipDist:hipDist);'
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: globalArgs
-      value: roof=HippedRoof
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}

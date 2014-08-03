@@ -9,6 +9,7 @@ public class IronyArchitectureGrammar : Grammar
 	{
 		var dot = ToTerm(".");
 		var colon = ToTerm(":");
+		var equal = ToTerm("=");
 		var push = ToTerm("[");
 		var pop = ToTerm("]");
 
@@ -19,6 +20,9 @@ public class IronyArchitectureGrammar : Grammar
 		NUMBER.AddSuffix(Size.RelativeSuffix, System.TypeCode.Single);
 
 		NonTerminal program = new NonTerminal("program"),
+		assignmentSection = new NonTerminal("assignmentSection"),
+		assignmentStatement = new NonTerminal("assignmentStatement"),
+		ruleSection = new NonTerminal("ruleSection"),
 		ruleStatement = new NonTerminal("ruleStatement"),
 		predecessor = new NonTerminal("predecessor"),
 		successorList = new NonTerminal("successorList"),
@@ -34,9 +38,11 @@ public class IronyArchitectureGrammar : Grammar
 		scopeCmd = new NonTerminal("scopeCmd"),
 		simpleCmd = new NonTerminal("simpleCmd");
 
-		program.Rule = MakePlusRule(program, ruleStatement);
-
+		program.Rule = assignmentSection + ruleSection;
+		assignmentSection.Rule = MakePlusRule(assignmentSection, assignmentStatement);
+		assignmentStatement.Rule = "let" + VARIABLE + equal + atom + ";";
 		predecessor.Rule = ID + "(" + argumentList + ")" | ID;
+		ruleSection.Rule = MakePlusRule(ruleSection, ruleStatement);
 		ruleStatement.Rule = predecessor + ToTerm("::-") + successorList + ";";
 		successorList.Rule = MakePlusRule(successorList, successor);
 		successor.Rule = command | ruleSymbol;
@@ -54,7 +60,7 @@ public class IronyArchitectureGrammar : Grammar
 		this.Root = program;
 
 		MarkTransient(ruleList, commandBlock);
-		
-		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";");
+
+		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";", "=", "let");
 	}
 }

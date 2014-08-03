@@ -23,6 +23,10 @@ public class IronyArchitectureEvaluator
 	{
 		switch (node.Term.Name)
 		{
+		case "assignmentStatement":
+			Debug.Log("evaluating assignment");
+			EnterAssignment(node);
+			break;
 		case "ruleStatement":
 			Debug.Log("evaluating rule");
 			EnterRule(node);
@@ -35,6 +39,14 @@ public class IronyArchitectureEvaluator
 		
 		foreach (var child in node.ChildNodes)
 			EvaluatePATree(child);
+	}
+
+	private void EnterAssignment(ParseTreeNode assignmentNode)
+	{
+		var argName = assignmentNode.ChildNodes[0].Token.Text;
+		var argVal = assignmentNode.ChildNodes[1].FirstChild.Token.Text;
+
+		this.system.DefaultArgs[argName] = argVal;
 	}
 
 	private void EnterRule(ParseTreeNode ruleNode)
