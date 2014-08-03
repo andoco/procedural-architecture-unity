@@ -189,7 +189,7 @@ MonoBehaviour:
   sourceName: cylinder-facade
   sourceContent: 'root ::- Scope.Scale(1,1,1) cylinder;
 
-    cylinder ::- Scope.Vol("cylinder") Scope.Comp("face") { facade };
+    cylinder ::- Scope.Vol("cylinder") Scope.Comp("face-vert") { facade };
 
     facade ::- Scope.Vol("facade");'
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
@@ -262,7 +262,7 @@ Prefab:
       propertyPath: sourceContent
       value: 'root ::- Scope.Scale(1,1,1) cylinder;
 
-        cylinder ::- Scope.Vol("cylinder") Scope.Comp("face") { facade };
+        cylinder ::- Scope.Vol("cylinder") Scope.Comp("face-vert") { facade };
 
         facade ::- Scope.Vol("facade");'
       objectReference: {fileID: 0}

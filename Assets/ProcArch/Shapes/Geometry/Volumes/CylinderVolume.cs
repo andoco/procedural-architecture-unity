@@ -15,6 +15,12 @@ public class CylinderVolume : Volume
 		var angleDelta = Mathf.PI * 2f / segments;
 		var segWidth = Mathf.Sin(angleDelta/2f);
 
+		var bottomCorner = new Corner("corner-bottom", new Vector3(0f, 0f, 0f));
+		this.Corners.Add(bottomCorner);
+        
+        var topCorner = new Corner("corner-top", new Vector3(0f, 1f, 0f));
+		this.Corners.Add(topCorner);
+
 		for (int i=0; i <= segments; i++)
 		{
 			var a = angleDelta * -i;
@@ -38,24 +44,28 @@ public class CylinderVolume : Volume
 			if (i > 0)
 			{
 				this.Faces.Add(new Face(string.Format("face-side-{0}", i), new List<Corner> { this.Corners[numCorners - 4], this.Corners[numCorners - 2], this.Corners[numCorners - 1], this.Corners[numCorners - 3] }));
-			}
-
-			if (i > 0)
-			{
-				var lastFace = this.Faces.Last();
-
-				var upDir = lastFace.GetCentre();
-				upDir.y = 0;
-				
-				this.Components.Add(
-					new ScopeComponent(
-					string.Format("face-side-{0}", i),
-					new SimpleTransform(lastFace.GetCentre(), Quaternion.LookRotation(Vector3.up, upDir), new Vector3(segWidth, 0f, 1f)), x => x.ToZXY()));
+				this.Faces.Add(new Face(string.Format("face-bottom-{0}", i), new List<Corner> { this.Corners[numCorners - 4], bottomCorner, this.Corners[numCorners - 2] }));
+				this.Faces.Add(new Face(string.Format("face-top-{0}", i), new List<Corner> { this.Corners[numCorners - 3], this.Corners[numCorners - 1], topCorner }));
 			}
 		}
-	}
 
-	public override void ApplyStyle (IStyleConfig styleConfig)
+		foreach (var face in this.Faces.Where(f => f.Name.StartsWith("face-side", StringComparison.InvariantCultureIgnoreCase)))
+		{
+			var upDir = face.GetCentre();
+			upDir.y = 0;
+			
+			this.Components.Add(
+				new ScopeComponent(
+				face.Name,
+				new SimpleTransform(face.GetCentre(), Quaternion.LookRotation(Vector3.up, upDir), new Vector3(segWidth, 0f, 1f)), x => x.ToZXY()));
+        }
+
+		this.Components.Add(new ScopeComponent("face-top", new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 0f, 1f)), x => x));
+		this.Components.Add(new ScopeComponent("face-bottom", new SimpleTransform(new Vector3(0f, 0f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.down), new Vector3(1f, 0f, 1f)), x => x));
+        
+    }
+    
+    public override void ApplyStyle (IStyleConfig styleConfig)
 	{
 		var faceColor = styleConfig.GetColor(this.Style, "face-color");
 
@@ -80,8 +90,19 @@ public class CylinderVolume : Volume
 				meshBuilder.Colors.Add(face.Color);
 			}
 
-			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 3);
-			meshBuilder.AddTriangle(baseIndex + 1, baseIndex + 2, baseIndex + 3);
+			if (verts.Length == 3)
+			{
+				meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+			}
+			else if (verts.Length == 4)
+			{
+				meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 3);
+				meshBuilder.AddTriangle(baseIndex + 1, baseIndex + 2, baseIndex + 3);
+            }
+			else
+			{
+				throw new InvalidOperationException(string.Format("Cannot build mesh for faces with {0} vertices", verts.Length));
+			}
 
 			baseIndex = meshBuilder.Vertices.Count;
 		}
