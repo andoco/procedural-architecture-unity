@@ -6,6 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Demos/MultipleHouses/MultipleHouses.unity
-  - enabled: 1
-    path: Assets/Demos/Gallery/GalleryScene.unity
+    path: Assets/Demos/BasicGeometry/ConeScene.unity

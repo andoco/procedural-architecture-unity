@@ -365,7 +365,7 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: 'root ::- Scope.Scale(1,1,1) cylinder;
 
-    cylinder ::- Scope.Vol("cylinder");'
+    cylinder ::- Scope.Vol("cylinder", segments:16);'
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
@@ -436,7 +436,7 @@ Prefab:
       propertyPath: sourceContent
       value: 'root ::- Scope.Scale(1,1,1) cylinder;
 
-        cylinder ::- Scope.Vol("cylinder");'
+        cylinder ::- Scope.Vol("cylinder", segments:16);'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}

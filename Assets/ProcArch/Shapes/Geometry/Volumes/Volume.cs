@@ -53,11 +53,11 @@ public abstract class Volume
 	
 	public void BuildVolume(Argument[] args)
 	{
-		this.ApplyArguments(args);
-
 		var style = args.SingleOrDefault(x => x.Name == "style");
 		if (style != null)
 			this.Style = style.Value;
+
+		this.ApplyArguments(args);
 
 		this.OnBuildVolume(args);
 	}

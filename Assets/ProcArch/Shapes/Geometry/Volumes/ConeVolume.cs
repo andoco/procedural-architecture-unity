@@ -7,12 +7,18 @@ using Andoco.Unity.Framework.Core.Meshes;
 
 public class ConeVolume : Volume
 {
+	public int NumSegments { get; private set; }
+
+	protected override void ApplyArguments (Argument[] args)
+	{
+		this.NumSegments = args.GetArgOrDefault("segments", 8);
+		if (this.NumSegments < 3)
+			throw new ArgumentException(string.Format("ConeVolume 'segments' minimum value = 3. Actual value = {0}", this.NumSegments), "NumSegments");
+	}
+
 	protected override void OnBuildVolume(Argument[] args)
 	{
-		var segmentsArg = args.SingleOrDefault(x => x.Name != null && x.Name.Equals("segments", StringComparison.InvariantCultureIgnoreCase));
-		var segments = segmentsArg == null ? 8 : int.Parse(segmentsArg.Value);
-
-		var angleDelta = Mathf.PI * 2f / segments;
+		var angleDelta = Mathf.PI * 2f / this.NumSegments;
 		var segWidth = Mathf.Sin(angleDelta/2f);
 
 		var bottomCorner = new Corner("corner-bottom", new Vector3(0f, 0f, 0f));
@@ -21,7 +27,7 @@ public class ConeVolume : Volume
         var topCorner = new Corner("corner-top", new Vector3(0f, 1f, 0f));
 		this.Corners.Add(topCorner);
 
-		for (int i=0; i <= segments; i++)
+		for (int i=0; i <= this.NumSegments; i++)
 		{
 			var a = angleDelta * -i;
 
