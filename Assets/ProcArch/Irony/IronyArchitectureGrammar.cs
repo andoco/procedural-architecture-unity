@@ -38,7 +38,7 @@ public class IronyArchitectureGrammar : Grammar
 		scopeCmd = new NonTerminal("scopeCmd"),
 		simpleCmd = new NonTerminal("simpleCmd");
 
-		program.Rule = assignmentSection + ruleSection;
+		program.Rule = (assignmentSection + ruleSection) | ruleSection;
 		assignmentSection.Rule = MakePlusRule(assignmentSection, assignmentStatement);
 		assignmentStatement.Rule = "let" + VARIABLE + equal + atom + ";";
 		predecessor.Rule = ID + "(" + argumentList + ")" | ID;
