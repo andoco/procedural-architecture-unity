@@ -9,5 +9,5 @@ public interface IShapeProductionSystem
 
 	string Axiom { get; set; }
 
-	void Run(IShapeConfiguration configuration, IList<string> rootArgs, IDictionary<string, string> globalArgs);
+	IShapeConfiguration Run(IList<string> rootArgs, IDictionary<string, string> globalArgs);
 }

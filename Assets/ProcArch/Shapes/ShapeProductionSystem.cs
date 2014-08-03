@@ -20,11 +20,12 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 	public string Axiom { get; set; }
 
-	public void Run(IShapeConfiguration configuration, IList<string> rootArgs, IDictionary<string, string> globalArgs)
+	public IShapeConfiguration Run(IList<string> rootArgs, IDictionary<string, string> globalArgs)
 	{
 		if (string.IsNullOrEmpty(this.Axiom))
 			throw new InvalidOperationException("The axiom symbol has not been set");
 
+		var configuration = new ShapeConfiguration(this.Rules);
 		configuration.AddRule(this.Rules[this.Axiom], rootArgs.Select(x => new Argument(x)).ToList());
 		configuration.AddGlobalArgs(this.DefaultArgs);
 		configuration.AddGlobalArgs(globalArgs);
@@ -69,6 +70,8 @@ public class ShapeProductionSystem : IShapeProductionSystem
 			currentNode.Value.Status = ShapeStatus.Inactive;
 			currentNode = PickNextNode(configuration.RootNode);
 		}
+
+		return configuration;
 	}
 
 	private ShapeNode PickNextNode(ShapeNode root)

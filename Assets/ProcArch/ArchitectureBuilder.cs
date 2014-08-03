@@ -18,9 +18,7 @@ public class ArchitectureBuilder
 	{
 		var system = GetProductionSystem(name, source);
 
-		var shapeConfiguration = new ShapeConfiguration(system.Rules);
-
-		system.Run(shapeConfiguration, rootArgs, globalArgs);
+		var shapeConfiguration = system.Run(rootArgs, globalArgs);
 
 		var styleConfig = new CommonArchitectureStyleConfig();
 		var mesh = BuildMesh(shapeConfiguration, styleConfig);
