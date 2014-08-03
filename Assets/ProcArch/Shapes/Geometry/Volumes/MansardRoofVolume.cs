@@ -73,28 +73,4 @@ public class MansardRoofVolume : Volume
 		foreach (var f in this.Faces)
 			f.Color = faceColor;
 	}
-
-	public override void BuildMesh(IMeshBuilder meshBuilder)
-	{
-		var baseIndex = meshBuilder.Vertices.Count;
-
-		foreach (var face in this.Faces)
-		{
-			var verts = face.Corners.Select(c => c.Position).ToArray();
-
-			foreach (var v in verts)
-			{
-				var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
-
-				meshBuilder.Vertices.Add(worldPos);
-				meshBuilder.UVs.Add(Vector2.zero);
-				meshBuilder.Colors.Add(face.Color);
-			}
-
-			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
-			meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
-
-			baseIndex = meshBuilder.Vertices.Count;
-		}
-	}
 }

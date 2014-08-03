@@ -59,35 +59,12 @@ public class BoxVolume : Volume
 		// up
 		this.Components.Add(new ScopeComponent("face-horiz-2", new SimpleTransform(new Vector3(0f, 1f, 0f), Quaternion.LookRotation(Vector3.forward, Vector3.up), new Vector3(1f, 0f, 1f)), x => x));
 	}
+
 	public override void ApplyStyle (IStyleConfig styleConfig)
 	{
 		var faceColor = styleConfig.GetColor(this.Style, "face-color");
 
 		foreach (var f in this.Faces)
 			f.Color = faceColor;
-	}
-
-	public override void BuildMesh(IMeshBuilder meshBuilder)
-	{
-		var baseIndex = meshBuilder.Vertices.Count;
-
-		foreach (var face in this.Faces)
-		{
-			var verts = face.Corners.Select(c => c.Position).ToArray();
-
-			foreach (var v in verts)
-			{
-				var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
-
-				meshBuilder.Vertices.Add(worldPos);
-				meshBuilder.UVs.Add(Vector2.zero);
-				meshBuilder.Colors.Add(face.Color);
-			}
-
-			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
-			meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
-
-			baseIndex = meshBuilder.Vertices.Count;
-		}
 	}
 }

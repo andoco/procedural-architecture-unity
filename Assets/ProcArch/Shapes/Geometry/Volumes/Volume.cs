@@ -73,7 +73,40 @@ public abstract class Volume
 	{
 	}
 	
-	public abstract void BuildMesh(IMeshBuilder meshBuilder);
+	public virtual void BuildMesh(IMeshBuilder meshBuilder)
+	{
+		var baseIndex = meshBuilder.Vertices.Count;
+		
+		foreach (var face in this.Faces)
+		{
+			var verts = face.Corners.Select(c => c.Position).ToArray();
+			
+			foreach (var v in verts)
+			{
+				var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
+				
+				meshBuilder.Vertices.Add(worldPos);
+				meshBuilder.UVs.Add(Vector2.zero);
+				meshBuilder.Colors.Add(face.Color);
+			}
+			
+			if (verts.Length == 3)
+			{
+				meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+			}
+			else if (verts.Length == 4)
+			{
+				meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 3);
+				meshBuilder.AddTriangle(baseIndex + 1, baseIndex + 2, baseIndex + 3);
+			}
+			else
+			{
+				throw new InvalidOperationException(string.Format("Cannot build mesh for faces with {0} vertices", verts.Length));
+			}
+			
+			baseIndex = meshBuilder.Vertices.Count;
+		}
+	}
 
 	public Mesh BuildMesh()
 	{

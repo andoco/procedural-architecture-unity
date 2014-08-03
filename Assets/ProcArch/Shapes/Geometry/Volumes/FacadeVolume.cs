@@ -35,26 +35,5 @@ public class FacadeVolume : Volume
 	public override void ApplyStyle(IStyleConfig styleConfig)
 	{
 		this.Faces[0].Color = styleConfig.GetColor(this.Style, "face-color");
-	}
-
-	public override void BuildMesh(IMeshBuilder meshBuilder)
-	{
-		var baseIndex = meshBuilder.Vertices.Count;
-
-		var face = this.Faces[0];
-
-		var verts = face.Corners.Select(c => c.Position).ToArray();
-
-		foreach (var v in verts)
-		{
-			var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
-
-			meshBuilder.Vertices.Add(worldPos);
-			meshBuilder.UVs.Add(Vector2.zero);
-			meshBuilder.Colors.Add(face.Color);
-		}
-		
-		meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
-		meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);		
-	}
+	}	
 }

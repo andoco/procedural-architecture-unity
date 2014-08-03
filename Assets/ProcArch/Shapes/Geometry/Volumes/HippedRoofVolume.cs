@@ -63,30 +63,4 @@ public class HippedRoofVolume : Volume
 		this.Faces[2].Color = faceColor;
 		this.Faces[3].Color = faceColor;
 	}
-	
-	public override void BuildMesh(IMeshBuilder meshBuilder)
-	{
-		var baseIndex = meshBuilder.Vertices.Count;
-		
-		foreach (var face in this.Faces)
-		{
-			var verts = face.Corners.Select(c => c.Position).ToArray();
-			
-			foreach (var v in verts)
-			{
-				var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale(v, this.Transform.Scale));
-
-				meshBuilder.Vertices.Add(worldPos);
-				meshBuilder.UVs.Add(Vector2.zero);
-				meshBuilder.Colors.Add(face.Color);
-			}
-			
-			meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
-
-			if (verts.Length == 4)
-				meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
-			
-			baseIndex = meshBuilder.Vertices.Count;
-		}
-	}
 }
