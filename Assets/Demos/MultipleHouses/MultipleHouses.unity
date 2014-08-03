@@ -186,10 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697311a0d5f1f4473b00b271e73732b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  houseSource: house-detailed
+  houseSource:
+  - house-detailed
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
-  numHouses: 20
-  maxDist: 30
 --- !u!4 &871913584
 Transform:
   m_ObjectHideFlags: 0

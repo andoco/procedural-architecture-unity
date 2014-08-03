@@ -14,12 +14,9 @@ public class MultipleHouses : MonoBehaviour
 
 	private GameObject rootGo;
 
-	public string houseSource;
+	public string[] houseSource;
 	public Material material;
-	public int numHouses = 10;
-	public float maxDist = 10f;
-
-	// Use this for initialization
+	
 	void Start () {
 		this.ShowSystem();
 	}
@@ -70,9 +67,7 @@ public class MultipleHouses : MonoBehaviour
 
 		this.rootGo = new GameObject("Architecture");
 
-		var asset = Resources.Load<TextAsset>(this.houseSource);
-
-		var gridSize = new GridSize(10f, 10, 10);
+		var gridSize = new GridSize(10f, 6, 6);
 		var offset = gridSize.GetSizeVector() * -0.5f;
 
 		var roofs = new [] { "GabledRoof", "HippedRoof", "MansardRoof" };
@@ -87,6 +82,9 @@ public class MultipleHouses : MonoBehaviour
 
 				var rootArgs = new List<string> { w.ToString(), h.ToString(), d.ToString() };
 				var globalArgs = new Dictionary<string, string> { { "roof", roofs.PickRandom(UnityRandomNumber.Instance) } };
+
+				var assetName = this.houseSource.PickRandom(UnityRandomNumber.Instance);
+				var asset = Resources.Load<TextAsset>(assetName);
 
 				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
 
