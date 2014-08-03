@@ -296,11 +296,92 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241082746}
   m_LocalRotation: {x: .258819073, y: 0, z: 0, w: .965925813}
-  m_LocalPosition: {x: 0, y: 10, z: -10}
+  m_LocalPosition: {x: 0, y: 20, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &1279664792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 1343152278}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1279664794}
+  - 114: {fileID: 1279664793}
+  m_Layer: 0
+  m_Name: Church
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1279664793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1343152278}
+  m_GameObject: {fileID: 1279664792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ba5fe3c25324022a3ae46eec9b50e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceName: church
+  sourceContent: 'let roof = "HippedRoof";
+
+    let hipDist = 0;
+
+
+    root ::- Scope.Scale(5, 10, 5) Scope.Vol("box") Scope.Comp("face-vert-[^1]") {
+    side } Scope.Comp("face-vert-1") { sideWithDoor } Scope.Comp("face-horiz-2") {
+    roof };
+
+    side ::- Scope.Subdiv("Z", 0.5r, 0.5r) { level | level };
+
+    sideWithDoor ::- Scope.Subdiv("Z", 0.5r, 0.5r) { levelWithDoor | level };
+
+    level ::- Scope.Subdiv("X", 0.25r, 0.25, 0.5r, 0.25, 0.25r) { facade | window
+    | facade | window | facade };
+
+    levelWithDoor ::- Scope.Subdiv("X", 0.5r, 1.5, 0.5r) { facade | door | facade
+    };
+
+    door ::- Scope.Subdiv("Z", 2, 1r) { doorMain | facade };
+
+    doorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box", "door");
+
+    window ::- Scope.Subdiv("Z", 0.5r, 0.1, 2, 0.5r) { windowLower | windowSill |
+    windowMiddle | windowUpper };
+
+    windowUpper ::- facade;
+
+    windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", "window");
+
+    windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
+
+    windowLower ::- facade;
+
+    facade ::- Scope.Vol("facade");
+
+    roof ::- Scope.Scale(1r, 10, 1r) Scope.Vol(roof, hipDist:hipDist);'
+  material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  rootArgs: 
+  globalArgs: 
+--- !u!4 &1279664794
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 1343152278}
+  m_GameObject: {fileID: 1279664792}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1001 &1334908532
 Prefab:
   m_ObjectHideFlags: 0
@@ -395,5 +476,105 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 957944952}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
+--- !u!1001 &1343152278
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_RootMapOrder
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceName
+      value: church
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceContent
+      value: 'let roof = "HippedRoof";
+
+        let hipDist = 0;
+
+
+        root ::- Scope.Scale(5, 10, 5) Scope.Vol("box") Scope.Comp("face-vert-[^1]")
+        { side } Scope.Comp("face-vert-1") { sideWithDoor } Scope.Comp("face-horiz-2")
+        { roof };
+
+        side ::- Scope.Subdiv("Z", 0.5r, 0.5r) { level | level };
+
+        sideWithDoor ::- Scope.Subdiv("Z", 0.5r, 0.5r) { levelWithDoor | level };
+
+        level ::- Scope.Subdiv("X", 0.25r, 0.25, 0.5r, 0.25, 0.25r) { facade | window
+        | facade | window | facade };
+
+        levelWithDoor ::- Scope.Subdiv("X", 0.5r, 1.5, 0.5r) { facade | door | facade
+        };
+
+        door ::- Scope.Subdiv("Z", 2, 1r) { doorMain | facade };
+
+        doorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box", "door");
+
+        window ::- Scope.Subdiv("Z", 0.5r, 0.1, 2, 0.5r) { windowLower | windowSill
+        | windowMiddle | windowUpper };
+
+        windowUpper ::- facade;
+
+        windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", "window");
+
+        windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
+
+        windowLower ::- facade;
+
+        facade ::- Scope.Vol("facade");
+
+        roof ::- Scope.Scale(1r, 10, 1r) Scope.Vol(roof, hipDist:hipDist);'
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: globalArgs
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_Name
+      value: Church
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_RootGameObject: {fileID: 1279664792}
   m_IsPrefabParent: 0
   m_IsExploded: 1
