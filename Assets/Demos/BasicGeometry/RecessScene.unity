@@ -74,6 +74,130 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1001 &579685274
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_RootMapOrder
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_Name
+      value: WallRecess
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceName
+      value: wall-recess
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceContent
+      value: 'root ::- Scope.Scale(2,2,2) Scope.Vol("box") Scope.Comp("face-vert")
+        { side };
+
+        side ::- Scope.Subdiv("X", 0.5r, 1, 0.5r) { facade | sideMiddle | facade };
+
+        sideMiddle ::- Scope.Subdiv("Z", 0.5r, 1, 0.5r) { facade | recess | facade
+        };
+
+        facade ::- Scope.Vol("facade");
+
+        recess ::- Scope.Scale(1r, 0.5, 1r) Scope.Trans(0, -0.5, 0) Scope.Vol("Recess");'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_RootGameObject: {fileID: 738908648}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
+--- !u!1 &738908648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 579685274}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 738908650}
+  - 114: {fileID: 738908649}
+  m_Layer: 0
+  m_Name: WallRecess
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &738908649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 579685274}
+  m_GameObject: {fileID: 738908648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ba5fe3c25324022a3ae46eec9b50e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceName: wall-recess
+  sourceContent: 'root ::- Scope.Scale(2,2,2) Scope.Vol("box") Scope.Comp("face-vert")
+    { side };
+
+    side ::- Scope.Subdiv("X", 0.5r, 1, 0.5r) { facade | sideMiddle | facade };
+
+    sideMiddle ::- Scope.Subdiv("Z", 0.5r, 1, 0.5r) { facade | recess | facade };
+
+    facade ::- Scope.Vol("facade");
+
+    recess ::- Scope.Scale(1r, 0.5, 1r) Scope.Trans(0, -0.5, 0) Scope.Vol("Recess");'
+  material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
+  rootArgs: 
+  globalArgs: 
+--- !u!4 &738908650
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 579685274}
+  m_GameObject: {fileID: 738908648}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1 &872103242
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +387,7 @@ Transform:
   m_PrefabInternal: {fileID: 1768865497}
   m_GameObject: {fileID: 1696730257}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -277,7 +401,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: m_LocalPosition.y
