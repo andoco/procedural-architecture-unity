@@ -10,7 +10,8 @@ doorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Trans(0, -0.1, 0) Scope.Vol("recess"
 doorRecessed ::- Scope.Vol("facade", style:"door");
 window ::- Scope.Subdiv("Z", 0.5r, 0.1, 1, 0.5r) { windowLower | windowSill | windowMiddle | windowLower };
 windowUpper ::- facade;
-windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", style:"window");
+windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Trans(0, -0.05, 0) Scope.Vol("recess") Scope.Comp("face-vert") { facade } Scope.Comp("face-horiz-1") { windowRecess };
+windowRecess ::- Scope.Vol("facade", style:"window");
 windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
 windowLower ::- facade;
 facade ::- Scope.Vol("facade");
