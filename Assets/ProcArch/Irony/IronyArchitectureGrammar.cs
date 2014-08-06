@@ -21,7 +21,7 @@ public class IronyArchitectureGrammar : Grammar
 		var STRING = new StringLiteral("String", "\"", StringOptions.AllowsAllEscapes);
 		var NUMBER = new NumberLiteral("number", NumberOptions.AllowSign);
 		var VARIABLE = TerminalFactory.CreateCSharpIdentifier("Variable");
-		NUMBER.AddSuffix(Size.RelativeSuffix, System.TypeCode.Single);
+		NUMBER.AddSuffix("r", System.TypeCode.Single);
 
 		NonTerminal program = new NonTerminal("program"),
 		assignmentSection = new NonTerminal("assignmentSection"),
