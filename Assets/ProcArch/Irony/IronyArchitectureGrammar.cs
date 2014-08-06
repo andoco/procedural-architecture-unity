@@ -12,6 +12,7 @@ public class IronyArchitectureGrammar : Grammar
 	public const string AssignmentSectionName = "assignmentSection";
 	public const string RuleSectionName = "ruleSection";
 	public const string RuleStatementName = "ruleStatement";
+	public const string PredecessorStatementName = "predecessorStatement";
 	public const string PredecessorName = "predecessor";
 	public const string SuccessorListName = "successorList";
 	public const string ProbabilityName = "probability";
@@ -48,6 +49,7 @@ public class IronyArchitectureGrammar : Grammar
 		assignmentStatement = new NonTerminal(AssignmentStatementName),
 		ruleSection = new NonTerminal(RuleSectionName),
 		ruleStatement = new NonTerminal(RuleStatementName),
+		predecessorStatement = new NonTerminal(PredecessorStatementName),
 		predecessor = new NonTerminal(PredecessorName),
 		successorList = new NonTerminal(SuccessorListName),
 		successor = new NonTerminal(SuccessorName),
@@ -66,9 +68,10 @@ public class IronyArchitectureGrammar : Grammar
 		program.Rule = (assignmentSection + ruleSection) | ruleSection;
 		assignmentSection.Rule = MakePlusRule(assignmentSection, assignmentStatement);
 		assignmentStatement.Rule = "let" + VARIABLE + equal + atom + ";";
+		predecessorStatement.Rule = predecessor | Empty;
 		predecessor.Rule = ID + "(" + argumentList + ")" | ID;
 		ruleSection.Rule = MakePlusRule(ruleSection, ruleStatement);
-		ruleStatement.Rule = ((predecessor + ToTerm("::-")) | (ToTerm("::-"))) + successorList + probability + ";";
+		ruleStatement.Rule = predecessorStatement + ToTerm("::-") + successorList + probability + ";";
 		successorList.Rule = MakePlusRule(successorList, successor);
 		successor.Rule = command | ruleSymbol;
 		scopeCmd.Rule = "Scope" + dot + ID;
