@@ -2,10 +2,13 @@ namespace Andoco.Unity.Framework.Core.Meshes
 {
 	using System.Collections.Generic;
 	using System.Linq;
+    using Common.Logging;
 	using UnityEngine;
 
 	public class MeshBuilder : IMeshBuilder
 	{
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+
 		//indices for the triangles:
 		private IList<int> indices = new List<int>();
 
@@ -34,7 +37,7 @@ namespace Andoco.Unity.Framework.Core.Meshes
 
         public Mesh BuildMesh(bool calculateNormals, bool calculateBounds)
 		{
-			Debug.Log(string.Format("Building mesh for {0} vertices, {1} colors, {2} triangles", this.Vertices.Count, this.Colors.Count, this.indices.Count));
+			log.Trace(string.Format("Building mesh for {0} vertices, {1} colors, {2} triangles", this.Vertices.Count, this.Colors.Count, this.indices.Count));
 
 			var mesh = new Mesh();
 
