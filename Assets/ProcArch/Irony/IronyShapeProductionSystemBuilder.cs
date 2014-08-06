@@ -2,9 +2,12 @@ using System;
 using System.Text;
 using UnityEngine;
 using Irony.Parsing;
+using Common.Logging;
 
 public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
 {
+	private static readonly ILog log = LogManager.GetCurrentClassLogger();
+
 	public IShapeProductionSystem Build(string source)
 	{
 		var system = new ShapeProductionSystem();
@@ -14,7 +17,7 @@ public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
 
 		var sb = new StringBuilder();
 		DispTree(root, 0, sb);
-		Debug.Log(sb.ToString());
+		log.Trace(sb.ToString());
 
 		evaluator.Evaluate(root);
 
@@ -31,14 +34,14 @@ public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
 		if (language.Errors.Count > 0)
 		{
 			foreach (var error in language.Errors)
-				Debug.Log(string.Format("GRAMMAR: {0}", error.Message));
+				log.Error(string.Format("GRAMMAR: {0}", error.Message));
 		}
 
 		if (parseTree.HasErrors())
 		{
 			foreach (var msg in parseTree.ParserMessages)
 			{
-				Debug.Log(string.Format("PARSER: {0} {1}", msg.Message, msg.Location));
+				log.Error(string.Format("PARSER: {0} {1}", msg.Message, msg.Location));
 			}
 		}
 		

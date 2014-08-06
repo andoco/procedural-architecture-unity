@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Andoco.Core.Graph.Tree;
+using Common.Logging;
 
 public class ShapeProductionSystem : IShapeProductionSystem
 {
+	private readonly ILog log = LogManager.GetCurrentClassLogger();
+
 	private int counter;
 
 	public ShapeProductionSystem()
@@ -34,7 +37,7 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 		while (currentNode != null)
 		{
-			Debug.Log(string.Format("EVALUTE: {0}", currentNode.Value));
+			this.log.Trace(string.Format("EVALUTE: {0}", currentNode.Value));
 
 			// IMPORTANT: The scope stack must be reset when processing a new node so that
 			// push/pop commands only apply to rule of the current node.

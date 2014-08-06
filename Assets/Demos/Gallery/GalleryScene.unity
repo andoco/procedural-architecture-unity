@@ -224,6 +224,7 @@ GameObject:
   - 4: {fileID: 871913584}
   - 114: {fileID: 871913583}
   - 132: {fileID: 871913585}
+  - 114: {fileID: 871913586}
   m_Layer: 0
   m_Name: Demo
   m_TagString: Untagged
@@ -281,6 +282,23 @@ GUIText:
     rgba: 4294967295
   m_PixelCorrect: 1
   m_RichText: 1
+--- !u!114 &871913586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 871913582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78cae436ada9f4d0cb9eedcbad34bff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trace: 1
+  debug: 1
+  info: 1
+  warning: 1
+  error: 1
+  fatal: 1
 --- !u!1 &1037790906
 GameObject:
   m_ObjectHideFlags: 0

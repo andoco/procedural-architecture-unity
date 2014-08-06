@@ -4,9 +4,12 @@ using System.Linq;
 using UnityEngine;
 using Andoco.Core.Graph;
 using Andoco.Core.Graph.Tree;
+using Common.Logging;
 
 public class ShapeConfiguration : IShapeConfiguration
 {
+	private readonly ILog log = LogManager.GetCurrentClassLogger();
+
 	private readonly Stack<IScope> scopeStack = new Stack<IScope>();
 	private int counter;
 	private readonly IDictionary<string, ShapeRule> rules;
@@ -57,12 +60,12 @@ public class ShapeConfiguration : IShapeConfiguration
 	public void PushScope()
 	{
 		this.scopeStack.Push(new Scope(this.CurrentScope));
-		Debug.Log(string.Format("PUSH: {0}", this.scopeStack.Peek()));
+		this.log.Trace(string.Format("PUSH: {0}", this.scopeStack.Peek()));
 	}
 
 	public void PopScope()
 	{
-		Debug.Log(string.Format("POP: {0}", this.scopeStack.Peek()));
+		this.log.Trace(string.Format("POP: {0}", this.scopeStack.Peek()));
 		this.scopeStack.Pop();
 	}
 
@@ -75,13 +78,13 @@ public class ShapeConfiguration : IShapeConfiguration
 	public void TransformScope(Vector3 delta)
 	{
 		this.CurrentScope.Transform.Position += this.CurrentScope.Transform.Rotation * delta;
-		Debug.Log(string.Format("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform));
+		this.log.Trace(string.Format("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform));
 	}
 	
 	public void RotateScope(Vector3 delta)
 	{
 		this.CurrentScope.Transform.Rotation *= Quaternion.Euler(delta);
-		Debug.Log(string.Format("ROTATED: {0} {1}", delta, this.CurrentScope.Transform));
+		this.log.Trace(string.Format("ROTATED: {0} {1}", delta, this.CurrentScope.Transform));
 	}
 	
 	public void ScaleScope(Size x, Size y, Size z)
@@ -97,12 +100,12 @@ public class ShapeConfiguration : IShapeConfiguration
 //		var s = this.CurrentScope.Transform.Scale;
 //		s.Scale(scale);
 //		this.CurrentScope.Transform.Scale = s;
-		Debug.Log(string.Format("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
+		this.log.Trace(string.Format("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
 	}
 
 	public void AddRule(ShapeRule rule, IList<Argument> args)
 	{
-		Debug.Log(string.Format("RULE: {0}", rule));
+		this.log.Trace(string.Format("RULE: {0}", rule));
 		var node = this.NewNode(this.currentNode);
 		node.Value.Rule = rule;
 		node.Value.Args = args;
@@ -112,7 +115,7 @@ public class ShapeConfiguration : IShapeConfiguration
 	
 	public void AddVolume(string name, Argument[] cmdArgs)
 	{
-		Debug.Log(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
+		this.log.Trace(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
 
 		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true));
 
@@ -200,7 +203,7 @@ public class ShapeConfiguration : IShapeConfiguration
 
 	public void SplitComponent(string query, ShapeSymbol symbol)
 	{
-		Debug.Log(string.Format("COMP: {0}, {1}", query, this.CurrentScope.Transform));
+		this.log.Trace(string.Format("COMP: {0}, {1}", query, this.CurrentScope.Transform));
 
 		var currentVol = currentNode.Value.Volume;
 		var components = currentVol.Query(query);
@@ -225,7 +228,7 @@ public class ShapeConfiguration : IShapeConfiguration
             
             var newTrans = new SimpleTransform(newPos, newRot, newScale);
 
-			Debug.Log(string.Format("**** {0}", newTrans));
+			this.log.Trace(string.Format("**** {0}", newTrans));
 
 			var node = this.NewNode(this.currentNode);
 			node.Value.Transform = newTrans;
