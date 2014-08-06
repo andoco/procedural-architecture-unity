@@ -22,7 +22,11 @@ public sealed class ShapeRule
 		
 		if (this.Successors.Count > 1)
 		{
-			var total = this.Successors.Sum(x => x.Probability);
+			var total = 0f;
+			foreach (var s in this.Successors)
+			{
+				total += s.Probability;
+			}
 			
 			if (total != 1f)
 				throw new System.InvalidOperationException("Sum of probabilities should equal 1");
