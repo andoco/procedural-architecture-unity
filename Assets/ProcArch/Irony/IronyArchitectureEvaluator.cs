@@ -23,7 +23,7 @@ public class IronyArchitectureEvaluator
 	{
 		switch (node.Term.Name)
 		{
-		case "assignmentStatement":
+		case IronyArchitectureGrammar.AssignmentStatementName:
 			EnterAssignment(node);
 			break;
 		case IronyArchitectureGrammar.PredecessorName:
@@ -32,7 +32,7 @@ public class IronyArchitectureEvaluator
 		case IronyArchitectureGrammar.SuccessorListName:
 			EnterSuccessorList(node);
 			break;
-		case "successor":
+		case IronyArchitectureGrammar.SuccessorName:
 			EnterSuccessor(node);
 			break;
 		case IronyArchitectureGrammar.ProbabilityName:

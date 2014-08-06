@@ -7,6 +7,8 @@ public class IronyArchitectureGrammar : Grammar
 	public const string PredecessorName = "predecessor";
 	public const string SuccessorListName = "successorList";
 	public const string ProbabilityName = "probability";
+	public const string AssignmentStatementName = "assignmentStatement";
+	public const string SuccessorName = "successor";
 
 	public IronyArchitectureGrammar()
 		: base(false)
@@ -25,12 +27,12 @@ public class IronyArchitectureGrammar : Grammar
 
 		NonTerminal program = new NonTerminal("program"),
 		assignmentSection = new NonTerminal("assignmentSection"),
-		assignmentStatement = new NonTerminal("assignmentStatement"),
+		assignmentStatement = new NonTerminal(AssignmentStatementName),
 		ruleSection = new NonTerminal("ruleSection"),
 		ruleStatement = new NonTerminal(RuleStatementName),
 		predecessor = new NonTerminal(PredecessorName),
 		successorList = new NonTerminal(SuccessorListName),
-		successor = new NonTerminal("successor"),
+		successor = new NonTerminal(SuccessorName),
 		command = new NonTerminal("command"),
 		argumentList = new NonTerminal("argumentList"),
 		arg = new NonTerminal("arg"),
