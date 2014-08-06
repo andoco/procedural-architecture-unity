@@ -104,7 +104,7 @@ public class IronyArchitectureEvaluator
 				}
 				else if (child.FirstChild.Term.Name == "scopeCmd")
 				{
-					cmdName = child.FirstChild.ChildNodes[2].Token.Text;
+					cmdName = child.FirstChild.ChildNodes[1].Token.Text;
 				}
 				else
 				{

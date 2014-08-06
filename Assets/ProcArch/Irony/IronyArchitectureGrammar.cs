@@ -69,6 +69,6 @@ public class IronyArchitectureGrammar : Grammar
 
 		MarkTransient(ruleList, commandBlock);
 
-		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";", ":", "=", "let");
+		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";", ":", "=", "let", ".");
 	}
 }
