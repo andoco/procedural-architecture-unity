@@ -45,35 +45,9 @@ public class ShapeProductionSystem : IShapeProductionSystem
 
 			if (currentRule != null)
 			{
-				SuccessorList chosenSet = null;
+				var successors = currentRule.PickSuccessors();
 
-				if (currentRule.Successors.Count > 1)
-				{
-					var total = currentRule.Successors.Sum(x => x.Probability);
-					
-					if (total != 1f)
-						throw new InvalidOperationException("Sum of probabilities should equal 1");
-					
-					var weightedPick = UnityEngine.Random.value;
-					foreach (var set in currentRule.Successors)
-					{
-						if (weightedPick < set.Probability)
-						{
-							chosenSet = set;
-							break;
-						}
-						weightedPick -= set.Probability;
-					}
-				}
-				else
-				{
-					chosenSet = currentRule.Successors.First();
-				}
-
-				if (chosenSet == null)
-					throw new InvalidOperationException("Failed to pick a SuccessorSet");
-
-				foreach (var successor in chosenSet.Successors)
+				foreach (var successor in successors)
 				{
 					if (successor is CommandShapeSuccessor)
 					{
