@@ -77,7 +77,7 @@ public class IronyArchitectureEvaluator
 	{
 		foreach (var child in successorNode.ChildNodes)
 		{
-			if (child.Term.Name == "ruleSymbol")
+			if (child.Term.Name == IronyArchitectureGrammar.RuleSymbolName)
 			{
 				var symbolName = child.FirstChild.Token.Text;
 				var symbolArgs = child.ChildNodes.Count > 1
@@ -94,15 +94,15 @@ public class IronyArchitectureEvaluator
 
 				this.currentRule.Successors.Last().Successors.Add(successor);
 			}
-			else if (child.Term.Name == "command")
+			else if (child.Term.Name == IronyArchitectureGrammar.CommandName)
 			{
 				string cmdName;
 
-				if (child.FirstChild.Term.Name == "simpleCmd")
+				if (child.FirstChild.Term.Name == IronyArchitectureGrammar.SimpleCommandName)
 				{
 					cmdName = child.FirstChild.FirstChild.Token.Text;
 				}
-				else if (child.FirstChild.Term.Name == "scopeCmd")
+				else if (child.FirstChild.Term.Name == IronyArchitectureGrammar.ScopeCommandName)
 				{
 					cmdName = child.FirstChild.ChildNodes[1].Token.Text;
 				}
@@ -185,10 +185,10 @@ public class IronyArchitectureEvaluator
 
 			switch (argNode.FirstChild.Term.Name)
 			{
-			case "atom":
+			case IronyArchitectureGrammar.AtomName:
 				arg = new Argument(argNode.FirstChild.FirstChild.Token.Text);
 				break;
-			case "namedArg":
+			case IronyArchitectureGrammar.NamedArgName:
 				arg = new Argument(argNode.FirstChild.ChildNodes[0].Token.Text, argNode.FirstChild.ChildNodes[1].ChildNodes[0].Token.Text);
 				break;
 			default:

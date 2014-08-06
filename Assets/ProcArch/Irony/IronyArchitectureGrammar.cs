@@ -3,12 +3,30 @@ using Irony.Parsing;
 
 public class IronyArchitectureGrammar : Grammar
 {
+	public const string IDName = "ID";
+	public const string StringName = "STRING";
+	public const string NumberName = "NUMBER";
+	public const string VariableName = "VARIABLE";
+
+	public const string ProgramName = "program";
+	public const string AssignmentSectionName = "assignmentSection";
+	public const string RuleSectionName = "ruleSection";
 	public const string RuleStatementName = "ruleStatement";
 	public const string PredecessorName = "predecessor";
 	public const string SuccessorListName = "successorList";
 	public const string ProbabilityName = "probability";
 	public const string AssignmentStatementName = "assignmentStatement";
 	public const string SuccessorName = "successor";
+	public const string RuleSymbolName = "ruleSymbol";
+	public const string RuleListName = "ruleList";
+	public const string CommandName = "command";
+	public const string CommandBlockName = "commandBlock";
+	public const string SimpleCommandName = "simpleCmd";
+	public const string ScopeCommandName = "scopeCmd";
+	public const string AtomName = "atom";
+	public const string ArgumentListName = "argumentList";
+	public const string ArgName = "arg";
+	public const string NamedArgName = "namedArg";
 
 	public IronyArchitectureGrammar()
 		: base(false)
@@ -19,30 +37,30 @@ public class IronyArchitectureGrammar : Grammar
 		var push = ToTerm("[");
 		var pop = ToTerm("]");
 
-		var ID = TerminalFactory.CreateCSharpIdentifier("ID"); // IdentifierTerminal?
-		var STRING = new StringLiteral("String", "\"", StringOptions.AllowsAllEscapes);
-		var NUMBER = new NumberLiteral("number", NumberOptions.AllowSign);
-		var VARIABLE = TerminalFactory.CreateCSharpIdentifier("Variable");
+		var ID = TerminalFactory.CreateCSharpIdentifier(IDName); // IdentifierTerminal?
+		var STRING = new StringLiteral(StringName, "\"", StringOptions.AllowsAllEscapes);
+		var NUMBER = new NumberLiteral(NumberName, NumberOptions.AllowSign);
+		var VARIABLE = TerminalFactory.CreateCSharpIdentifier(VariableName);
 		NUMBER.AddSuffix("r", System.TypeCode.Single);
 
-		NonTerminal program = new NonTerminal("program"),
-		assignmentSection = new NonTerminal("assignmentSection"),
+		NonTerminal program = new NonTerminal(ProgramName),
+		assignmentSection = new NonTerminal(AssignmentSectionName),
 		assignmentStatement = new NonTerminal(AssignmentStatementName),
-		ruleSection = new NonTerminal("ruleSection"),
+		ruleSection = new NonTerminal(RuleSectionName),
 		ruleStatement = new NonTerminal(RuleStatementName),
 		predecessor = new NonTerminal(PredecessorName),
 		successorList = new NonTerminal(SuccessorListName),
 		successor = new NonTerminal(SuccessorName),
-		command = new NonTerminal("command"),
-		argumentList = new NonTerminal("argumentList"),
-		arg = new NonTerminal("arg"),
-		namedArg = new NonTerminal("namedArg"),
-		atom = new NonTerminal("atom"),
-		commandBlock = new NonTerminal("commandBlock"),
-		ruleList = new NonTerminal("ruleList"),
-		ruleSymbol = new NonTerminal("ruleSymbol"),
-		scopeCmd = new NonTerminal("scopeCmd"),
-		simpleCmd = new NonTerminal("simpleCmd"),
+		command = new NonTerminal(CommandName),
+		argumentList = new NonTerminal(ArgumentListName),
+		arg = new NonTerminal(ArgName),
+		namedArg = new NonTerminal(NamedArgName),
+		atom = new NonTerminal(AtomName),
+		commandBlock = new NonTerminal(CommandBlockName),
+		ruleList = new NonTerminal(RuleListName),
+		ruleSymbol = new NonTerminal(RuleSymbolName),
+		scopeCmd = new NonTerminal(ScopeCommandName),
+		simpleCmd = new NonTerminal(SimpleCommandName),
 		probability = new NonTerminal(ProbabilityName);
 
 		program.Rule = (assignmentSection + ruleSection) | ruleSection;
