@@ -1,9 +1,13 @@
 ﻿using System.Text;
-using UnityEngine;
 using Irony.Parsing;
 
 public class IronyArchitectureGrammar : Grammar
 {
+	public const string RuleStatementName = "ruleStatement";
+	public const string PredecessorName = "predecessor";
+	public const string SuccessorListName = "successorList";
+	public const string ProbabilityName = "probability";
+
 	public IronyArchitectureGrammar()
 		: base(false)
 	{
@@ -23,9 +27,9 @@ public class IronyArchitectureGrammar : Grammar
 		assignmentSection = new NonTerminal("assignmentSection"),
 		assignmentStatement = new NonTerminal("assignmentStatement"),
 		ruleSection = new NonTerminal("ruleSection"),
-		ruleStatement = new NonTerminal("ruleStatement"),
-		predecessor = new NonTerminal("predecessor"),
-		successorList = new NonTerminal("successorList"),
+		ruleStatement = new NonTerminal(RuleStatementName),
+		predecessor = new NonTerminal(PredecessorName),
+		successorList = new NonTerminal(SuccessorListName),
 		successor = new NonTerminal("successor"),
 		command = new NonTerminal("command"),
 		argumentList = new NonTerminal("argumentList"),
@@ -36,14 +40,15 @@ public class IronyArchitectureGrammar : Grammar
 		ruleList = new NonTerminal("ruleList"),
 		ruleSymbol = new NonTerminal("ruleSymbol"),
 		scopeCmd = new NonTerminal("scopeCmd"),
-		simpleCmd = new NonTerminal("simpleCmd");
+		simpleCmd = new NonTerminal("simpleCmd"),
+		probability = new NonTerminal(ProbabilityName);
 
 		program.Rule = (assignmentSection + ruleSection) | ruleSection;
 		assignmentSection.Rule = MakePlusRule(assignmentSection, assignmentStatement);
 		assignmentStatement.Rule = "let" + VARIABLE + equal + atom + ";";
 		predecessor.Rule = ID + "(" + argumentList + ")" | ID;
 		ruleSection.Rule = MakePlusRule(ruleSection, ruleStatement);
-		ruleStatement.Rule = predecessor + ToTerm("::-") + successorList + ";";
+		ruleStatement.Rule = ((predecessor + ToTerm("::-")) | (ToTerm("::-"))) + successorList + probability + ";";
 		successorList.Rule = MakePlusRule(successorList, successor);
 		successor.Rule = command | ruleSymbol;
 		scopeCmd.Rule = "Scope" + dot + ID;
@@ -56,11 +61,12 @@ public class IronyArchitectureGrammar : Grammar
 		commandBlock.Rule = ToTerm("{") + ruleList + ToTerm("}") | Empty;
 		ruleSymbol.Rule = ID + "(" + argumentList + ")" | ID;
 		ruleList.Rule = MakeStarRule(ruleList, ToTerm("|"), ruleSymbol);
+		probability.Rule = Empty | (colon + NUMBER);
 
 		this.Root = program;
 
 		MarkTransient(ruleList, commandBlock);
 
-		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";", "=", "let");
+		MarkPunctuation ("::-", ",", "(", ")", "{", "}", ";", ":", "=", "let");
 	}
 }

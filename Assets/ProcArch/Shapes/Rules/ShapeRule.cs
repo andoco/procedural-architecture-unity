@@ -5,7 +5,7 @@ public sealed class ShapeRule
 {
 	public ShapeRule()
 	{
-		this.Successors = new List<IShapeSuccessor>();
+		this.Successors = new List<SuccessorList>();
 	}
 
 	public string Symbol { get; set; }
@@ -14,7 +14,7 @@ public sealed class ShapeRule
 
 	public string GuardCondition { get; set; }
 
-	public IList<IShapeSuccessor> Successors { get; private set; }
+	public IList<SuccessorList> Successors { get; private set; }
 
 	public override string ToString ()
 	{
@@ -28,6 +28,6 @@ public sealed class ShapeRule
 
 	private string FormatSuccessors()
 	{
-		return string.Format("[{0}]", string.Join(",", this.Successors.Select(x => x.ToString()).ToArray()));
+		return this.Successors.Count.ToString();
 	}
 }

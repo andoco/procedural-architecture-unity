@@ -24,16 +24,19 @@ public class IronyArchitectureEvaluator
 		switch (node.Term.Name)
 		{
 		case "assignmentStatement":
-			Debug.Log("evaluating assignment");
 			EnterAssignment(node);
 			break;
-		case "ruleStatement":
-			Debug.Log("evaluating rule");
-			EnterRule(node);
+		case IronyArchitectureGrammar.PredecessorName:
+			EnterPredecessor(node);
+			break;
+		case IronyArchitectureGrammar.SuccessorListName:
+			EnterSuccessorList(node);
 			break;
 		case "successor":
-			Debug.Log("evaluating successor");
 			EnterSuccessor(node);
+			break;
+		case IronyArchitectureGrammar.ProbabilityName:
+			EnterProbability(node);
 			break;
 		}
 		
@@ -49,19 +52,25 @@ public class IronyArchitectureEvaluator
 		this.system.DefaultArgs[argName] = argVal;
 	}
 
-	private void EnterRule(ParseTreeNode ruleNode)
+	private void EnterPredecessor(ParseTreeNode node)
 	{
-		var predecessor = ruleNode.FirstChild;
-		var ruleSymbol = predecessor.FirstChild.Token.Text;
-
-		var argNames = predecessor.ChildNodes.Count > 1
-			? this.GetArgs(predecessor.ChildNodes[1]).Select(x => x.Value).ToList()
+		var idNode = node.FirstChild;
+		
+		var ruleSymbol = idNode.Token.Text;
+		
+		var argNames = node.ChildNodes.Count > 1
+			? this.GetArgs(node.ChildNodes[1]).Select(x => x.Value).ToList()
 			: new List<string>();
-
+		
 		this.currentRule = new ShapeRule();
 		this.currentRule.Symbol = ruleSymbol;
 		this.currentRule.ArgNames = argNames;
 		this.system.Rules[this.currentRule.Symbol] = this.currentRule;
+	}
+
+	private void EnterSuccessorList(ParseTreeNode node)
+	{
+		this.currentRule.Successors.Add(new SuccessorList());
 	}
 		 
 	private void EnterSuccessor(ParseTreeNode successorNode)
@@ -83,7 +92,7 @@ public class IronyArchitectureEvaluator
 					Probability = 1f
 				};
 
-				this.currentRule.Successors.Add(successor);
+				this.currentRule.Successors.Last().Successors.Add(successor);
 			}
 			else if (child.Term.Name == "command")
 			{
@@ -148,8 +157,21 @@ public class IronyArchitectureEvaluator
 					Command = cmd
 				};
 				
-				this.currentRule.Successors.Add(cmdSuccessor);
+				this.currentRule.Successors.Last().Successors.Add(cmdSuccessor);
 			}
+		}
+	}
+
+	private void EnterProbability(ParseTreeNode node)
+	{
+		if (node.ChildNodes.Any())
+		{
+			var probability = float.Parse(node.FirstChild.Token.Text);
+			this.currentRule.Successors.Last().Probability = probability;
+		}
+		else
+		{
+			this.currentRule.Successors.Last().Probability = 1f;
 		}
 	}
 
@@ -167,7 +189,7 @@ public class IronyArchitectureEvaluator
 				arg = new Argument(argNode.FirstChild.FirstChild.Token.Text);
 				break;
 			case "namedArg":
-				arg = new Argument(argNode.FirstChild.ChildNodes[0].Token.Text, argNode.FirstChild.ChildNodes[2].ChildNodes[0].Token.Text);
+				arg = new Argument(argNode.FirstChild.ChildNodes[0].Token.Text, argNode.FirstChild.ChildNodes[1].ChildNodes[0].Token.Text);
 				break;
 			default:
 				throw new System.InvalidOperationException(string.Format("Unknown arg type: {0}", argNode.Term.Name));

@@ -74,6 +74,72 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1001 &470587843
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_RootMapOrder
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_Name
+      value: BoxWithRootArgs
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceName
+      value: cylinder
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceContent
+      value: 'root(sx) ::- Scope.Scale(sx,1,1) box;
+
+        box ::- Scope.Vol("box");'
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: rootArgs
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_RootGameObject: {fileID: 2141735153}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &872103242
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +302,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1696730258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,8 +391,59 @@ Prefab:
 
         box ::- Scope.Vol("box");'
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 1696730257}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &2141735153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 470587843}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2141735155}
+  - 114: {fileID: 2141735154}
+  m_Layer: 0
+  m_Name: BoxWithRootArgs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2141735154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 470587843}
+  m_GameObject: {fileID: 2141735153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ba5fe3c25324022a3ae46eec9b50e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceName: cylinder
+  sourceContent: 'root(sx) ::- Scope.Scale(sx,1,1) box;
+
+    box ::- Scope.Vol("box");'
+  material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
+  rootArgs: 2
+  globalArgs: 
+--- !u!4 &2141735155
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+  m_PrefabInternal: {fileID: 470587843}
+  m_GameObject: {fileID: 2141735153}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
