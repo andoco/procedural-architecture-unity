@@ -194,11 +194,6 @@ public class IronyArchitectureEvaluator
 			default:
 				throw new System.InvalidOperationException(string.Format("Unknown arg type: {0}", argNode.Term.Name));
 			}
-//			var argVal = argAtomNode.FirstChild.Token.Text;
-//			Debug.Log(string.Format("ARG: {0}", argVal));
-//			args.Add(argVal);
-
-			Debug.Log(string.Format("ARG: {0}", arg));
 
 			args.Add(arg);
 		}
