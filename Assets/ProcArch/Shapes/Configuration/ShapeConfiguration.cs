@@ -117,7 +117,16 @@ public class ShapeConfiguration : IShapeConfiguration
 	{
 		this.log.Trace(string.Format("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
 
-		var vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true));
+		Volume vol;
+
+		if (name.Equals("Obj", StringComparison.InvariantCultureIgnoreCase))
+		{
+			vol = new ObjVolume();
+		}
+		else
+		{
+			vol = (Volume)Activator.CreateInstance(Type.GetType(name + "Volume", true, true));
+		}
 
 		vol.BuildVolume(cmdArgs);
 
