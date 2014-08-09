@@ -21,6 +21,7 @@ public class Demo : MonoBehaviour
 	public GUIText sourceGuiText;
 	public GameObject faceTextPrefab;
 	public Menu menu;
+	public string initalSystem;
 	
 	void Start () {
 		this.sourceFiles = Resources.LoadAll<TextAsset>("");
@@ -34,7 +35,16 @@ public class Demo : MonoBehaviour
 			});
 		}
 
-		this.ShowSystem(this.sourceFiles[0]);
+		TextAsset source;
+		if (!string.IsNullOrEmpty(this.initalSystem))
+		{
+			source = this.sourceFiles.Single(x => x.name == this.initalSystem);
+		}
+		else
+		{
+			source = this.sourceFiles[0];
+		}
+		this.ShowSystem(source);
 	}
 
 	void Update()
