@@ -1,36 +1,50 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StyleConfig : IStyleConfig
 {
-	private readonly IDictionary<string, IDictionary<string, object>> styles;
-
 	public const string DefaultStyle = "default";
+	public const string DefaultTheme = "default";
+	
+	private IDictionary<string, ShapeStyle> styles = new Dictionary<string, ShapeStyle>();
+	private IDictionary<string, ShapeTheme> themes = new Dictionary<string, ShapeTheme>();
 
-	public StyleConfig(IDictionary<string, IDictionary<string, object>> styles)
+	public StyleConfig()
 	{
-		this.styles = styles;
+		this.AddStyle(new ShapeStyle(DefaultStyle, new Dictionary<string, string>()));
+		this.AddTheme(new ShapeTheme(DefaultTheme, new Dictionary<string, object> { { "default", Color.grey } }));
+	}
+
+	public void AddStyle(ShapeStyle style)
+	{
+		this.styles[style.Name] = style;
 	}
 	
-	public object GetStyle(string section, string key)
+	public void AddTheme(ShapeTheme theme)
 	{
-		return this.styles[section][key];
+		this.themes[theme.Name] = theme;
 	}
 
-	public object GetStyleOrDefault(string section, string key, object defaultValue)
+	public object GetStyle(string style, string theme, string key)
 	{
-		var result = defaultValue;
+		object themeVal = null;
 
-		IDictionary<string, object> sectionStyles;
-		if (this.styles.TryGetValue(section, out sectionStyles))
+		ShapeStyle s;
+		if (!this.styles.TryGetValue(style, out s))
 		{
-			object val;
-			if (sectionStyles.TryGetValue(key, out val))
-			{
-				result = val;
-			}
+			s = this.styles[DefaultStyle];
 		}
 
-		return result;
+		ShapeTheme t;
+		if (!this.themes.TryGetValue(theme, out t))
+		{
+			t = this.themes[DefaultTheme];
+		}
+
+		var themeKey = s.GetThemeKey(key);
+		themeVal = t[themeKey];
+
+		return themeVal;
 	}
 }

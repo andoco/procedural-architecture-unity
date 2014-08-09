@@ -15,6 +15,7 @@ public abstract class Volume
 		this.Components = new List<ScopeComponent>();
 		this.Transform = new SimpleTransform();
 		this.Style = StyleConfig.DefaultStyle;
+		this.Theme = "default";
 	}
 
 	public IList<Corner> Corners { get; private set; }
@@ -28,6 +29,8 @@ public abstract class Volume
 	public SimpleTransform Transform { get; private set; }
 
 	public string Style { get; set; }
+
+	public string Theme { get; set; }
 
 	public IEnumerable<Corner> GetCorners(string query)
 	{

@@ -53,8 +53,8 @@ public class GabledRoofVolume : Volume
 
 	protected override void ApplyStyle (IStyleConfig styleConfig)
 	{
-		var topColor = styleConfig.GetColor(this.Style, "top-color");
-		var sideColor = styleConfig.GetColor(this.Style, "side-color");
+		var topColor = styleConfig.GetColor(this.Style, this.Theme, "top-color");
+		var sideColor = styleConfig.GetColor(this.Style, this.Theme, "side-color");
 		
 		this.Faces[0].Color = topColor;
 		this.Faces[1].Color = topColor;

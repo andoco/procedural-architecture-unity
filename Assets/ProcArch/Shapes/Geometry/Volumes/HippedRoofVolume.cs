@@ -60,7 +60,7 @@ public class HippedRoofVolume : Volume
 
 	protected override void ApplyStyle (IStyleConfig styleConfig)
 	{
-		var faceColor = styleConfig.GetColor(this.Style, "face-color");
+		var faceColor = styleConfig.GetColor(this.Style, this.Theme, "face-color");
 		
 		this.Faces[0].Color = faceColor;
 		this.Faces[1].Color = faceColor;

@@ -35,7 +35,7 @@ public class ObjVolume : Volume
 		foreach (var groupName in this.groupNames)
 		{
 			var key = string.Format("{0}-color", groupName);
-			var color = styleConfig.GetColorOrDefault(this.Style, key, Color.grey);
+			var color = styleConfig.GetColor(this.Style, this.Theme, key);
 
 			foreach (var f in this.Faces)
 			{
@@ -75,7 +75,8 @@ public class ObjVolume : Volume
 		{
 			var group = result.Groups[i];
 
-			this.groupNames.Add(group.Name);
+			if (!string.IsNullOrEmpty(group.Name))
+				this.groupNames.Add(group.Name);
 			
 			for (var j=0; j < group.Faces.Count; j++)
 			{

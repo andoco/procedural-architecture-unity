@@ -58,7 +58,7 @@ public class RecessVolume : Volume
 
 	protected override void ApplyStyle (IStyleConfig styleConfig)
 	{
-		var faceColor = styleConfig.GetColor(this.Style, "face-color");
+		var faceColor = styleConfig.GetColor(this.Style, this.Theme, "face-color");
 
 		foreach (var f in this.Faces)
 			f.Color = faceColor;
