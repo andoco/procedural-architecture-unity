@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using Andoco.Unity.ProcArch;
 
 [CustomEditor(typeof(ArchitectureController))]
 public class TestUI : Editor {

@@ -1,5 +1,7 @@
-
-public interface IShapeSuccessor
+namespace Andoco.Unity.ProcArch.Shapes.Successors
 {
-	ShapeSuccessorKind Kind { get; }
+    public interface IShapeSuccessor
+    {
+        ShapeSuccessorKind Kind { get; }
+    }
 }

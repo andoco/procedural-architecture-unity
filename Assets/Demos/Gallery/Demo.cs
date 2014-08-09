@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Text;
 using Andoco.Core.Graph.Tree;
 using Andoco.Unity.Framework.Core.Meshes;
+using Andoco.Unity.ProcArch;
+using Andoco.Unity.ProcArch.Shapes.Configuration;
 
 public class Demo : MonoBehaviour
 {	

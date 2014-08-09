@@ -1,4 +1,7 @@
-public interface IScope
+namespace Andoco.Unity.ProcArch.Shapes.Configuration
 {
-	SimpleTransform Transform { get; set; }
+    public interface IScope
+    {
+        SimpleTransform Transform { get; set; }
+    }
 }

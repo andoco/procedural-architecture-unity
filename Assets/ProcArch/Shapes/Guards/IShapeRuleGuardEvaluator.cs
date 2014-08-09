@@ -1,4 +1,7 @@
-public interface IShapeRuleGuardEvaluator
+namespace Andoco.Unity.ProcArch.Shapes.Guards
 {
-	bool Evaluate(string expression);
+    public interface IShapeRuleGuardEvaluator
+    {
+        bool Evaluate (string expression);
+    }
 }

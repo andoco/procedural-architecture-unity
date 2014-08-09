@@ -5,7 +5,9 @@ using System.IO;
 using System.Text;
 using System.Globalization;
 using Andoco.Unity.Framework.Core.Meshes;
-
+using Andoco.Unity.ProcArch.Shapes.Geometry.Volumes;
+using Andoco.Unity.ProcArch.Shapes;
+using Andoco.Unity.ProcArch;
 
 public class VolumeLoaderDemo : MonoBehaviour {
 

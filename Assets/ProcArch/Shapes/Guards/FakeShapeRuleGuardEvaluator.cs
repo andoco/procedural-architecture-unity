@@ -1,7 +1,10 @@
-public class FakeShapeRuleGuardEvaluator : IShapeRuleGuardEvaluator
+namespace Andoco.Unity.ProcArch.Shapes.Guards
 {
-	public bool Evaluate(string expression)
-	{
-		return true;
-	}
+    public class FakeShapeRuleGuardEvaluator : IShapeRuleGuardEvaluator
+    {
+        public bool Evaluate (string expression)
+        {
+            return true;
+        }
+    }
 }

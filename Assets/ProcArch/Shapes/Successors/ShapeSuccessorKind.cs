@@ -1,5 +1,8 @@
-public enum ShapeSuccessorKind
+namespace Andoco.Unity.ProcArch.Shapes.Successors
 {
-	Command,
-	Symbol
+    public enum ShapeSuccessorKind
+    {
+        Command,
+        Symbol
+    }
 }

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using Andoco.Unity.Framework.Core;
+using Andoco.Unity.ProcArch.Shapes;
+using Andoco.Unity.ProcArch.Shapes.Configuration;
 
 public class ScopeTest : MonoBehaviour {
 
