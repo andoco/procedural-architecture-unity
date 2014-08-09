@@ -10,6 +10,6 @@ public static class StyleConfigExtensions
 
 	public static Color GetColorOrDefault(this IStyleConfig styleConfig, string section, string key, Color defaultValue)
 	{
-		return (Color)(styleConfig.GetStyle(section, key) ?? defaultValue);
+		return (Color)(styleConfig.GetStyleOrDefault(section, key, null) ?? defaultValue);
 	}
 }
