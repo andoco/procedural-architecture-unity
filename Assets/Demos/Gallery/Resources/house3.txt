@@ -1,0 +1,7 @@
+root ::- Scope.Scale(4, 4, 4) Scope.Vol("Box") Scope.Comp("face-vert") { sides } Scope.Comp("face-horiz-2") { roof };
+sides ::- Scope.Subdiv("Z", 0.5r, 0.5r) { sideLower | sideUpper };
+sideUpper ::- facade;
+sideLower ::- facade door;
+facade ::- Scope.Vol("Facade");
+door ::- Scope.Scale(1,1,1) Scope.Trans(0,0,0) Scope.Vol("Obj", objFile:"door");
+roof ::- Scope.Scale(1r, 1, 1r) Scope.Vol("GabledRoof");

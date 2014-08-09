@@ -247,7 +247,7 @@ MonoBehaviour:
   sourceGuiText: {fileID: 1755468608}
   faceTextPrefab: {fileID: 100000, guid: 91ae2a3930c054310bfbc1578a98f59b, type: 2}
   menu: {fileID: 1461897199}
-  initalSystem: 
+  initalSystem: house3
 --- !u!4 &871913584
 Transform:
   m_ObjectHideFlags: 0
