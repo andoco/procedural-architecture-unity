@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using System.Text;
+using System;
 
 public class CommonArchitectureStyleConfig : StyleConfig
 {
@@ -62,7 +63,8 @@ public class CommonArchitectureStyleConfig : StyleConfig
 				} 
 			},
 			{ "door", new Dictionary<string, object> {
-					{ "face-color", new Color(0.5f, 0.4f, 0f) }
+					{ "face-color", new Color(0.5f, 0.4f, 0f) },
+					{ "Inner-color", new Color(0.5f, 0.4f, 0f) }
 				}
 			}
 		};

@@ -4,10 +4,13 @@ using System.IO;
 using System.Text;
 using ObjLoader.Loader.Loaders;
 using UnityEngine;
+using System;
 
 public class ObjVolume : Volume
 {
 	private static readonly Dictionary<string, ObjVolumeCacheItem> objVolCache = new Dictionary<string, ObjVolumeCacheItem>();
+
+	private HashSet<string> groupNames = new HashSet<string>();
 
 	protected override void OnBuildVolume(Argument[] args)
 	{
@@ -24,6 +27,23 @@ public class ObjVolume : Volume
 			var result = LoadObj(objFile);
 			BuildFromObj(result);
 			StoreInCache(objFile);
+		}
+	}
+
+	protected override void ApplyStyle (IStyleConfig styleConfig)
+	{
+		foreach (var groupName in this.groupNames)
+		{
+			var key = string.Format("{0}-color", groupName);
+			var color = styleConfig.GetColorOrDefault(this.Style, key, Color.grey);
+
+			foreach (var f in this.Faces)
+			{
+				if (f.Name.StartsWith(string.Format("face-{0}", groupName), StringComparison.InvariantCultureIgnoreCase))
+				{
+					f.Color = color;
+				}
+			}
 		}
 	}
 
@@ -54,6 +74,8 @@ public class ObjVolume : Volume
 		for (var i=0; i < result.Groups.Count; i++)
 		{
 			var group = result.Groups[i];
+
+			this.groupNames.Add(group.Name);
 			
 			for (var j=0; j < group.Faces.Count; j++)
 			{
@@ -67,8 +89,8 @@ public class ObjVolume : Volume
 					var fc = cornerIndex[new Vector3(v.X, v.Y, v.Z)];
 					faceCorners[k] = fc;
 				}
-				
-				this.Faces.Add(new Face(string.Format("face-{0}-{1}", j, i), faceCorners));
+
+				this.Faces.Add(new Face(string.Format("face-{0}-{1}-{2}", group.Name, j, i), faceCorners));
 			}
 		}
 	}
@@ -80,7 +102,8 @@ public class ObjVolume : Volume
 			Corners = this.Corners,
 			Edges = this.Edges,
 			Faces = this.Faces,
-			Components = this.Components
+			Components = this.Components,
+			GroupNames = this.groupNames
 		};
 
 		objVolCache[objFile] = cacheItem;
@@ -96,6 +119,8 @@ public class ObjVolume : Volume
 			this.Faces.Add(f);
 		foreach (var c in cacheItem.Components)
 			this.Components.Add(c);
+		foreach (var g in cacheItem.GroupNames)
+			this.groupNames.Add(g);
 	}
 
 	private class ObjVolumeCacheItem
@@ -104,5 +129,6 @@ public class ObjVolume : Volume
 		public IList<Edge> Edges { get; set; }
 		public IList<Face> Faces { get; set; }
 		public IList<ScopeComponent> Components { get; set; }
+		public HashSet<string> GroupNames { get; set; }
 	}
 }
