@@ -64,7 +64,7 @@ public class CommonArchitectureStyleConfig : StyleConfig
 			},
 			{ "door", new Dictionary<string, object> {
 					{ "face-color", new Color(0.5f, 0.4f, 0f) },
-					{ "Inner-color", new Color(0.5f, 0.4f, 0f) }
+					{ "Inner-color", darkWood }
 				}
 			}
 		};
