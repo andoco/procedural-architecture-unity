@@ -11,6 +11,11 @@ using UnityEngine;
 public class ShapeTheme
 {
 	private Dictionary<string, object> data = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+
+	/// <summary>
+	/// The default key used to return a value when the requested one is not found.
+	/// </summary>
+	public const string DefaultKey = "default";
 	
 	public ShapeTheme(string name, IDictionary<string, object> items)
 	{
@@ -39,5 +44,15 @@ public class ShapeTheme
 		{
 			this.data[item.Key] = item.Value;
 		}
+	}
+
+	public object GetValue(string key)
+	{
+		object result;
+		if (!this.data.TryGetValue(key, out result))
+		{
+			result = this[DefaultKey];
+		}
+		return result;
 	}
 }

@@ -14,8 +14,6 @@ public abstract class Volume
 		this.Faces = new List<Face>();
 		this.Components = new List<ScopeComponent>();
 		this.Transform = new SimpleTransform();
-		this.Style = StyleConfig.DefaultStyle;
-		this.Theme = "default";
 	}
 
 	public IList<Corner> Corners { get; private set; }

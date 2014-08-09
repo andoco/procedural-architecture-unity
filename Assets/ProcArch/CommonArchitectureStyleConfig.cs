@@ -37,14 +37,24 @@ public class CommonArchitectureStyleConfig : StyleConfig
 
 		// Themes
 		
-		var villageTheme = new ShapeTheme("village", new Dictionary<string, object> {
+		var villageRedTheme = new ShapeTheme("villageRed", new Dictionary<string, object> {
 			{ "default", Color.grey },
 			{ "stone", new Color(194f/255f, 184f/255f, 139f/255f) },
 			{ "dark-wood", new Color(59f/255f, 49f/255f, 41f/255f) },
 			{ "tile", new Color(196f/255f, 82f/255f, 48f/255f) }
 		});
+
+		var villageBlueTheme = new ShapeTheme("villageBlue", new Dictionary<string, object> {
+			{ "default", Color.grey },
+			{ "stone", new Color(194f/255f, 184f/255f, 139f/255f) },
+			{ "dark-wood", new Color(59f/255f, 49f/255f, 41f/255f) },
+			{ "tile", new Color(46f/255f, 128f/255f, 194f/255f) }
+		});
 		
-		this.AddTheme(villageTheme);
+		this.AddTheme(villageRedTheme);
+		this.AddTheme(villageBlueTheme);
+
+		this.DefaultTheme = villageRedTheme.Name;
 	}
 
 //	public static IDictionary<string, IDictionary<string, object>> GetCommonStyles()
