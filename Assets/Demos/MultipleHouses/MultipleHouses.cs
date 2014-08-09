@@ -67,8 +67,8 @@ public class MultipleHouses : MonoBehaviour
 
 		this.rootGo = new GameObject("Architecture");
 
-		var gridSize = new GridSize(10f, 8, 8);
-		var offset = gridSize.GetSizeVector() * -0.5f;
+		var gridSize = new GridSize(10f, 10, 10);
+		var offset = gridSize.GetSizeVector() * -0.5f + (Vector3.one * (gridSize.nodeSize / 2f));
 
 		var roofs = new [] { "GabledRoof", "HippedRoof", "MansardRoof" };
 
