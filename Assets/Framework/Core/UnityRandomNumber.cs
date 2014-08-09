@@ -17,7 +17,13 @@ namespace Andoco.Unity.Framework.Core
 
         public double NextDouble ()
         {
+            // TODO: Probably shouldn't do this. Use System.Random instead?
             return UnityEngine.Random.value;
+        }
+
+        public float NextFloat()
+        {
+            return Random.value;
         }
 
         public int Next(int max)

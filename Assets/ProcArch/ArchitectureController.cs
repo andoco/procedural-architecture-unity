@@ -29,7 +29,7 @@
                 this.sourceName, 
                 this.sourceContent, 
                 this.rootArgs == null ? new List<string> () : this.rootArgs.Split (',').ToList (), 
-                this.globalArgs.ParseCsv ());
+                this.globalArgs.ParseArgs());
     
             var meshFilter = this.gameObject.AddComponent<MeshFilter> ();
             var meshRenderer = this.gameObject.AddComponent<MeshRenderer> ();
