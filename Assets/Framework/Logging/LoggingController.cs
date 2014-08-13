@@ -5,7 +5,6 @@ namespace Andoco.Unity.Framework.Core.Logging
     using System;
     using UnityEngine;
     using System.Collections;
-//    using Common.Logging.Configuration;
 
     public enum LogLevel
     {
@@ -184,11 +183,7 @@ namespace Andoco.Unity.Framework.Core.Logging
 
         static LoggingController()
         {
-//            if (Application.isPlaying)
-//            {
-//                LogManager.LogFactory = new UnityLogFactory();
-//            }
-//            ConfigureCommonLogging();
+            LogManager.LogFactory = new UnityLogFactory();
         }
 
     	void Awake()
@@ -196,29 +191,10 @@ namespace Andoco.Unity.Framework.Core.Logging
             StartCoroutine(UpdateLogConfig());
     	}
     	
-//        private static void ConfigureCommonLogging()
-//        {
-//            Debug.Log("Configuring Common.Logging");
-//
-//            // create properties
-//            var properties = new NameValueCollection();
-//            properties["showDateTime"] = "true";        
-//            Common.Logging.LogManager.Adapter = new UnityLoggerFactoryAdapter(properties);        
-//        }
-
         private IEnumerator UpdateLogConfig()
         {
-            LogManager.LogFactory = new UnityLogFactory();
             while (true)
             {
-//                var c = UnityLoggerFactoryAdapter.currentConfig;
-//                c.trace = this.trace;
-//                c.debug = this.debug;
-//                c.info = this.info;
-//                c.warning = this.warning;
-//                c.error = this.error;
-//                c.fatal = this.fatal;
-
                 var c = UnityLogFactory.CurrentConfig;
                 c.trace = this.trace;
 //                c.debug = this.debug;
