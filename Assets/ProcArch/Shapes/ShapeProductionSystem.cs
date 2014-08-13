@@ -5,7 +5,7 @@ namespace Andoco.Unity.ProcArch.Shapes
     using System.Linq;
     using UnityEngine;
     using Andoco.Core.Graph.Tree;
-    using Common.Logging;
+    using Andoco.Unity.Framework.Core.Logging;
     using Andoco.Unity.ProcArch.Shapes.Configuration;
     using Andoco.Unity.ProcArch.Shapes.Rules;
     using Andoco.Unity.ProcArch.Shapes.Successors;

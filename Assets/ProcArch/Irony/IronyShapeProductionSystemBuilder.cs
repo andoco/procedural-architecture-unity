@@ -4,7 +4,7 @@ namespace Andoco.Unity.ProcArch.Irony
     using System.Text;
     using UnityEngine;
     using global::Irony.Parsing;
-    using Common.Logging;
+    using Andoco.Unity.Framework.Core.Logging;
     using Andoco.Unity.ProcArch.Shapes;
     
     public class IronyShapeProductionSystemBuilder : IShapeProductionSystemBuilder
