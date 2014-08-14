@@ -22,15 +22,27 @@ namespace Andoco.Unity.Framework.Core.Logging
 
         bool IsTraceEnabled { get; }
 
+        bool IsDebugEnabled { get; }
+
         bool IsInfoEnabled { get; }
+
+        bool IsWarnEnabled { get; }
         
         bool IsErrorEnabled { get; }
 
+        bool IsFatalEnabled { get; }
+
         void Trace(object message);
+
+        void Debug(object message);
 
         void Info(object message);
 
+        void Warn(object message);
+
         void Error(object message);
+
+        void Fatal(object message);
     }
 
     public abstract class Log : ILog
@@ -53,11 +65,27 @@ namespace Andoco.Unity.Framework.Core.Logging
             }
         }
 
+        public bool IsDebugEnabled
+        {
+            get
+            {
+                return this.config.debug;
+            }
+        }
+
         public bool IsInfoEnabled
         {
             get
             {
                 return this.config.info;
+            }
+        }
+
+        public bool IsWarnEnabled
+        {
+            get
+            {
+                return this.config.warning;
             }
         }
 
@@ -69,11 +97,27 @@ namespace Andoco.Unity.Framework.Core.Logging
             }
         }
 
+        public bool IsFatalEnabled
+        {
+            get
+            {
+                return this.config.fatal;
+            }
+        }
+
         public void Trace(object message)
         {
             if (this.IsTraceEnabled)
             {
                 this.InternalWrite(LogLevel.Trace, message, null);
+            }
+        }
+
+        public void Debug(object message)
+        {
+            if (this.IsDebugEnabled)
+            {
+                this.InternalWrite(LogLevel.Debug, message, null);
             }
         }
 
@@ -85,11 +129,27 @@ namespace Andoco.Unity.Framework.Core.Logging
             }
         }
 
+        public void Warn(object message)
+        {
+            if (this.IsWarnEnabled)
+            {
+                this.InternalWrite(LogLevel.Warn, message, null);
+            }
+        }
+
         public void Error(object message)
         {
             if (this.IsInfoEnabled)
             {
                 this.InternalWrite(LogLevel.Error, message, null);
+            }
+        }
+
+        public void Fatal(object message)
+        {
+            if (this.IsFatalEnabled)
+            {
+                this.InternalWrite(LogLevel.Fatal, message, null);
             }
         }
         
@@ -197,11 +257,11 @@ namespace Andoco.Unity.Framework.Core.Logging
             {
                 var c = UnityLogFactory.CurrentConfig;
                 c.trace = this.trace;
-//                c.debug = this.debug;
+                c.debug = this.debug;
                 c.info = this.info;
-//                c.warning = this.warning;
+                c.warning = this.warning;
                 c.error = this.error;
-//                c.fatal = this.fatal;
+                c.fatal = this.fatal;
 
                 yield return new WaitForSeconds(0.5f);
             }

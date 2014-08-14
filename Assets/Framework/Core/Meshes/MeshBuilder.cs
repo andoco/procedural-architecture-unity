@@ -2,7 +2,6 @@ namespace Andoco.Unity.Framework.Core.Meshes
 {
 	using System.Collections.Generic;
 	using System.Linq;
-//    using Common.Logging;
     using Andoco.Unity.Framework.Core.Logging;
 	using UnityEngine;
 
