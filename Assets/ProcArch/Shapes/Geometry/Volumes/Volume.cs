@@ -3,9 +3,9 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using UnityEngine;
     using Andoco.Unity.Framework.Core.Meshes;
-    using System.Text.RegularExpressions;
     using Andoco.Unity.ProcArch.Shapes.Configuration;
     using Andoco.Unity.ProcArch.Shapes.Styles;
 
@@ -119,7 +119,49 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
         }
     
         #region Protected methods
+
+        protected void AddCorner(string name, Vector3 position)
+        {
+            this.Corners.Add(new Corner(name, position));
+        }
+
+        protected void AddEdge(string name, Corner corner1, Corner corner2)
+        {
+            this.Edges.Add(new Edge(name, corner1, corner2));
+        }
+
+        protected void AddEdge(string name, int cornerIndex1, int cornerIndex2)
+        {
+            this.Edges.Add(new Edge(name, this.Corners[cornerIndex1], this.Corners[cornerIndex2]));
+        }
+
+        protected void AddFace(string name, params int[] cornerIndices)
+        {
+            var corners = new Corner[cornerIndices.Length];
+
+            for (int i=0; i < cornerIndices.Length; i++)
+            {
+                corners[i] = this.Corners[cornerIndices[i]];
+            }
+
+            this.Faces.Add(new Face(name, corners));
+        }
     
+        protected void AddFace(string name, params Corner[] corners)
+        {
+            this.Faces.Add(new Face(name, corners));
+        }
+
+        protected void AddComponent(string name, Vector3 pos, Quaternion rot, Vector3 scale, Func<Vector3, Vector3> axisMap)
+        {
+            this.Components.Add(new ScopeComponent(name, new SimpleTransform(pos, rot, scale), axisMap));
+        }
+
+        protected void AddComponent(string name, SimpleTransform transform, Func<Vector3, Vector3> axisMap)
+        {
+            this.Components.Add(new ScopeComponent(name, transform, axisMap));
+        }
+
         protected virtual void ApplyArguments(Argument[] args)
         {
         }
