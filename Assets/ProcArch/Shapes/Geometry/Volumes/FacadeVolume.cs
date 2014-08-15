@@ -19,21 +19,21 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
         protected override void OnBuildVolume (Argument[] args)
         {
             // Corners
-            this.Corners.Add (new Corner ("corner-top-right", new Vector3 (0.5f, 0f, 0.5f)));
-            this.Corners.Add (new Corner ("corner-bottom-right", new Vector3 (0.5f, 0f, -0.5f)));
-            this.Corners.Add (new Corner ("corner-bottom-left", new Vector3 (-0.5f, 0f, -0.5f)));
-            this.Corners.Add (new Corner ("corner-top-left", new Vector3 (-0.5f, 0f, 0.5f)));
+            this.AddCorner("corner-top-right", new Vector3 (0.5f, 0f, 0.5f));
+            this.AddCorner("corner-bottom-right", new Vector3 (0.5f, 0f, -0.5f));
+            this.AddCorner("corner-bottom-left", new Vector3 (-0.5f, 0f, -0.5f));
+            this.AddCorner("corner-top-left", new Vector3 (-0.5f, 0f, 0.5f));
             
             // Edges
-            this.Edges.Add (new Edge ("edge-right", this.Corners [0], this.Corners [1]));
-            this.Edges.Add (new Edge ("edge-bottom", this.Corners [1], this.Corners [2]));
-            this.Edges.Add (new Edge ("edge-left", this.Corners [2], this.Corners [3]));
-            this.Edges.Add (new Edge ("edge-top", this.Corners [3], this.Corners [0]));
+            this.AddEdge("edge-right", 0, 1);
+            this.AddEdge("edge-bottom", 1, 2);
+            this.AddEdge("edge-left", 2, 3);
+            this.AddEdge("edge-top", 3, 0);
             
             // Faces
-            this.Faces.Add (new Face ("face", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[2], this.Corners[3] }));
+            this.AddFace("face", 0, 1, 2, 3);
             
-            this.Components.Add (new ScopeComponent (this.Faces [0].Name, new SimpleTransform (Vector3.zero, Quaternion.identity, new Vector3 (1f, 0f, 1f)), v => v));
+            this.AddComponent(this.Faces[0].Name, Vector3.zero, Quaternion.identity, new Vector3 (1f, 0f, 1f), v => v);
         }
     
         protected override void ApplyStyle (IStyleConfig styleConfig)
