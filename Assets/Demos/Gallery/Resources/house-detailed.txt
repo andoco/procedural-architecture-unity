@@ -24,5 +24,17 @@ windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Trans(0, -0.05, 0) Scope.Vol("r
 windowRecess ::- Scope.Vol("facade", style:"window");
 windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
 windowLower ::- facade;
+
+# roof
+roof ::- Scope.Scale(1r, 2, 1r) roofMain chimney;
+roofMain ::- Scope.Vol(roof);
+
+# chimney
+chimney
+	::- Scope.Trans(0,0,1) Scope.Scale(0.5,2.5,0.5) Scope.Vol("box") : 0.25;
+	::- Scope.Trans(0,0,1) Scope.Scale(0.5,2.5,0.5) Scope.Vol("box") : 0.25;
+	::- Scope.Trans(1,0,0) Scope.Scale(0.5,2.5,0.5) Scope.Vol("box") : 0.25;
+	::- Scope.Scale(0.5,2.5,0.5) Scope.Vol("box") : 0.25;
+
+# common
 facade ::- Scope.Vol("facade");
-roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof);
