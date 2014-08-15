@@ -11,8 +11,7 @@
         public const string VariableName = "VARIABLE";
     
         public const string ProgramName = "program";
-        public const string AssignmentSectionName = "assignmentSection";
-        public const string RuleSectionName = "ruleSection";
+        public const string LineName = "line";
         public const string RuleStatementName = "ruleStatement";
         public const string PredecessorStatementName = "predecessorStatement";
         public const string PredecessorName = "predecessor";
@@ -51,9 +50,8 @@
             NonGrammarTerminals.Add(comment);
     
             NonTerminal program = new NonTerminal (ProgramName),
-            assignmentSection = new NonTerminal (AssignmentSectionName),
+            line = new NonTerminal(LineName),
             assignmentStatement = new NonTerminal (AssignmentStatementName),
-            ruleSection = new NonTerminal (RuleSectionName),
             ruleStatement = new NonTerminal (RuleStatementName),
             predecessorStatement = new NonTerminal (PredecessorStatementName),
             predecessor = new NonTerminal (PredecessorName),
@@ -71,12 +69,11 @@
             simpleCmd = new NonTerminal (SimpleCommandName),
             probability = new NonTerminal (ProbabilityName);
     
-            program.Rule = (assignmentSection + ruleSection) | ruleSection;
-            assignmentSection.Rule = MakePlusRule (assignmentSection, assignmentStatement);
+            program.Rule = MakePlusRule(program, line);
+            line.Rule = assignmentStatement | ruleStatement;
             assignmentStatement.Rule = "let" + VARIABLE + equal + atom + ";";
             predecessorStatement.Rule = predecessor | Empty;
             predecessor.Rule = ID + "(" + argumentList + ")" | ID;
-            ruleSection.Rule = MakePlusRule (ruleSection, ruleStatement);
             ruleStatement.Rule = predecessorStatement + ToTerm ("::-") + successorList + probability + ";";
             successorList.Rule = MakePlusRule (successorList, successor);
             successor.Rule = command | ruleSymbol;
