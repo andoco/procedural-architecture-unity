@@ -1,8 +1,5 @@
 namespace Andoco.Unity.Framework.Core.Logging
 {
-    using UnityEngine;
-    using System.Collections;
-
     public class LogLevelConfig
     {
         public bool trace;
