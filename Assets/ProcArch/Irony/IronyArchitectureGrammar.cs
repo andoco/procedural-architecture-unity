@@ -30,6 +30,7 @@
         public const string ArgumentListName = "argumentList";
         public const string ArgName = "arg";
         public const string NamedArgName = "namedArg";
+        public const string CommentName = "comment";
     
         public IronyArchitectureGrammar ()
             : base(false)
@@ -45,6 +46,9 @@
             var NUMBER = new NumberLiteral (NumberName, NumberOptions.AllowSign);
             var VARIABLE = TerminalFactory.CreateCSharpIdentifier (VariableName);
             NUMBER.AddSuffix ("r", System.TypeCode.Single);
+
+            var comment = new CommentTerminal(CommentName, "#", "\r", "\n", "\u2085", "\u2028", "\u2029");
+            NonGrammarTerminals.Add(comment);
     
             NonTerminal program = new NonTerminal (ProgramName),
             assignmentSection = new NonTerminal (AssignmentSectionName),
