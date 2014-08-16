@@ -9,13 +9,20 @@ using Andoco.Unity.Framework.Core.Meshes;
 using Andoco.Unity.Framework.Core;
 using Andoco.Unity.ProcArch;
 
+[System.Serializable]
+public class ArchitectureItem
+{
+	public string assetName;
+	public float weight;
+}
+
 public class MultipleHouses : MonoBehaviour
 {	
 	private ArchitectureBuilder architectureBuilder = new ArchitectureBuilder();
 
 	private GameObject rootGo;
 
-	public string[] houseSource;
+	public ArchitectureItem[] architectures;
 	public Material material;
 	
 	void Start () {
@@ -71,8 +78,6 @@ public class MultipleHouses : MonoBehaviour
 		var gridSize = new GridSize(10f, 10, 10);
 		var offset = gridSize.GetSizeVector() * -0.5f + (Vector3.one * (gridSize.nodeSize / 2f));
 
-		var roofs = new [] { "GabledRoof", "HippedRoof", "MansardRoof" };
-
 		for (int x=0; x < gridSize.horizNodes; x++)
 		{
 			for (int y=0; y < gridSize.vertNodes; y++)
@@ -82,10 +87,10 @@ public class MultipleHouses : MonoBehaviour
 				var h = 3f + 5f * Random.value;
 
 				var rootArgs = new List<string> { w.ToString(), h.ToString(), d.ToString() };
-				var globalArgs = new Dictionary<string, string> { { "roof", roofs.PickRandom(UnityRandomNumber.Instance) } };
+				var globalArgs = new Dictionary<string, string>();
 
-				var assetName = this.houseSource.PickRandom(UnityRandomNumber.Instance);
-				var asset = Resources.Load<TextAsset>(assetName);
+				var archItem = this.architectures.PickRandomWeighted(item => item.weight, UnityRandomNumber.Instance);
+				var asset = Resources.Load<TextAsset>(archItem.assetName);
 
 				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
 
