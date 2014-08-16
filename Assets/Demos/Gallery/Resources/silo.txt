@@ -1,0 +1,6 @@
+let segs = 32;
+
+root(sx, sy, sz) ::- Scope.Scale(sx, sy, sx) cylinder;
+cylinder ::- Scope.Vol("cylinder", segments:segs) Scope.Comp("face-side") { facade } Scope.Comp("face-top") { cone };
+cone ::- Scope.Scale(1r, 3, 1r) Scope.Vol("cone", segments:segs, style:"roof") Scope.Comp("face-vert") { facade };
+facade ::- Scope.Vol("facade");
