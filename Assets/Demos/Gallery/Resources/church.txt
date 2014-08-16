@@ -2,16 +2,28 @@ let roof = "HippedRoof";
 let hipDist = 0;
 
 root ::- Scope.Scale(5, 10, 5) Scope.Vol("box") Scope.Comp("face-vert-[^1]") { side } Scope.Comp("face-vert-1") { sideWithDoor } Scope.Comp("face-horiz-2") { roof };
+
+# side
 side ::- Scope.Subdiv("Z", 0.5r, 0.5r) { level | level };
 sideWithDoor ::- Scope.Subdiv("Z", 0.5r, 0.5r) { levelWithDoor | level };
+
+# level
 level ::- Scope.Subdiv("X", 0.25r, 0.25, 0.5r, 0.25, 0.25r) { facade | window | facade | window | facade };
 levelWithDoor ::- Scope.Subdiv("X", 0.5r, 1.5, 0.5r) { facade | door | facade };
+
+# door
 door ::- Scope.Subdiv("Z", 2, 1r) { doorMain | facade };
-doorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box", "door");
+doorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box", style:"door");
+
+# window
 window ::- Scope.Subdiv("Z", 0.5r, 0.1, 2, 0.5r) { windowLower | windowSill | windowMiddle | windowUpper };
 windowUpper ::- facade;
-windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", "window");
-windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box");
+windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Vol("box", style:"window");
+windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box", style:"windowSill");
 windowLower ::- facade;
-facade ::- Scope.Vol("facade");
+
+# roof
 roof ::- Scope.Scale(1r, 10, 1r) Scope.Vol(roof, hipDist:hipDist);
+
+# common
+facade ::- Scope.Vol("facade");
