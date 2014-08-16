@@ -14,50 +14,40 @@ namespace Andoco.Unity.ProcArch
             : base()
         {
             // Styles
-    
-            var facadeStyle = new ShapeStyle ("facade", new Dictionary<string, string> {
-                { "face-color", "stone" }
-            });
-    
-            var roofStyle = new ShapeStyle ("roof", new Dictionary<string, string> {
-                { "face-color", "tile" }
-            });
-    
-            var sidedRoofStyle = new ShapeStyle ("sided-roof", new Dictionary<string, string> {
-                { "top-color", "tile" },
-                { "side-color", "stone" }
-            });
-    
-            var doorStyle = new ShapeStyle ("door", new Dictionary<string, string> {
-                { "face-color", "stone" },
-                { "Inner-color", "dark-wood" }
-            });
-    
-            this.AddStyle (facadeStyle);
-            this.AddStyle (roofStyle);
-            this.AddStyle (sidedRoofStyle);
-            this.AddStyle (doorStyle);
-    
+        
+			this.AddStyle("facade", "face-color", "stone");
+			this.AddStyle("roof", "face-color", "tile");
+			this.AddStyle("chimney", "face-color", "stone");
+			this.AddStyle("sided-roof", "top-color", "tile", "side-color", "stone");   
+			this.AddStyle("door", "face-color", "stone", "Inner-color", "dark-wood");
+			this.AddStyle("window", "face-color", "glass");
+			this.AddStyle("windowSill", "face-color", "stone");
+        
             // Themes
+
+			this.AddTheme(
+				"pale-stone-wood",
+				"default", Color.red,
+				"stone", new Color(255f/255f, 212f/255f, 140/255f),
+				"dark-wood", new Color(59f/255f, 49f/255f, 41f/255f),
+				"tile", new Color(143f/255f, 64f/255f, 16f/255f),
+				"glass", new Color(0f, 0f, 0f));
             
-            var villageRedTheme = new ShapeTheme ("villageRed", new Dictionary<string, object> {
-                { "default", Color.grey },
-                { "stone", new Color(194f/255f, 184f/255f, 139f/255f) },
-                { "dark-wood", new Color(59f/255f, 49f/255f, 41f/255f) },
-                { "tile", new Color(196f/255f, 82f/255f, 48f/255f) }
-            });
+            this.AddTheme(
+				"villageRed",
+                "default", Color.grey,
+                "stone", new Color(194f/255f, 184f/255f, 139f/255f),
+                "dark-wood", new Color(59f/255f, 49f/255f, 41f/255f),
+                "tile", new Color(196f/255f, 82f/255f, 48f/255f));
     
-            var villageBlueTheme = new ShapeTheme ("villageBlue", new Dictionary<string, object> {
-                { "default", Color.grey },
-                { "stone", new Color(194f/255f, 184f/255f, 139f/255f) },
-                { "dark-wood", new Color(59f/255f, 49f/255f, 41f/255f) },
-                { "tile", new Color(46f/255f, 128f/255f, 194f/255f) }
-            });
-            
-            this.AddTheme (villageRedTheme);
-            this.AddTheme (villageBlueTheme);
-    
-            this.DefaultTheme = villageRedTheme.Name;
+            this.AddTheme(
+				"villageBlue",
+                "default", Color.grey,
+                "stone", new Color(194f/255f, 184f/255f, 139f/255f),
+                "dark-wood", new Color(59f/255f, 49f/255f, 41f/255f),
+                "tile", new Color(46f/255f, 128f/255f, 194f/255f));
+                
+			this.DefaultTheme = "pale-stone-wood";
         }
     
         //  public static IDictionary<string, IDictionary<string, object>> GetCommonStyles()

@@ -20,15 +20,45 @@
     
         public string DefaultTheme { get; set; }
     
-        public void AddStyle (ShapeStyle style)
+        public void AddStyle(ShapeStyle style)
         {
-            this.styles [style.Name] = style;
+            this.styles[style.Name] = style;
         }
+
+		public void AddStyle(string name, params string[] styleArgs)
+		{
+			if (styleArgs.Length % 2 != 0)
+				throw new System.ArgumentException("Styles must be supplied in pairs of two: style-name, theme-key");
+
+			var styleDictionary = new Dictionary<string, string>();
+
+			for (var i=0; i < styleArgs.Length; i+=2)
+			{
+				styleDictionary[styleArgs[i]] = styleArgs[i+1];
+			}
+
+			this.AddStyle(new ShapeStyle(name, styleDictionary));
+		}
         
-        public void AddTheme (ShapeTheme theme)
+        public void AddTheme(ShapeTheme theme)
         {
-            this.themes [theme.Name] = theme;
+            this.themes[theme.Name] = theme;
         }
+
+		public void AddTheme(string name, params object[] themeArgs)
+		{
+			if (themeArgs.Length % 2 != 0)
+				throw new System.ArgumentException("Themes must be supplied in pairs of two: theme-name, theme-value");
+			
+			var dictionary = new Dictionary<string, object>();
+			
+			for (var i=0; i < themeArgs.Length; i+=2)
+			{
+				dictionary[(string)themeArgs[i]] = themeArgs[i+1];
+			}
+			
+			this.AddTheme(new ShapeTheme(name, dictionary));
+		}
     
         public object GetStyle (string style, string theme, string key)
         {
