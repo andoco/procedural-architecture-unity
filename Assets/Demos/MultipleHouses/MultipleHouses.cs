@@ -14,6 +14,7 @@ public class ArchitectureItem
 {
 	public string assetName;
 	public float weight;
+	public string theme = "default";
 }
 
 public class MultipleHouses : MonoBehaviour
@@ -92,7 +93,7 @@ public class MultipleHouses : MonoBehaviour
 				var archItem = this.architectures.PickRandomWeighted(item => item.weight, UnityRandomNumber.Instance);
 				var asset = Resources.Load<TextAsset>(archItem.assetName);
 
-				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
+				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs, archItem.theme);
 
 				var pos = offset + new Vector3((float)x * gridSize.nodeSize, 0f, (float)y * gridSize.nodeSize);
 				var go = BuildGameObject(architecture.Mesh);

@@ -20,13 +20,15 @@ namespace Andoco.Unity.ProcArch
     {
         private IDictionary<string, IShapeProductionSystem> productionSystemCache = new Dictionary<string, IShapeProductionSystem> ();
     
-        public Architecture Build (string name, string source, IList<string> rootArgs, IDictionary<string, string> globalArgs)
+        public Architecture Build(string name, string source, IList<string> rootArgs, IDictionary<string, string> globalArgs, string theme = null)
         {
             var system = GetProductionSystem (name, source);
     
             var shapeConfiguration = system.Run (rootArgs, globalArgs);
     
-            var styleConfig = new CommonArchitectureStyleConfig ();
+            var styleConfig = new CommonArchitectureStyleConfig();
+			if (theme != null)
+				styleConfig.DefaultTheme = theme;
             var mesh = BuildMesh (shapeConfiguration, styleConfig);
     
             return new Architecture
