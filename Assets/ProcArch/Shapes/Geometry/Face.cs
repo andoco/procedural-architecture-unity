@@ -19,6 +19,8 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry
         public IList<Corner> Corners { get; private set; }
     
         public Color Color { get; set; }
+
+        public Vector2[] UVs { get; set; }
     
         public Vector3 GetCentre ()
         {

@@ -243,11 +243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d86cbf50b8634b2eb911fdad78a74a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: e96bd76f7fa184e7ea94af650c5e6fc8, type: 2}
+  material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   sourceGuiText: {fileID: 1755468608}
   faceTextPrefab: {fileID: 100000, guid: 91ae2a3930c054310bfbc1578a98f59b, type: 2}
   menu: {fileID: 1461897199}
-  initalSystem: house3
+  initalSystem: house-detailed
+  addText: 0
 --- !u!4 &871913584
 Transform:
   m_ObjectHideFlags: 0

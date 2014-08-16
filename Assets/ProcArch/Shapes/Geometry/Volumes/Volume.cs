@@ -81,23 +81,27 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
             var baseIndex = meshBuilder.Vertices.Count;
             
             foreach (var face in this.Faces) {
-                var verts = face.Corners.Select (c => c.Position).ToArray ();
-                
-                foreach (var v in verts) {
+                var numVerts = face.Corners.Count;
+
+                for (int i=0; i < face.Corners.Count; i++)
+                {
+                    var v = face.Corners[i].Position;
+                    var uv = face.UVs[i];
+
                     var worldPos = this.Transform.Position + (this.Transform.Rotation * Vector3.Scale (v, this.Transform.Scale));
                     
-                    meshBuilder.Vertices.Add (worldPos);
-                    meshBuilder.UVs.Add (Vector2.zero);
-                    meshBuilder.Colors.Add (face.Color);
+                    meshBuilder.Vertices.Add(worldPos);
+                    meshBuilder.UVs.Add(uv);
+                    meshBuilder.Colors.Add(face.Color);
                 }
                 
-                if (verts.Length == 3) {
-                    meshBuilder.AddTriangle (baseIndex, baseIndex + 1, baseIndex + 2);
-                } else if (verts.Length == 4) {
-                    meshBuilder.AddTriangle (baseIndex, baseIndex + 1, baseIndex + 3);
-                    meshBuilder.AddTriangle (baseIndex + 1, baseIndex + 2, baseIndex + 3);
+                if (numVerts == 3) {
+                    meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+                } else if (numVerts == 4) {
+                    meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 3);
+                    meshBuilder.AddTriangle(baseIndex + 1, baseIndex + 2, baseIndex + 3);
                 } else {
-                    throw new InvalidOperationException (string.Format ("Cannot build mesh for faces with {0} vertices", verts.Length));
+                    throw new InvalidOperationException(string.Format ("Cannot build mesh for faces with {0} vertices", numVerts));
                 }
                 
                 baseIndex = meshBuilder.Vertices.Count;
@@ -157,6 +161,13 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
         {
             var face = new Face(name, corners);
             this.Faces.Add(face);
+
+            if (corners.Length == 3)
+                face.UVs = new Vector2[] { new Vector2(0f,0f), new Vector2(1f,0f), new Vector2(1f,1f) };
+            else if (corners.Length == 4)
+                face.UVs = new Vector2[] { new Vector2(0f,0f), new Vector2(1f,0f), new Vector2(1f,1f), new Vector2(0f, 1f) };
+            else
+                throw new System.InvalidOperationException();
 
             return face;
         }
