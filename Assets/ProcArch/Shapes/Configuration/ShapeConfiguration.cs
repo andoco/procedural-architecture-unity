@@ -89,19 +89,9 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
         }
         
         public void ScaleScope(Size x, Size y, Size z)
-        {
-            var currentScale = this.CurrentScope.Transform.Scale;
-    
-            var newX = x.IsRelative ? currentScale.x * x.Value : x.Value;
-            var newY = y.IsRelative ? currentScale.y * y.Value : y.Value;
-            var newZ = z.IsRelative ? currentScale.z * z.Value : z.Value;
-    
-            this.CurrentScope.Transform.Scale = new Vector3 (newX, newY, newZ);
-    
-            //      var s = this.CurrentScope.Transform.Scale;
-            //      s.Scale(scale);
-            //      this.CurrentScope.Transform.Scale = s;
-            this.log.Trace (string.Format ("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
+        {    
+			this.CurrentScope.Transform.Scale = Size.ToVector3(x, y, z, this.CurrentScope.Transform.Scale);    
+            this.log.Trace(string.Format("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
         }
     
         public void AddRule(ShapeRule rule, IList<Argument> args)
