@@ -112,7 +112,8 @@ public class MultipleHouses : MonoBehaviour
 				var rootArgs = new List<string> { w.ToString(), h.ToString(), d.ToString() };
 				var globalArgs = new Dictionary<string, string>();
 
-				var archItem = this.architectures.PickRandomWeighted(item => item.weight, UnityRandomNumber.Instance);
+				var archWeights = this.architectures.Select(item => item.weight).ToArray();
+				var archItem = this.architectures.PickRandomWeighted(archWeights, UnityRandomNumber.Instance);
 				var asset = Resources.Load<TextAsset>(archItem.assetName);
 
 				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs, archItem.theme);
