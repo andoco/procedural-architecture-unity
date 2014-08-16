@@ -15,7 +15,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
         {
             this.Style = "facade";
         }
-    
+        				    
         protected override void OnBuildVolume (Argument[] args)
         {
             // Corners
@@ -25,7 +25,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
             this.AddCorner("corner-top-left", new Vector3 (-0.5f, 0f, 0.5f));
             
             // Edges
-            this.AddEdge("edge-right", 0, 1);
+            var edgeRight = this.AddEdge("edge-right", 0, 1);
             this.AddEdge("edge-bottom", 1, 2);
             this.AddEdge("edge-left", 2, 3);
             this.AddEdge("edge-top", 3, 0);
@@ -34,6 +34,8 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
             this.AddFace("face", 0, 1, 2, 3);
             
             this.AddComponent(this.Faces[0].Name, Vector3.zero, Quaternion.identity, new Vector3 (1f, 0f, 1f), v => v);
+
+            this.AddComponent(edgeRight.Name, Vector3.Lerp(edgeRight.CornerA.Position, edgeRight.CornerB.Position, 0.5f), Quaternion.identity, new Vector3(0f, 0f, 1f), v => v);
         }
     
         protected override void ApplyStyle (IStyleConfig styleConfig)
