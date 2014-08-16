@@ -120,22 +120,28 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
     
         #region Protected methods
 
-        protected void AddCorner(string name, Vector3 position)
+        protected Corner AddCorner(string name, Vector3 position)
         {
-            this.Corners.Add(new Corner(name, position));
+            var corner = new Corner(name, position);
+            this.Corners.Add(corner);
+
+            return corner;
         }
 
-        protected void AddEdge(string name, Corner corner1, Corner corner2)
+        protected Edge AddEdge(string name, Corner corner1, Corner corner2)
         {
-            this.Edges.Add(new Edge(name, corner1, corner2));
+            var edge = new Edge(name, corner1, corner2);
+            this.Edges.Add(edge);
+
+            return edge;
         }
 
-        protected void AddEdge(string name, int cornerIndex1, int cornerIndex2)
+        protected Edge AddEdge(string name, int cornerIndex1, int cornerIndex2)
         {
-            this.Edges.Add(new Edge(name, this.Corners[cornerIndex1], this.Corners[cornerIndex2]));
+            return this.AddEdge(name, this.Corners[cornerIndex1], this.Corners[cornerIndex2]);
         }
 
-        protected void AddFace(string name, params int[] cornerIndices)
+        protected Face AddFace(string name, params int[] cornerIndices)
         {
             var corners = new Corner[cornerIndices.Length];
 
@@ -144,22 +150,28 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
                 corners[i] = this.Corners[cornerIndices[i]];
             }
 
-            this.Faces.Add(new Face(name, corners));
+            return this.AddFace(name, corners);
         }
     
-        protected void AddFace(string name, params Corner[] corners)
+        protected Face AddFace(string name, params Corner[] corners)
         {
-            this.Faces.Add(new Face(name, corners));
+            var face = new Face(name, corners);
+            this.Faces.Add(face);
+
+            return face;
         }
 
-        protected void AddComponent(string name, Vector3 pos, Quaternion rot, Vector3 scale, Func<Vector3, Vector3> axisMap)
+        protected ScopeComponent AddComponent(string name, Vector3 pos, Quaternion rot, Vector3 scale, Func<Vector3, Vector3> axisMap)
         {
-            this.Components.Add(new ScopeComponent(name, new SimpleTransform(pos, rot, scale), axisMap));
+            return this.AddComponent(name, new SimpleTransform(pos, rot, scale), axisMap);
         }
 
-        protected void AddComponent(string name, SimpleTransform transform, Func<Vector3, Vector3> axisMap)
+        protected ScopeComponent AddComponent(string name, SimpleTransform transform, Func<Vector3, Vector3> axisMap)
         {
-            this.Components.Add(new ScopeComponent(name, transform, axisMap));
+            var component = new ScopeComponent(name, transform, axisMap);
+            this.Components.Add(component);
+
+            return component;
         }
 
         protected virtual void ApplyArguments(Argument[] args)
