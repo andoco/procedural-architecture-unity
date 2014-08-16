@@ -27,7 +27,7 @@ namespace Andoco.Unity.ProcArch
             foreach (var c in vol.Corners) {
                 var world = vol.LocalToWorldPos (c.Position, parent);
     
-                Gizmos.DrawSphere (world, 0.025f);
+                Gizmos.DrawSphere(world, 0.025f);
             }
         }
     
@@ -43,10 +43,11 @@ namespace Andoco.Unity.ProcArch
     
         public static void DrawComponentGizmos (this Volume vol, Transform parent)
         {
+            Gizmos.color = Color.red;
             foreach (var c in vol.Components) {
                 var world = vol.LocalToWorldPos (c.Transform.Position, parent);
-                
-                Gizmos.DrawWireSphere (world, 0.05f);
+
+                Gizmos.DrawWireSphere(world, 0.05f);
             }
         }
     
