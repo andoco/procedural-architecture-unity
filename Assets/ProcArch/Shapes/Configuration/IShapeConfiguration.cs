@@ -35,7 +35,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
     
         void SetScope (IScope scope);
     
-        void TransformScope (Vector3 delta);
+        void TranslateScope (Vector3 delta);
     
         void RotateScope (Vector3 delta);
     

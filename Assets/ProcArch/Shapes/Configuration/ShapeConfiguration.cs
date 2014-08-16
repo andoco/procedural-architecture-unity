@@ -74,7 +74,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
             this.scopeStack.Push (scope);
         }
     
-        public void TransformScope(Vector3 delta)
+        public void TranslateScope(Vector3 delta)
         {
             this.CurrentScope.Transform.Position += this.CurrentScope.Transform.Rotation * delta;
             this.log.Trace (string.Format ("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform));

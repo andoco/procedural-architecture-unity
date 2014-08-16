@@ -35,7 +35,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Commands
                 break;
             case "Trans":
                 var axes = configuration.ResolveArgs (this.Arguments).Select (x => float.Parse (x.Value)).ToArray ();
-                configuration.TransformScope (new Vector3 (axes [0], axes [1], axes [2]));
+                configuration.TranslateScope (new Vector3 (axes [0], axes [1], axes [2]));
                 break;
             case "Rot":
                 var rotAxes = configuration.ResolveArgs (this.Arguments).Select (x => float.Parse (x.Value)).ToArray ();
