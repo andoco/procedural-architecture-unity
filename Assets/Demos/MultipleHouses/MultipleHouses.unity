@@ -426,7 +426,7 @@ MonoBehaviour:
   hoursPerDay: 24
   dawnTimeOffset: 3
   worldTimeHour: 0
-  fullLight: {r: .992156863, g: .972549021, b: .874509811, a: 1}
+  fullLight: {r: .784313738, g: .769149244, b: .692041516, a: 1}
   fullDark: {r: .125490203, g: .109803922, b: .180392161, a: 1}
   dawnDuskSkybox: {fileID: 0}
   dawnDuskFog: {r: .521568656, g: .486274511, b: .400000006, a: 1}
