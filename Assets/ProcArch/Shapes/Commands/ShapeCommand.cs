@@ -34,8 +34,8 @@ namespace Andoco.Unity.ProcArch.Shapes.Commands
                 configuration.AddVolume (volName, volArgs); // TODO: pass named args.
                 break;
             case "Trans":
-                var axes = configuration.ResolveArgs (this.Arguments).Select (x => float.Parse (x.Value)).ToArray ();
-                configuration.TranslateScope (new Vector3 (axes [0], axes [1], axes [2]));
+                var axes = configuration.ResolveArgs(this.Arguments).Select(x => Size.Parse(x.Value)).ToArray();
+                configuration.TranslateScope(axes[0], axes[1], axes[2]);
                 break;
             case "Rot":
                 var rotAxes = configuration.ResolveArgs (this.Arguments).Select (x => float.Parse (x.Value)).ToArray ();

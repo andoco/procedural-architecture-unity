@@ -57,6 +57,22 @@ namespace Andoco.Unity.ProcArch.Shapes
     
             return sum;
         }
+
+		/// <summary>
+		/// Gets the absolute value of the size by scaling by <paramref name="scale"/> if the size if relative.
+		/// </summary>
+		public float GetAbsolute(float scale)
+		{
+			return this.IsRelative ? scale * this.Value : this.Value;
+		}
+
+		/// <summary>
+		/// Gets a <see cref="Vector3"/> for a set of 3 sizes.
+		/// </summary>
+		public static Vector3 ToVector3(Size x, Size y, Size z, Vector3 scale)
+		{
+			return new Vector3(x.GetAbsolute(scale.x), y.GetAbsolute(scale.y), z.GetAbsolute(scale.z));
+		}
     
         public override string ToString ()
         {
