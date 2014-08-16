@@ -188,10 +188,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   architectures:
   - assetName: house-detailed
-    weight: .949999988
+    weight: .800000012
     theme: pale-stone-wood
   - assetName: church
     weight: .0500000007
+    theme: pale-stone-wood
+  - assetName: house-split-level
+    weight: .150000006
     theme: pale-stone-wood
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
 --- !u!4 &871913584

@@ -1,0 +1,26 @@
+root(sx, sy, sz) ::- Scope.Scale(sx, 4, sz) lowerLevel;
+
+# level
+lowerLevel ::- Scope.Vol("box") Scope.Comp("face-vert-1") { lowerLevelDoorSide } Scope.Comp("face-vert-[^1]") { facade } Scope.Comp("face-horiz-2") { upperLevel };
+upperLevel ::- Scope.Scale(1.1r, 2, 1.1r) Scope.Vol("box") Scope.Comp("face-vert") { upperLevelSide } Scope.Comp("face-horiz-1") { facade } Scope.Comp("face-horiz-2") { roof };
+upperLevelSide
+	::- Scope.Subdiv("X", 0.25r, 0.75, 0.5r, 0.75, 0.25r) { facade | window | facade | window | facade } : 0.5;
+	::- facade : 0.5;
+lowerLevelDoorSide ::- Scope.Subdiv("X", 0.5r, 1, 0.5r) { facade | door | facade };
+
+# door
+door ::- Scope.Subdiv("Z", 1.5, 1r) { doorMain | facade };
+doorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Trans(0, -0.1, 0) Scope.Vol("recess") Scope.Comp("face-vert") { facade } Scope.Comp("face-horiz-1") { doorRecessed };
+doorRecessed ::- Scope.Vol("facade", style:"door");
+
+# window
+window ::- Scope.Subdiv("Z", 0.5r, 0.1, 1, 0.5r) { windowLower | windowSill | windowMiddle | windowLower };
+windowUpper ::- facade;
+windowMiddle ::- Scope.Scale(1r, 0.05, 1r) Scope.Trans(0, -0.05, 0) Scope.Vol("recess") Scope.Comp("face-vert") { facade } Scope.Comp("face-horiz-1") { windowRecess };
+windowRecess ::- Scope.Vol("facade", style:"window");
+windowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol("box", style:"windowSill");
+windowLower ::- facade;
+
+roof ::- Scope.Scale(1r,2,1r) Scope.Vol("HippedRoof");
+
+facade ::- Scope.Vol("facade");
