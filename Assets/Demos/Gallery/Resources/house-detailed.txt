@@ -32,7 +32,7 @@ roofMain ::- Scope.Vol(roof);
 # chimney
 chimney
 	::- Scope.Trans(0,0,0.25r) Scope.Scale(0.5,1.25r,0.5) Scope.Vol("box") : 0.25;
-	::- Scope.Trans(0,0,0.5r) Scope.Scale(0.5,1.25r,0.5) Scope.Vol("box") : 0.25;
+	::- Scope.Trans(0,0,0.4r) Scope.Scale(0.5,1.25r,0.5) Scope.Vol("box") : 0.25;
 	::- Scope.Trans(0.25r,0,0) Scope.Scale(0.5,1r,0.5) Scope.Vol("box") : 0.25;
 	::- Scope.Scale(0.5,1.25r,0.5) Scope.Vol("box") : 0.25;
 
