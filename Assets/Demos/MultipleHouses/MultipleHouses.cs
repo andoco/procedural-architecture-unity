@@ -32,13 +32,22 @@ public class MultipleHouses : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.UpArrow))
+		if (Input.GetKey(KeyCode.LeftArrow))
 		{
 			this.Rotate(45f);
 		}
-		else if (Input.GetKey(KeyCode.DownArrow))
+		else if (Input.GetKey(KeyCode.RightArrow))
 		{
 			this.Rotate(-45f);
+		}
+
+		if (Input.GetKey(KeyCode.UpArrow))
+		{
+			this.Zoom(1f);
+		}
+		else if (Input.GetKey(KeyCode.DownArrow))
+		{
+			this.Zoom(-1f);
 		}
 	}
 
@@ -60,11 +69,24 @@ public class MultipleHouses : MonoBehaviour
 		{
 			this.Rotate(-45f);
 		}
+		else if (GUILayout.RepeatButton("Zoom In"))
+		{
+			this.Zoom(1f);
+		}
+		else if (GUILayout.RepeatButton("Zoom Out"))
+		{
+			this.Zoom(-1f);
+		}
 	}
 
 	private void Rotate(float amount)
 	{
 		Camera.main.transform.RotateAround(Vector3.zero, Vector3.up, amount * Time.deltaTime);
+	}
+
+	private void Zoom(float amount)
+	{
+		Camera.main.transform.Translate(Vector3.forward * amount, Space.Self);
 	}
 
 	private void ShowSystem()
