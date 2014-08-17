@@ -115,7 +115,8 @@ public class MultipleHouses : MonoBehaviour
 		this.rootGo = new GameObject("Architecture");
 
 		var gridSize = new GridSize(10f, 10, 10);
-		var offset = gridSize.GetSizeVector() * -0.5f + (Vector3.one * (gridSize.nodeSize / 2f));
+
+		var offset = gridSize.GetSizeVector() * -0.5f + (new Vector3(1f, 0f, 1f) * (gridSize.nodeSize / 2f));
 
 		for (int x=0; x < gridSize.horizNodes; x++)
 		{
@@ -138,7 +139,6 @@ public class MultipleHouses : MonoBehaviour
 				var pos = offset + new Vector3((float)x * gridSize.nodeSize, 0f, (float)y * gridSize.nodeSize);
 				var go = BuildGameObject(architecture.Mesh);
 				go.transform.position = pos;
-
 			}
 		}
 	}
