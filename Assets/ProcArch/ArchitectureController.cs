@@ -21,6 +21,8 @@
         public bool showCornerGizmos;
         public bool showEdgeGizmos;
         public bool showComponentGizmos;
+
+        public Architecture CurrentArchitecture { get { return this.architecture; } }
         
         void Start()
         {
