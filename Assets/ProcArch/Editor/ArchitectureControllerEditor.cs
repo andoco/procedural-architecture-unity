@@ -24,6 +24,10 @@ public class TestUI : Editor {
 
 		arch.material = (Material)EditorGUILayout.ObjectField("Material", arch.material, typeof(Material));
 
+		arch.showCornerGizmos = EditorGUILayout.Toggle("Corner Gizmos", arch.showCornerGizmos);
+		arch.showEdgeGizmos = EditorGUILayout.Toggle("Edge Gizmos", arch.showEdgeGizmos);
+		arch.showComponentGizmos = EditorGUILayout.Toggle("Component Gizmos", arch.showComponentGizmos);
+
 		EditorUtility.SetDirty(arch);
 	}
 }

@@ -6,7 +6,7 @@ namespace Andoco.Unity.ProcArch
     
     public static class ShapeConfigurationExtensions
     {
-        public static void DrawGizmos (this IShapeConfiguration configuration, Transform parent)
+        public static void DrawGizmos (this IShapeConfiguration configuration, Transform parent, bool showCorners = true, bool showEdges = true, bool showComponents = true)
         {
             configuration.RootNode.TraverseBreadthFirst (node => {
                 var shapeNode = (ShapeNode)node;
@@ -15,9 +15,12 @@ namespace Andoco.Unity.ProcArch
                 
                 if (vol != null) {
                     vol.DrawGizmos (parent);
-                    vol.DrawCornerGizmos (parent);
-                    vol.DrawEdgeGizmos(parent);
-                    vol.DrawComponentGizmos(parent);
+                    if (showCorners)
+                        vol.DrawCornerGizmos (parent);
+                    if (showEdges)
+                        vol.DrawEdgeGizmos(parent);
+                    if (showComponents)
+                        vol.DrawComponentGizmos(parent);
                 }
             });
         }

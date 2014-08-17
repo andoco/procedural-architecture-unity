@@ -18,6 +18,10 @@
         public Material material;
         public string rootArgs;
         public string globalArgs;
+
+        public bool showCornerGizmos;
+        public bool showEdgeGizmos;
+        public bool showComponentGizmos;
         
         void Start ()
         {
@@ -41,7 +45,7 @@
         {
             if (Application.isPlaying && this.architecture != null)
             {
-                this.architecture.Configuration.DrawGizmos(this.transform);
+                this.architecture.Configuration.DrawGizmos(this.transform, this.showCornerGizmos, this.showEdgeGizmos, this.showComponentGizmos);
             }
         }
     }
