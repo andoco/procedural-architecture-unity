@@ -23,6 +23,8 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
     
         IScope CurrentScope { get; }
     
+        TreeGraph Tree { get; }
+
         ShapeNode RootNode { get; }
     
         ShapeNode CurrentNode { get; set; }

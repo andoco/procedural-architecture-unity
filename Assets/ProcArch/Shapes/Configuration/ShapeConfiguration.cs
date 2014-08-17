@@ -37,12 +37,20 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
             get { return this.scopeStack.Peek (); }
         }
     
-        public ShapeNode RootNode { get; private set; }
+        public TreeGraph Tree { get; private set; }
+
+        public ShapeNode RootNode
+        {
+            get
+            {
+                return this.Tree.Root as ShapeNode;
+            }
+        }
         
         public ShapeNode CurrentNode {
             set {
                 this.currentNode = value;
-                this.SetScope (new Scope (this.currentNode.Value.Transform));
+                this.SetScope (new Scope(this.currentNode.Value.Transform));
             }
             get {
                 return this.currentNode;
@@ -276,9 +284,12 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
     
         private void AddNode(ShapeNode node)
         {
-            if (this.RootNode == null) {
-                this.RootNode = node;
-            } else {
+            if (this.Tree == null)
+            {
+                this.Tree = new TreeGraph(node);
+            }
+            else
+            {
                 if (this.currentNode != node.Parent)
                     throw new InvalidOperationException ("The parent of the node is not the current node");
                 this.currentNode.ConnectTo (node);
