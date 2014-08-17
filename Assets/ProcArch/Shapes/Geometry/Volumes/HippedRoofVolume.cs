@@ -50,11 +50,11 @@ namespace Andoco.Unity.ProcArch.Shapes.Geometry.Volumes
             this.Edges.Add (new Edge ("edge-top-5", this.Corners [5], this.Corners [2])); // lower end
             
             // Faces
-            this.Faces.Add (new Face ("face-top-1", new List<Corner> { this.Corners[0], this.Corners[1], this.Corners[5], this.Corners[4] }));
-            this.Faces.Add (new Face ("face-top-2", new List<Corner> { this.Corners[4], this.Corners[5], this.Corners[2], this.Corners[3] }));
+            this.AddFace("face-top-1", 0, 1, 5, 4);
+            this.AddFace("face-top-2", 4, 5, 2, 3);
             
-            this.Faces.Add (new Face ("face-end-1", new List<Corner> { this.Corners[0], this.Corners[4], this.Corners[3] }));
-            this.Faces.Add (new Face ("face-end-2", new List<Corner> { this.Corners[1], this.Corners[2], this.Corners[5] }));
+            this.AddFace("face-end-1", 0, 4, 3);
+            this.AddFace("face-end-2", 1, 2, 5);
             
             this.Components.Add (new ScopeComponent (this.Faces [0].Name, new SimpleTransform (new Vector3 (0.25f, 0.5f, 0f), Quaternion.AngleAxis (45f, Vector3.forward), new Vector3 (1f, 0f, 1f)), v => v));
             this.Components.Add (new ScopeComponent (this.Faces [1].Name, new SimpleTransform (new Vector3 (-0.25f, 0.5f, 0f), Quaternion.AngleAxis (-45, Vector3.forward), new Vector3 (1f, 0f, 1f)), v => v));

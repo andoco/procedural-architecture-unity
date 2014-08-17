@@ -24,6 +24,7 @@ public class Demo : MonoBehaviour
 	public GameObject faceTextPrefab;
 	public Menu menu;
 	public string initalSystem;
+    public bool addComponentText;
 	
 	void Start () {
 		this.sourceFiles = Resources.LoadAll<TextAsset>("");
@@ -146,7 +147,9 @@ public class Demo : MonoBehaviour
 			this.architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs);
 
 			BuildGameObject(this.architecture.Mesh);
-			AddScopeComponentTextMeshes(this.architecture.Configuration);
+
+            if (this.addComponentText)
+			    AddScopeComponentTextMeshes(this.architecture.Configuration);
 		}
 		catch (System.Exception e)
 		{
