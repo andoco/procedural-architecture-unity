@@ -18,18 +18,18 @@ namespace Andoco.Unity.ProcArch
     
     public class ArchitectureBuilder
     {
-        private IDictionary<string, IShapeProductionSystem> productionSystemCache = new Dictionary<string, IShapeProductionSystem> ();
+        private IDictionary<string, IShapeProductionSystem> productionSystemCache = new Dictionary<string, IShapeProductionSystem>();
     
         public Architecture Build(string name, string source, IList<string> rootArgs, IDictionary<string, string> globalArgs, string theme = null)
         {
-            var system = GetProductionSystem (name, source);
+            var system = GetProductionSystem(name, source);
     
-            var shapeConfiguration = system.Run (rootArgs, globalArgs);
+            var shapeConfiguration = system.Run(rootArgs, globalArgs);
     
             var styleConfig = new CommonArchitectureStyleConfig();
-			if (theme != null)
-				styleConfig.DefaultTheme = theme;
-            var mesh = BuildMesh (shapeConfiguration, styleConfig);
+            if (theme != null)
+                styleConfig.DefaultTheme = theme;
+            var mesh = BuildMesh(shapeConfiguration, styleConfig);
     
             return new Architecture
             {
@@ -38,25 +38,25 @@ namespace Andoco.Unity.ProcArch
             };
         }
     
-        private IShapeProductionSystem GetProductionSystem (string name, string source)
+        private IShapeProductionSystem GetProductionSystem(string name, string source)
         {
             IShapeProductionSystem system;
     
-            if (!this.productionSystemCache.TryGetValue (name, out system)) {
-                var builder = new IronyShapeProductionSystemBuilder ();
-                system = builder.Build (source);
+            if (!this.productionSystemCache.TryGetValue(name, out system)) {
+                var builder = new IronyShapeProductionSystemBuilder();
+                system = builder.Build(source);
                 system.Axiom = "root";
-                this.productionSystemCache.Add (name, system);
+                this.productionSystemCache.Add(name, system);
             }
     
             return system;
         }
     
-        private Mesh BuildMesh (IShapeConfiguration configuration, IStyleConfig styleConfig)
+        private Mesh BuildMesh(IShapeConfiguration configuration, IStyleConfig styleConfig)
         {
-            var meshBuilder = new MeshBuilder ();
+            var meshBuilder = new MeshBuilder();
             
-            configuration.RootNode.TraverseBreadthFirst (node => {
+            configuration.RootNode.TraverseBreadthFirst(node => {
                 var shapeNode = (ShapeNode)node;
                 var vol = shapeNode.Value.Volume;
                 
