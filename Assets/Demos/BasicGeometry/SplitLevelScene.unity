@@ -265,6 +265,9 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &1696730259
 Transform:
   m_ObjectHideFlags: 0
