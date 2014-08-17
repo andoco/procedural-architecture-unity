@@ -254,14 +254,17 @@ MonoBehaviour:
 
     #facade ::- Scope.Vol("facade");
 
-    facade ::- Scope.Vol("facade") Scope.Comp("edge") { edge };
+    facade ::- Scope.Vol("facade") Scope.Comp("edge-[top|bottom]") { edgeHoriz } Scope.Comp("edge-[left|right]")
+    { edgeVert };
 
-    edge ::- Scope.Trans(0,0.5,0) Scope.Scale(1,0,1) Scope.Rot(0,0,-90) Scope.Vol("facade");'
+    edgeHoriz ::- Scope.Scale(0.8r, 0.1, 0.1) Scope.Vol("box");
+
+    edgeVert ::- Scope.Scale(0.1, 0.1, 0.8r) Scope.Vol("box");'
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
-  showCornerGizmos: 1
-  showEdgeGizmos: 1
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
   showComponentGizmos: 1
 --- !u!4 &1696730259
 Transform:
@@ -332,17 +335,20 @@ Prefab:
 
         #facade ::- Scope.Vol("facade");
 
-        facade ::- Scope.Vol("facade") Scope.Comp("edge") { edge };
+        facade ::- Scope.Vol("facade") Scope.Comp("edge-[top|bottom]") { edgeHoriz
+        } Scope.Comp("edge-[left|right]") { edgeVert };
 
-        edge ::- Scope.Trans(0,0.5,0) Scope.Scale(1,0,1) Scope.Rot(0,0,-90) Scope.Vol("facade");'
+        edgeHoriz ::- Scope.Scale(0.8r, 0.1, 0.1) Scope.Vol("box");
+
+        edgeVert ::- Scope.Scale(0.1, 0.1, 0.8r) Scope.Vol("box");'
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: showCornerGizmos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: showEdgeGizmos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: showComponentGizmos

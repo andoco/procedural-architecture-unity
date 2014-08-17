@@ -1,3 +1,5 @@
+using Andoco.Unity.ProcArch.Shapes.Configuration;
+
 namespace Andoco.Unity.ProcArch
 {
     using UnityEngine;
@@ -43,12 +45,30 @@ namespace Andoco.Unity.ProcArch
     
         public static void DrawComponentGizmos (this Volume vol, Transform parent)
         {
-            Gizmos.color = Color.red;
             foreach (var c in vol.Components) {
                 var world = vol.LocalToWorldPos (c.Transform.Position, parent);
 
+                Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(world, 0.05f);
+                c.DrawAxisGizmos(parent);
             }
+        }
+
+        public static void DrawAxisGizmos(this ScopeComponent cmp, Transform parent)
+        {
+            var lineScale = cmp.Transform.Scale / 2f;
+            
+            var p1 = parent.position + (parent.rotation * cmp.Transform.Position);
+            var rot = parent.rotation * cmp.Transform.Rotation;
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine (p1, p1 + rot * Vector3.Scale (Vector3.right, lineScale));
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine (p1, p1 + rot * Vector3.Scale (Vector3.up, lineScale));
+            
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine (p1, p1 + rot * Vector3.Scale (Vector3.forward, lineScale));
         }
     
         /// <summary>
