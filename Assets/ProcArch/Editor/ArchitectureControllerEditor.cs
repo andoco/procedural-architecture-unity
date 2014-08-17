@@ -13,6 +13,8 @@ public class TestUI : Editor {
 		EditorGUILayout.LabelField("Architecture Name");
 		arch.sourceName = EditorGUILayout.TextField(arch.sourceName);
 
+		arch.sourceAsset = (TextAsset)EditorGUILayout.ObjectField("Source Asset", arch.sourceAsset, typeof(TextAsset), allowSceneObjects: false);
+
 		EditorGUILayout.LabelField("Architecture Source");
 		arch.sourceContent = EditorGUILayout.TextArea(arch.sourceContent);
 
@@ -22,7 +24,7 @@ public class TestUI : Editor {
 		EditorGUILayout.LabelField("Global Args");
 		arch.globalArgs = EditorGUILayout.TextField(arch.globalArgs);
 
-		arch.material = (Material)EditorGUILayout.ObjectField("Material", arch.material, typeof(Material));
+		arch.material = (Material)EditorGUILayout.ObjectField("Material", arch.material, typeof(Material), allowSceneObjects: false);
 
 		arch.showCornerGizmos = EditorGUILayout.Toggle("Corner Gizmos", arch.showCornerGizmos);
 		arch.showEdgeGizmos = EditorGUILayout.Toggle("Edge Gizmos", arch.showEdgeGizmos);

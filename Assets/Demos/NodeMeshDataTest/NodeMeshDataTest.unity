@@ -292,29 +292,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceName: house
-  sourceContent: "let roof = \"GabledRoof\";\n\nroot(sx, sy, sz) ::- Scope.Scale(sx,
-    sy, sz) Scope.Vol(\"box\") Scope.Comp(\"face-vert-[^1]\") { side } Scope.Comp(\"face-vert-1\")
-    { sideWithDoor } Scope.Comp(\"face-horiz-2\") { roof };\n\n# side\nside ::- Scope.Subdiv(\"Z\",
-    0.5r, 0.5r) { level | level };\nsideWithDoor ::- Scope.Subdiv(\"Z\", 0.5r, 0.5r)
-    { levelWithDoor | level };\n\n# level\nlevel \n\t::- Scope.Subdiv(\"X\", 0.25r,
-    0.75, 0.5r, 0.75, 0.25r) { facade | window | facade | window | facade } : 0.5;\n\t::-
-    facade : 0.5;\nlevelWithDoor ::- Scope.Subdiv(\"X\", 0.5r, 1, 0.5r) { facade |
-    door | facade };\n\n# door\ndoor ::- Scope.Subdiv(\"Z\", 1.5, 1r) { doorMain |
-    facade };\ndoorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Trans(0, -0.1, 0) Scope.Vol(\"recess\")
-    Scope.Comp(\"face-vert\") { facade } Scope.Comp(\"face-horiz-1\") { doorRecessed
-    };\ndoorRecessed ::- Scope.Vol(\"facade\", style:\"door\");\n\n# window\nwindow
-    ::- Scope.Subdiv(\"Z\", 0.5r, 0.1, 1, 0.5r) { windowLower | windowSill | windowMiddle
-    | windowLower };\nwindowUpper ::- facade;\nwindowMiddle ::- Scope.Scale(1r, 0.05,
-    1r) Scope.Trans(0, -0.05, 0) Scope.Vol(\"recess\") Scope.Comp(\"face-vert\") {
-    facade } Scope.Comp(\"face-horiz-1\") { windowRecess };\nwindowRecess ::- Scope.Vol(\"facade\",
-    style:\"window\");\nwindowSill ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol(\"box\",
-    style:\"windowSill\");\nwindowLower ::- facade;\n\n# roof\nroof ::- Scope.Scale(1r,
-    2, 1r) roofMain chimney;\nroofMain ::- Scope.Vol(roof);\n\n# chimney\nchimney\n\t::-
-    Scope.Trans(0,0,0.25r) Scope.Scale(0.5,1.25r,0.5) Scope.Vol(\"box\", style:\"chimney\")
-    : 0.25;\n\t::- Scope.Trans(0,0,0.4r) Scope.Scale(0.5,1.25r,0.5) Scope.Vol(\"box\",
-    style:\"chimney\") : 0.25;\n\t::- Scope.Trans(0.25r,0,0) Scope.Scale(0.5,1r,0.5)
-    Scope.Vol(\"box\", style:\"chimney\") : 0.25;\n\t::- Scope.Scale(0.5,1.25r,0.5)
-    Scope.Vol(\"box\", style:\"chimney\") : 0.25;\n\n# common\nfacade ::- Scope.Vol(\"facade\");"
+  sourceContent: 
+  sourceAsset: {fileID: 4900000, guid: 70d883f04919345feb4c35594def94be, type: 3}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 3,3,4
   globalArgs: 
@@ -386,30 +365,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: sourceContent
-      value: "let roof = \"GabledRoof\";\n\nroot(sx, sy, sz) ::- Scope.Scale(sx, sy,
-        sz) Scope.Vol(\"box\") Scope.Comp(\"face-vert-[^1]\") { side } Scope.Comp(\"face-vert-1\")
-        { sideWithDoor } Scope.Comp(\"face-horiz-2\") { roof };\n\n# side\nside ::-
-        Scope.Subdiv(\"Z\", 0.5r, 0.5r) { level | level };\nsideWithDoor ::- Scope.Subdiv(\"Z\",
-        0.5r, 0.5r) { levelWithDoor | level };\n\n# level\nlevel \n\t::- Scope.Subdiv(\"X\",
-        0.25r, 0.75, 0.5r, 0.75, 0.25r) { facade | window | facade | window | facade
-        } : 0.5;\n\t::- facade : 0.5;\nlevelWithDoor ::- Scope.Subdiv(\"X\", 0.5r,
-        1, 0.5r) { facade | door | facade };\n\n# door\ndoor ::- Scope.Subdiv(\"Z\",
-        1.5, 1r) { doorMain | facade };\ndoorMain ::- Scope.Scale(1r, 0.1, 1r) Scope.Trans(0,
-        -0.1, 0) Scope.Vol(\"recess\") Scope.Comp(\"face-vert\") { facade } Scope.Comp(\"face-horiz-1\")
-        { doorRecessed };\ndoorRecessed ::- Scope.Vol(\"facade\", style:\"door\");\n\n#
-        window\nwindow ::- Scope.Subdiv(\"Z\", 0.5r, 0.1, 1, 0.5r) { windowLower |
-        windowSill | windowMiddle | windowLower };\nwindowUpper ::- facade;\nwindowMiddle
-        ::- Scope.Scale(1r, 0.05, 1r) Scope.Trans(0, -0.05, 0) Scope.Vol(\"recess\")
-        Scope.Comp(\"face-vert\") { facade } Scope.Comp(\"face-horiz-1\") { windowRecess
-        };\nwindowRecess ::- Scope.Vol(\"facade\", style:\"window\");\nwindowSill
-        ::- Scope.Scale(1r, 0.1, 1r) Scope.Vol(\"box\", style:\"windowSill\");\nwindowLower
-        ::- facade;\n\n# roof\nroof ::- Scope.Scale(1r, 2, 1r) roofMain chimney;\nroofMain
-        ::- Scope.Vol(roof);\n\n# chimney\nchimney\n\t::- Scope.Trans(0,0,0.25r) Scope.Scale(0.5,1.25r,0.5)
-        Scope.Vol(\"box\", style:\"chimney\") : 0.25;\n\t::- Scope.Trans(0,0,0.4r)
-        Scope.Scale(0.5,1.25r,0.5) Scope.Vol(\"box\", style:\"chimney\") : 0.25;\n\t::-
-        Scope.Trans(0.25r,0,0) Scope.Scale(0.5,1r,0.5) Scope.Vol(\"box\", style:\"chimney\")
-        : 0.25;\n\t::- Scope.Scale(0.5,1.25r,0.5) Scope.Vol(\"box\", style:\"chimney\")
-        : 0.25;\n\n# common\nfacade ::- Scope.Vol(\"facade\");"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: m_IsActive
@@ -423,6 +379,10 @@ Prefab:
       propertyPath: rootArgs
       value: 3,3,4
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: sourceAsset
+      value: 
+      objectReference: {fileID: 4900000, guid: 70d883f04919345feb4c35594def94be, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 1696730257}
