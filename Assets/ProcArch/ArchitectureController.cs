@@ -50,8 +50,6 @@
 
         private void Build(string source)
         {
-            Debug.Log(source);
-
             this.architecture = this.architectureBuilder.Build(
                 this.sourceName, 
                 source, 

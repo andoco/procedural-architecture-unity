@@ -200,6 +200,9 @@ MonoBehaviour:
     weight: .0500000007
     theme: pale-stone-wood
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
+  dayNight: {fileID: 1828408802}
+  lightsOnHour: 19
+  lightsOffHour: 6
 --- !u!4 &871913584
 Transform:
   m_ObjectHideFlags: 0

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using Andoco.Core;
 using Andoco.Core.Graph.Tree;
 using UnityEngine;
-using Andoco.Core;
-using Andoco.Unity.Framework.Core.Meshes;
 using Andoco.Unity.Framework.Core;
+using Andoco.Unity.Framework.Core.Meshes;
 using Andoco.Unity.ProcArch;
 
 [System.Serializable]
@@ -17,17 +19,29 @@ public class ArchitectureItem
 	public string theme = "default";
 }
 
+public class ArchState
+{
+    public Architecture Arch { get; set; }
+
+    public bool IsLightsOn { get; set; }
+}
+
 public class MultipleHouses : MonoBehaviour
 {	
 	private ArchitectureBuilder architectureBuilder = new ArchitectureBuilder();
+    private IList<ArchState> builtArchitectures;
 
 	private GameObject rootGo;
 
 	public ArchitectureItem[] architectures;
 	public Material material;
+    public DayNightController dayNight;
+    public int lightsOnHour = 19;
+    public int lightsOffHour = 6;
 	
 	void Start () {
 		this.ShowSystem();
+        StartCoroutine(this.ToggleLights());
 	}
 
 	void Update()
@@ -96,6 +110,8 @@ public class MultipleHouses : MonoBehaviour
 			GameObject.Destroy(this.rootGo);
 		}
 
+        this.builtArchitectures = new List<ArchState>();
+
 		this.rootGo = new GameObject("Architecture");
 
 		var gridSize = new GridSize(10f, 10, 10);
@@ -117,6 +133,7 @@ public class MultipleHouses : MonoBehaviour
 				var asset = Resources.Load<TextAsset>(archItem.assetName);
 
 				var architecture = architectureBuilder.Build(asset.name, asset.text, rootArgs, globalArgs, archItem.theme);
+                this.builtArchitectures.Add(new ArchState { Arch = architecture });
 
 				var pos = offset + new Vector3((float)x * gridSize.nodeSize, 0f, (float)y * gridSize.nodeSize);
 				var go = BuildGameObject(architecture.Mesh);
@@ -137,4 +154,40 @@ public class MultipleHouses : MonoBehaviour
 		
 		return go;
 	}
+
+    private IEnumerator ToggleLights()
+    {
+        while (true)
+        {
+            var isDark = this.dayNight.worldTimeHour > this.lightsOnHour || this.dayNight.worldTimeHour < this.lightsOffHour;
+
+            var candidates = this.builtArchitectures.Where(x => x.IsLightsOn == !isDark).ToList();
+
+            var picked = candidates.PickRandom(Mathf.Min(3, candidates.Count), UnityRandomNumber.Instance);
+
+            foreach (var state in picked)
+            {
+                var arch = state.Arch;
+
+                var cArr = arch.Mesh.colors;
+                
+                foreach (var item in arch.MeshData)
+                {
+                    if (Regex.IsMatch(item.Key, "windowRecess"))
+                    {
+                        for (var i=item.Value.ColorsStart; i < item.Value.ColorsEnd; i++)
+                        {
+                            cArr[i] = isDark ? Color.white : Color.black;
+                        }
+                    }
+                }
+                
+                arch.Mesh.colors = cArr;
+
+                state.IsLightsOn = !state.IsLightsOn;
+            }
+
+            yield return new WaitForSeconds(Random.value * 0.25f);
+        }
+    }
 }
