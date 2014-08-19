@@ -54,6 +54,8 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
         void SplitDivideScope (string axis, Size[] sizes, ShapeSymbol[] shapes);
     
         void SplitComponent (string query, ShapeSymbol symbol);
+
+        void Repeat(string axis, Size size, ShapeSymbol shape);
     
         Argument[] ResolveArgs(IEnumerable<Argument> unresolvedArgs);
     }

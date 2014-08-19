@@ -60,6 +60,11 @@ namespace Andoco.Unity.ProcArch.Shapes.Commands
                 var compArgs = configuration.ResolveArgs(this.Arguments);
                 configuration.SplitComponent(compArgs[0].Value, Shapes[0]);
                 break;
+            case "Repeat":
+                var repeatArgs = configuration.ResolveArgs(this.Arguments);
+                var repeatSize = Size.Parse(repeatArgs[1].Value);
+                configuration.Repeat(repeatArgs[0].Value, repeatSize, Shapes[0]);
+                break;
             default:
                 throw new System.ArgumentException(string.Format("Unknown command: {0}", this.Name), "Name");
             }

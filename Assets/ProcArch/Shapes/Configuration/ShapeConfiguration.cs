@@ -238,6 +238,67 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
                 this.AddNode (node);
             }
         }
+
+        public void Repeat(string axis, Size size, ShapeSymbol shape)
+        {
+            this.log.Trace (string.Format ("REPEAT: {0}, {1}", axis, this.CurrentScope.Transform));
+
+            var pos = this.CurrentScope.Transform.Position;
+            var rot = this.CurrentScope.Transform.Rotation;
+            var scale = this.CurrentScope.Transform.Scale;
+
+            Func<float, int> repetitionsFunc;
+            Func<Vector3, Vector3> startPosAction;
+            Func<float, Vector3> deltaAction;
+            Func<float, Vector3> newScaleAction;
+            
+            switch (axis.ToUpper ()) {
+            case "X":
+                repetitionsFunc = (s) => (int)(scale.x / s);
+                startPosAction = (s) => new Vector3(s.x / 2f, 0f, 0f);
+                deltaAction = (s) => new Vector3(s / 2f, 0f, 0f);
+                newScaleAction = (s) => new Vector3(s, scale.y, scale.z);
+                break;
+            case "Y":
+                repetitionsFunc = (s) => (int)(scale.y / s);
+                startPosAction = (s) => new Vector3 (0f, s.y / 2f, 0f);
+                deltaAction = (s) => new Vector3 (0f, s / 2f, 0f);
+                newScaleAction = (s) => new Vector3 (scale.x, s, scale.z);
+                break;
+            case "Z":
+                repetitionsFunc = (s) => (int)(scale.z / s);
+                startPosAction = (s) => new Vector3(0f, 0f, s.z / 2f);
+                deltaAction = (s) => new Vector3(0f, 0f, s / 2f);
+                newScaleAction = (s) => new Vector3 (scale.x, scale.y, s);
+                break;
+            default:
+                throw new ArgumentException (string.Format ("Unsupported subdivision axis \"{0}\"", axis), "axis");
+            }
+
+            var absSize = size.GetAbsolute(this.CurrentScope.Transform.Scale.x);
+            var repetitions = repetitionsFunc(absSize);
+
+            this.log.Trace(string.Format("repeating {0} {1} times along the {2} axis", shape.Name, repetitions, axis));
+
+            // Start at one end of the selected scope axis.
+            var startPos = pos - (rot * startPosAction(scale));
+
+            for (int i=0; i < repetitions; i++)
+            {
+                var delta = rot * deltaAction(absSize);
+                
+                var newScale = newScaleAction(absSize);
+                var newPos = startPos + delta;
+                
+                var node = this.NewNode(this.currentNode);
+                node.Value.Rule = this.rules[shape.Name];
+                node.Value.Transform = new SimpleTransform(newPos, rot, newScale);
+                node.Value.Args = this.ResolveArgs(shape.UnresolvedArgs).ToList();
+                this.AddNode(node);
+                
+                startPos += delta * 2f;
+            }
+        }
     
         public Argument[] ResolveArgs(IEnumerable<Argument> unresolvedArgs)
         {
