@@ -353,7 +353,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
             {
                 if (this.currentNode != node.Parent)
                     throw new InvalidOperationException ("The parent of the node is not the current node");
-                this.currentNode.ConnectTo (node);
+                this.Tree.AddDirectedEdge(this.currentNode, node);
             }
         }
     
