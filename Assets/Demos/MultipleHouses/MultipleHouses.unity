@@ -431,12 +431,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1828408801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d72f0f07dac164ce386a3489ad05b507, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e03ca1c8c4f84d7d921f4338957001b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dayCycleLength: 20
   currentCycleTime: 0
-  currentPhase: 0
+  currentPhase: 1
   hoursPerDay: 24
   dawnTimeOffset: 3
   worldTimeHour: 0
@@ -448,6 +448,9 @@ MonoBehaviour:
   dayFog: {r: .70588237, g: .815686285, b: .819607854, a: 1}
   nightSkybox: {fileID: 0}
   nightFog: {r: .0470588244, g: .0588235296, b: .356862754, a: 1}
+  rotateLight: 1
+  paused: 0
+  pausePhase: 0
 --- !u!4 &1828408803
 Transform:
   m_ObjectHideFlags: 0

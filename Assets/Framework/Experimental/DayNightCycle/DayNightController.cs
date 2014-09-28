@@ -47,7 +47,7 @@ public class DayNightController : MonoBehaviour
 	/// <summary>
 	/// The current 'phase' of the day; Dawn, Day, Dusk, or Night
 	/// </summary>
-	public DayPhase currentPhase;
+	public DayPhase currentPhase = DayPhase.Night;
 	
 	/// <summary>
 	/// The number of hours per day used in the WorldHour time calculation.
@@ -105,6 +105,12 @@ public class DayNightController : MonoBehaviour
 	/// The scene fog color to use at night.
 	/// </summary>
 	public Color nightFog;
+	
+	public bool rotateLight = true;
+	
+	public bool paused;
+	
+	public DayPhase pausePhase;
 	
 	/// <summary>
 	/// The calculated time at which dawn occurs based on 1/4 of dayCycleLength.
@@ -190,6 +196,9 @@ public class DayNightController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (this.paused)
+			return;
+		
 		// Rudementary phase-check algorithm:
 		if (currentCycleTime > nightTime && currentPhase == DayPhase.Dusk)
 		{
@@ -217,6 +226,40 @@ public class DayNightController : MonoBehaviour
 		// Update the current cycle time:
 		currentCycleTime += Time.deltaTime;
 		currentCycleTime = currentCycleTime % dayCycleLength;
+		
+		// Pause the phase if necessary.
+		if (this.currentPhase == this.pausePhase && this.currentCycleTime >= this.GetPhaseStartTime(this.currentPhase))
+		{
+			this.paused = true;
+			this.pausePhase = DayPhase.None;
+		}
+	}
+	
+	/// <summary>
+	/// Gets the cycle time at which the specificed <paramref name="phase"/> begins.
+	/// </summary>
+	public float GetPhaseStartTime(DayPhase phase)
+	{
+		float t;
+		switch (phase)
+		{
+		case DayPhase.Dawn:
+			t = this.dawnTime;
+			break;
+		case DayPhase.Day:
+			t = this.dayTime;
+			break;
+		case DayPhase.Dusk:
+			t = this.duskTime;
+			break;
+		case DayPhase.Night:
+			t = this.nightTime;
+			break;
+		default:
+			throw new System.ArgumentOutOfRangeException("phase", phase, "Unknown phase value");
+		}
+		
+		return t;
 	}
 	
 	/// <summary>
@@ -229,6 +272,8 @@ public class DayNightController : MonoBehaviour
 		if (light != null)
 		{ light.enabled = true; }
 		currentPhase = DayPhase.Dawn;
+		
+		currentCycleTime = dawnTime;
 	}
 	
 	/// <summary>
@@ -243,6 +288,8 @@ public class DayNightController : MonoBehaviour
 		if (light != null)
 		{ light.intensity = lightIntensity; }
 		currentPhase = DayPhase.Day;
+		
+		currentCycleTime = dayTime;
 	}
 	
 	/// <summary>
@@ -253,6 +300,8 @@ public class DayNightController : MonoBehaviour
 		RenderSettings.skybox = dawnDuskSkybox; //would be commented out or removed if UpdateSkybox were used.
 		//remainingTransition = skyTransitionTime; //would be set if UpdateSkybox were used.
 		currentPhase = DayPhase.Dusk;
+		
+		currentCycleTime = duskTime;
 	}
 	
 	/// <summary>
@@ -267,6 +316,42 @@ public class DayNightController : MonoBehaviour
 		if (light != null)
 		{ light.enabled = false; }
 		currentPhase = DayPhase.Night;
+		
+		currentCycleTime = nightTime;
+	}
+    	
+	public void SetPhase(DayNightController.DayPhase phase)
+	{
+		switch (phase)
+		{
+		case DayPhase.Dawn:
+			this.SetDawn();
+			break;
+		case DayPhase.Day:
+			this.SetDay();
+			break;
+		case DayPhase.Dusk:
+			this.SetDusk();
+			break;
+		case DayPhase.Night:
+			this.SetNight();
+			break;
+		default:
+			throw new System.ArgumentOutOfRangeException("phase", phase, "Unknown phase value");
+		}
+
+        UpdateWorldTime();
+        UpdateDaylight();
+        UpdateFog();
+	}
+	
+	/// <summary>
+	/// Continues the cycle and pauses when the specified <paramref name="phase"/> is reached.
+	/// </summary>
+	public void ContinueToPhase(DayNightController.DayPhase phase)
+	{
+		this.pausePhase = phase;
+		this.paused = false;
 	}
 	
 	/// <summary>
@@ -292,8 +377,13 @@ public class DayNightController : MonoBehaviour
 			{ light.intensity = lightIntensity * ((quarterDay - relativeTime) / quarterDay); }
 		}
 		
-		transform.Rotate(Vector3.up * ((Time.deltaTime / dayCycleLength) * 360.0f), Space.Self);
-//		transform.Rotate(Vector3.right * ((Time.deltaTime / dayCycleLength) * 360.0f), Space.Self);
+		//      transform.Rotate(Vector3.up * ((Time.deltaTime / dayCycleLength) * 360.0f), Space.Self);
+		
+		if (this.rotateLight)
+		{
+			// Rotate around x-axis with 0 degrees equivalent to dawn, and 90 degrees equivalent to midday.
+            this.SetLightRotation(360f / this.dayCycleLength * this.currentCycleTime);
+		}
 	}
 	
 	/// <summary>
@@ -356,12 +446,25 @@ public class DayNightController : MonoBehaviour
 	{
 		worldTimeHour = (int)((Mathf.Ceil((currentCycleTime / dayCycleLength) * hoursPerDay) + dawnTimeOffset) % hoursPerDay) + 1;
 	}
+
+    private void SetLightRotation(float angle)
+    {
+        if (this.light != null)
+        {
+            transform.rotation = Quaternion.identity;
+            if (angle > 0f)
+            {
+                transform.Rotate(Vector3.right * angle, Space.Self);
+            }
+        }
+    }
 	
 	public enum DayPhase
 	{
-		Night = 0,
-		Dawn = 1,
-		Day = 2,
-		Dusk = 3
+		None = 0,
+		Night = 1,
+		Dawn = 2,
+		Day = 3,
+		Dusk = 4
 	}
 }
