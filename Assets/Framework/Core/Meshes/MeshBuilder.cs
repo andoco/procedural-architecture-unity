@@ -37,7 +37,7 @@ namespace Andoco.Unity.Framework.Core.Meshes
 
         public Mesh BuildMesh(bool calculateNormals, bool calculateBounds)
 		{
-			log.Trace(string.Format("Building mesh for {0} vertices, {1} colors, {2} triangles", this.Vertices.Count, this.Colors.Count, this.indices.Count));
+			log.Trace("Building mesh for {0} vertices, {1} colors, {2} triangles", this.Vertices.Count, this.Colors.Count, this.indices.Count);
 
 			var mesh = new Mesh();
 

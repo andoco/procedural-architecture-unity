@@ -41,7 +41,7 @@ namespace Andoco.Unity.ProcArch.Shapes
             var currentNode = configuration.RootNode;
     
             while (currentNode != null) {
-                this.log.Trace (string.Format ("EVALUTE: {0}", currentNode.Value));
+                this.log.Trace("EVALUTE: {0}", currentNode.Value);
     
                 // IMPORTANT: The scope stack must be reset when processing a new node so that
                 // push/pop commands only apply to rule of the current node.

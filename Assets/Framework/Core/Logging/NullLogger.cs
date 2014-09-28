@@ -9,7 +9,7 @@ namespace Andoco.Unity.Framework.Core.Logging
         {
         }
 
-        protected override void InternalWrite(LogLevel level, object message, Exception exception)
+        protected override void InternalWrite(LogLevel level, object message, Exception exception, object[] args)
         {
             throw new NotImplementedException("NullLogger should never reach this point");
         }

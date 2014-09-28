@@ -36,12 +36,12 @@ namespace Andoco.Unity.ProcArch.Irony
     
             if (language.Errors.Count > 0) {
                 foreach (var error in language.Errors)
-                    log.Error (string.Format ("GRAMMAR: {0}", error.Message));
+                    log.Error("GRAMMAR: {0}", error.Message);
             }
     
             if (parseTree.HasErrors ()) {
                 foreach (var msg in parseTree.ParserMessages) {
-                    log.Error (string.Format ("PARSER: {0} {1}", msg.Message, msg.Location));
+                    log.Error("PARSER: {0} {1}", msg.Message, msg.Location);
                 }
             }
             

@@ -67,12 +67,12 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
         public void PushScope()
         {
             this.scopeStack.Push (new Scope (this.CurrentScope));
-            this.log.Trace (string.Format ("PUSH: {0}", this.scopeStack.Peek ()));
+            this.log.Trace("PUSH: {0}", this.scopeStack.Peek());
         }
     
         public void PopScope()
         {
-            this.log.Trace (string.Format ("POP: {0}", this.scopeStack.Peek ()));
+            this.log.Trace("POP: {0}", this.scopeStack.Peek());
             this.scopeStack.Pop ();
         }
     
@@ -87,24 +87,24 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
 			var delta = Size.ToVector3(x, y, z, this.CurrentScope.Transform.Scale);
 
             this.CurrentScope.Transform.Position += this.CurrentScope.Transform.Rotation * delta;
-            this.log.Trace (string.Format ("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform));
+            this.log.Trace("TRANSFORMED: {0} {1}", delta, this.CurrentScope.Transform);
         }
         
         public void RotateScope(Vector3 delta)
         {
             this.CurrentScope.Transform.Rotation *= Quaternion.Euler (delta);
-            this.log.Trace (string.Format ("ROTATED: {0} {1}", delta, this.CurrentScope.Transform));
+            this.log.Trace("ROTATED: {0} {1}", delta, this.CurrentScope.Transform);
         }
         
         public void ScaleScope(Size x, Size y, Size z)
         {    
 			this.CurrentScope.Transform.Scale = Size.ToVector3(x, y, z, this.CurrentScope.Transform.Scale);    
-            this.log.Trace(string.Format("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform));
+            this.log.Trace("SCALED: {0},{1},{2} {3}", x, y, z, this.CurrentScope.Transform);
         }
     
         public void AddRule(ShapeRule rule, IList<Argument> args)
         {
-            this.log.Trace (string.Format ("RULE: {0}", rule));
+            this.log.Trace("RULE: {0}", rule);
             var node = this.NewNode (this.currentNode);
             node.Value.Rule = rule;
             node.Value.Args = args;
@@ -114,7 +114,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
         
         public void AddVolume(string name, Argument[] cmdArgs)
         {
-            this.log.Trace (string.Format ("VOLUME: {0}, {1}", name, this.CurrentScope.Transform));
+            this.log.Trace("VOLUME: {0}, {1}", name, this.CurrentScope.Transform);
     
             Volume vol;
     
@@ -204,7 +204,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
     
         public void SplitComponent(string query, ShapeSymbol symbol)
         {
-            this.log.Trace (string.Format ("COMP: {0}, {1}", query, this.CurrentScope.Transform));
+            this.log.Trace("COMP: {0}, {1}", query, this.CurrentScope.Transform);
     
             var currentVol = currentNode.Value.Volume;
             var components = currentVol.Query (query);
@@ -228,7 +228,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
                 
                 var newTrans = new SimpleTransform (newPos, newRot, newScale);
     
-                this.log.Trace (string.Format ("**** {0}", newTrans));
+                this.log.Trace("**** {0}", newTrans);
     
                 var node = this.NewNode (this.currentNode);
                 node.Value.Transform = newTrans;
@@ -241,7 +241,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
 
         public void Repeat(string axis, Size size, ShapeSymbol shape)
         {
-            this.log.Trace (string.Format ("REPEAT: {0}, {1}", axis, this.CurrentScope.Transform));
+            this.log.Trace("REPEAT: {0}, {1}", axis, this.CurrentScope.Transform);
 
             var pos = this.CurrentScope.Transform.Position;
             var rot = this.CurrentScope.Transform.Rotation;
@@ -278,7 +278,7 @@ namespace Andoco.Unity.ProcArch.Shapes.Configuration
             var absSize = size.GetAbsolute(this.CurrentScope.Transform.Scale.x);
             var repetitions = repetitionsFunc(absSize);
 
-            this.log.Trace(string.Format("repeating {0} {1} times along the {2} axis", shape.Name, repetitions, axis));
+            this.log.Trace("repeating {0} {1} times along the {2} axis", shape.Name, repetitions, axis);
 
             // Start at one end of the selected scope axis.
             var startPos = pos - (rot * startPosAction(scale));

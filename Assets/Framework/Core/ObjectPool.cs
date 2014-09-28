@@ -23,8 +23,12 @@
 			}
 			
 			public GameObject Prefab { get; set; }
+
+            public bool IsPooled { get; set; }
 			
 			public Transform PoolRoot { get; set; }
+
+            public Transform SpawnedRoot { get; set; }
 			
 			public int InstanceCounter { get; set; }
 			
@@ -49,6 +53,10 @@
 		public Dictionary<Transform, GameObject> prefabLookup = new Dictionary<Transform, GameObject>();
 		
 		public bool PoolEnabled = true;
+
+        public bool organiseSpawned = false;
+
+        public Transform spawnedRoot;
 
         public AutoPoolInfo[] autoPoolPrefabs;
 
@@ -130,39 +138,40 @@
 
 		public void CreatePool(GameObject prefab, int initialSize)
 		{
-			Debug.Log(string.Format("Creating pool for {0} with initial size {1}", prefab, initialSize));
-			
-			if (!this.prefabInfo.ContainsKey(prefab))
-			{
-				this.GetOrCreatePrefabInfo(prefab);
-				
-				if (this.PoolEnabled)
-				{
-					var spawnedObjects = new List<Transform>();
-					
-					// IMPORTANT: Must spawn all initial objects before any get recycled, otherwise
-					// we'll end up reusing the same one every time.
-					for (int i=0; i < initialSize; i++)
-					{
-						var transform = Spawn(prefab);
-						spawnedObjects.Add(transform);
-					}
-					
-					// Recycle all initial objects in the pool.
-					foreach (var transform in spawnedObjects)
-					{
-						// Using RecycleImmediate will cause the object to be recycled before its Start
-						// method has been called. This will result in both Start and Spawned being called
-						// at the same time when the object is next spawned, which could be problematic.
-						//RecycleImmediate(transform);
-						
-						// Using Recycle instead of RecycleImmediate allow the Start methods of the object's 
-						// components to be called before it is recycled. The next time it is spawned, only
-						// the Spawned methods will be called.
-						Recycle(transform);
-					}
-				}
-			}
+            if (!this.PoolEnabled)
+                throw new System.InvalidOperationException(string.Format("Cannot create a pool for {0} because the pool is not enabled", prefab));
+
+            Debug.Log(string.Format("Creating pool for {0} with initial size {1}", prefab, initialSize));
+
+            if (this.prefabInfo.ContainsKey(prefab))
+                throw new System.InvalidOperationException(string.Format("Cannot create a pool for {0} because the pool already exists", prefab));
+            
+            var info = this.GetOrCreatePrefabInfo(prefab);
+            info.IsPooled = true;
+                
+            var spawnedObjects = new List<Transform>();
+            
+            // IMPORTANT: Must spawn all initial objects before any get recycled, otherwise
+            // we'll end up reusing the same one every time.
+            for (int i=0; i < initialSize; i++)
+            {
+                var transform = Spawn(prefab);
+                spawnedObjects.Add(transform);
+            }
+            
+            // Recycle all initial objects in the pool.
+            foreach (var transform in spawnedObjects)
+            {
+                // Using RecycleImmediate will cause the object to be recycled before its Start
+                // method has been called. This will result in both Start and Spawned being called
+                // at the same time when the object is next spawned, which could be problematic.
+                //RecycleImmediate(transform);
+                
+                // Using Recycle instead of RecycleImmediate allow the Start methods of the object's 
+                // components to be called before it is recycled. The next time it is spawned, only
+                // the Spawned methods will be called.
+                Recycle(transform);
+            }
 		}
 		
         /// <summary>
@@ -177,14 +186,34 @@
         /// <param name="rotation">Rotation.</param>
 		public Transform Spawn(GameObject prefab, Vector3 position, Quaternion rotation)
 		{
-			if (this.PoolEnabled && this.prefabInfo.ContainsKey(prefab))
+            if (prefab == null)
+                throw new System.ArgumentNullException("prefab", "Prefab must be supplied to spawn an instance");
+
+			if (this.PoolEnabled)
 			{
                 if (this.isFirstUpdate && !this.isPrePooling)
                     Debug.LogWarning("Spawning an object before prepooling frame is complete");
 
+                PrefabInfo info;
+
+                // Get the prefab info.
+                if (!this.prefabInfo.TryGetValue(prefab, out info))
+                {
+                    // Create prefab info for any non-pooled prefabs. This allows us to organise and track the instances
+                    // even though they won't be returned to the pool.
+
+                    info = new PrefabInfo
+                    {
+                        Prefab = prefab,
+                        IsPooled = false
+                    };
+                    
+                    this.prefabInfo.Add(prefab, info);
+                }
+
 				Transform obj = null;
-				var info = this.prefabInfo[prefab];
 				var list = info.Instances;
+
 				if (list.Count > 0)
 				{
 					// Remove instance from pool until we have one that hasn't been destroyed.
@@ -196,38 +225,54 @@
 					
 					if (obj != null)
 					{
+                        SetupParent(obj.transform, info);
+
                         // We now have an instance from the pool we can setup for spawning.
-						obj.transform.parent = null;
 						obj.transform.localPosition = position;
 						obj.transform.localRotation = rotation;
 						obj.gameObject.SetActive(true);
-						instance.prefabLookup.Add(obj, prefab);
+						this.prefabLookup.Add(obj, prefab);
 						
 						obj.SendMessage("Spawned", SendMessageOptions.DontRequireReceiver);
 						
 						// raise event
-						if (instance.ObjectSpawned != null)
-							instance.ObjectSpawned(instance, new ObjectSpawnedEventArgs(obj));
+						if (this.ObjectSpawned != null)
+							this.ObjectSpawned(this, new ObjectSpawnedEventArgs(obj));
 						
 						return obj;
 					}
 				}
 
                 // No pooled instance was available so make a new one.
-				var suffix = instance.GetNextObjectSuffix(prefab);
+				var suffix = this.GetNextObjectSuffix(prefab);
 				obj = ((GameObject)Object.Instantiate(prefab, position, rotation)).transform;
 				obj.gameObject.name += suffix;
-				instance.prefabLookup.Add(obj, prefab);
+				this.prefabLookup.Add(obj, prefab);
+                SetupParent(obj.transform, info);
 				return obj;
 			}
 			else
             {
-                // No pool is available for the prefab for instantiate normally.
+                // The pool is not enabled so we just instantiate normally.
                 var obj = ((GameObject)Object.Instantiate(prefab, position, rotation)).transform;
                 this.prefabLookup[obj] = prefab;
                 return obj;
             }
 		}
+
+        private void SetupParent(Transform tx, PrefabInfo info)
+        {
+            if (this.organiseSpawned)
+            {
+                if (info.SpawnedRoot == null)
+                {
+                    info.SpawnedRoot = (new GameObject(info.Prefab.name)).transform;
+                    info.SpawnedRoot.transform.parent = this.spawnedRoot;
+                }
+
+                tx.parent = info.SpawnedRoot;
+            }
+        }
 		
 		public Transform Spawn(GameObject prefab, Vector3 position)
 		{
@@ -246,6 +291,27 @@
 		public void Recycle(Transform obj)
 		{
 			this.scheduledForRecycle.Add(obj);
+		}
+
+		public bool TryRecycle(Transform obj)
+		{
+			if (
+				this.PoolEnabled && 
+				this.prefabLookup.ContainsKey(obj))
+			{
+				this.Recycle(obj);
+				return true;
+			}
+
+			return false;
+		}
+
+		public void RecycleOrDestroy(Transform obj)
+		{
+			if (!this.TryRecycle(obj))
+			{
+				GameObject.Destroy(obj.gameObject);
+			}
 		}
 		
 		public int Count(GameObject prefab)
@@ -311,36 +377,51 @@
         private void RecycleImmediate(Transform obj)
         {
             GameObject prefab;
-//            var prefab = instance.prefabLookup[obj];
             PrefabInfo info;
 
-            // Check if a pool exists for the prefab
-            if (this.PoolEnabled && this.prefabLookup.TryGetValue(obj, out prefab) && this.prefabInfo.TryGetValue(prefab, out info))
+			if (obj == null)
+				throw new System.ArgumentNullException(string.Format("Cannot recycle object because it is null or destroyed. {0}", obj));
 
-//            if (this.PoolEnabled && instance.prefabLookup.ContainsKey(obj))
-//            if (this.PoolEnabled && info != null)
+            // Check if a pool exists for the prefab
+            if (
+                this.PoolEnabled && 
+                this.prefabLookup.TryGetValue(obj, out prefab) && 
+                this.prefabInfo.TryGetValue(prefab, out info))
             {
-                // add the recycled object back to the pool
-//                var info = this.prefabInfo[];
-                info.Instances.Add(obj);
-                
-                // stop tracking the recycled object
+                // Stop tracking the recycled object.
                 this.prefabLookup.Remove(obj);
-                
-                // notify and set to inactive
-                obj.SendMessage("Recycled", SendMessageOptions.DontRequireReceiver);
-                obj.parent = info.PoolRoot;
-                obj.gameObject.SetActive(false);
-                
-                // raise event
-                if (this.ObjectRecycled != null)
-                    this.ObjectRecycled(instance, new ObjectRecycledEventArgs(obj));
+
+                if (info.IsPooled)
+                {
+                    info.Instances.Add(obj);
+
+                    // notify and set to inactive
+                    obj.SendMessage("Recycled", SendMessageOptions.DontRequireReceiver);
+                    obj.parent = info.PoolRoot;
+                    obj.gameObject.SetActive(false);
+
+                    // raise event
+                    if (this.ObjectRecycled != null)
+                        this.ObjectRecycled(this, new ObjectRecycledEventArgs(obj));
+                }
+                else
+                {
+                    // No pool is available for the object so destroy normally. We need to set the parent to null
+                    // first as it isn't immediately removed from its parent otherwise.
+                    obj.parent = null;
+                    GameObject.Destroy(obj.gameObject);
+                }
+
+                // Destroy any empty prefab root gameobject.
+                if (info.SpawnedRoot != null && info.SpawnedRoot.childCount == 0)
+                {
+                    GameObject.Destroy(info.SpawnedRoot.gameObject);
+                    info.SpawnedRoot = null;
+                }
             }
             else
             {
-                // No pool is available for the object so destroy normally.
-                this.prefabLookup.Remove(obj);
-                Object.Destroy(obj.gameObject);
+                throw new System.InvalidOperationException(string.Format("Cannot recycle an instance that was not spawned from this pool. {0}", obj));
             }
         }
         
@@ -375,6 +456,16 @@
 		public static void Recycle(this Transform obj)
 		{
 			ObjectPool.instance.Recycle(obj);
+		}
+
+		public static bool TryRecycle(this Transform obj)
+		{
+			return ObjectPool.instance.TryRecycle(obj);
+		}
+
+		public static void RecycleOrDestroy(this Transform obj)
+		{
+			ObjectPool.instance.RecycleOrDestroy(obj);
 		}
 		
 		public static int Count(GameObject prefab)

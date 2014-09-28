@@ -192,6 +192,14 @@ namespace Andoco.Unity.Framework.Core
 		}
 
 		#endregion
+
+        public static Vector3 MatchLayerHeight(this Vector3 pos, int layerMask, float raycastHeight = 100f, float raise = 0.1f)
+        {
+            var ray = new Ray(pos + Vector3.up * raycastHeight, Vector3.down);
+            var p = ray.GetHitPoint(layerMask);
+            
+            return p.HasValue ? p.Value + Vector3.up * raise : pos;
+        }
 	}
 }
 

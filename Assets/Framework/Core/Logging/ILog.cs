@@ -26,17 +26,16 @@ namespace Andoco.Unity.Framework.Core.Logging
 
         bool IsFatalEnabled { get; }
 
-        void Trace(object message);
+        void Trace(object message, params object[] args);
 
-        void Debug(object message);
+        void Debug(object message, params object[] args);
 
-        void Info(object message);
+        void Info(object message, params object[] args);
 
-        void Warn(object message);
+        void Warn(object message, params object[] args);
 
-        void Error(object message);
+        void Error(object message, params object[] args);
 
-        void Fatal(object message);
+        void Fatal(object message, params object[] args);
     }
-    
 }
