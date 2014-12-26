@@ -24,11 +24,18 @@ public class TestUI : Editor {
 		EditorGUILayout.LabelField("Global Args");
 		arch.globalArgs = EditorGUILayout.TextField(arch.globalArgs);
 
+		arch.autoBuild = EditorGUILayout.Toggle("Auto Build", arch.autoBuild);
+
 		arch.material = (Material)EditorGUILayout.ObjectField("Material", arch.material, typeof(Material), allowSceneObjects: false);
 
 		arch.showCornerGizmos = EditorGUILayout.Toggle("Corner Gizmos", arch.showCornerGizmos);
 		arch.showEdgeGizmos = EditorGUILayout.Toggle("Edge Gizmos", arch.showEdgeGizmos);
 		arch.showComponentGizmos = EditorGUILayout.Toggle("Component Gizmos", arch.showComponentGizmos);
+
+		if (GUILayout.Button("Build"))
+		{
+			arch.Build();
+		}
 
 		EditorUtility.SetDirty(arch);
 	}
