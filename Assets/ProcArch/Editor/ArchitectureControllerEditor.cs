@@ -5,7 +5,9 @@ using Andoco.Unity.ProcArch;
 
 [CustomEditor(typeof(ArchitectureController))]
 public class TestUI : Editor {
-	
+
+	private Vector2 scrollPos;
+
 	public override void OnInspectorGUI ()
 	{
 		var arch = this.target as ArchitectureController;
@@ -16,7 +18,15 @@ public class TestUI : Editor {
 		arch.sourceAsset = (TextAsset)EditorGUILayout.ObjectField("Source Asset", arch.sourceAsset, typeof(TextAsset), allowSceneObjects: false);
 
 		EditorGUILayout.LabelField("Architecture Source");
+		this.scrollPos = EditorGUILayout.BeginScrollView(this.scrollPos, GUILayout.MinHeight(200f));
 		arch.sourceContent = EditorGUILayout.TextArea(arch.sourceContent);
+		EditorGUILayout.EndScrollView();
+
+		if (GUILayout.Button("Edit"))
+		{
+			var win = EditorWindow.GetWindow<ArchitectureControllerEditorWindow>();
+			win.architectureController = arch;
+		}
 
 		EditorGUILayout.LabelField("Root Args");
 		arch.rootArgs = EditorGUILayout.TextField(arch.rootArgs);
