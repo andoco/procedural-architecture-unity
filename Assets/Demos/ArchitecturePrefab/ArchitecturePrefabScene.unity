@@ -202,9 +202,13 @@ MonoBehaviour:
     facade ::- Scope.Vol("facade");
 
     roof ::- Scope.Scale(1r, 2, 1r) Scope.Vol(roof, hipDist:hipDist);'
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &957944954
 Transform:
   m_ObjectHideFlags: 0
@@ -367,9 +371,13 @@ MonoBehaviour:
     facade ::- Scope.Vol("facade");
 
     roof ::- Scope.Scale(1r, 10, 1r) Scope.Vol(roof, hipDist:hipDist);'
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &1279664794
 Transform:
   m_ObjectHideFlags: 0

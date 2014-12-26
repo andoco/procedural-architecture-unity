@@ -262,6 +262,7 @@ MonoBehaviour:
     facade ::- Scope.Vol("facade");
 
     roof ::- Scope.Scale(1r,2,1r) Scope.Vol("HippedRoof");'
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 

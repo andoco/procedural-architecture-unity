@@ -227,9 +227,13 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &427308094
 Transform:
   m_ObjectHideFlags: 0
@@ -272,9 +276,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &643783412
 Transform:
   m_ObjectHideFlags: 0
@@ -465,9 +473,13 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &1525534607
 Transform:
   m_ObjectHideFlags: 0
@@ -511,9 +523,13 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &1696730259
 Transform:
   m_ObjectHideFlags: 0
@@ -618,9 +634,13 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &1966593709
 Transform:
   m_ObjectHideFlags: 0
@@ -725,9 +745,13 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &2015264875
 Transform:
   m_ObjectHideFlags: 0
@@ -830,9 +854,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.5;\nbox ::- Scope.Vol(\"box\");"
+  sourceAsset: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &2050543262
 Transform:
   m_ObjectHideFlags: 0
