@@ -71,9 +71,11 @@ MonoBehaviour:
   sourceName: 
   sourceContent: 
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 0
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0

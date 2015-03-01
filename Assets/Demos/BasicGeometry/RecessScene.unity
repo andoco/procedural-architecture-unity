@@ -139,6 +139,10 @@ Prefab:
 
         recess ::- Scope.Scale(1r, 0.5, 1r) Scope.Trans(0, -0.5, 0) Scope.Vol("Recess");'
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 738908648}
@@ -153,6 +157,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 738908650}
   - 114: {fileID: 738908649}
+  - 33: {fileID: 738908652}
+  - 23: {fileID: 738908651}
   m_Layer: 0
   m_Name: WallRecess
   m_TagString: Untagged
@@ -183,9 +189,15 @@ MonoBehaviour:
     facade ::- Scope.Vol("facade");
 
     recess ::- Scope.Scale(1r, 0.5, 1r) Scope.Trans(0, -0.5, 0) Scope.Vol("Recess");'
+  sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &738908650
 Transform:
   m_ObjectHideFlags: 0
@@ -198,6 +210,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!23 &738908651
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 579685274}
+  m_GameObject: {fileID: 738908648}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &738908652
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 579685274}
+  m_GameObject: {fileID: 738908648}
+  m_Mesh: {fileID: 0}
 --- !u!1 &872103242
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +395,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1696730259}
   - 114: {fileID: 1696730258}
+  - 33: {fileID: 1696730261}
+  - 23: {fileID: 1696730260}
   m_Layer: 0
   m_Name: Recess
   m_TagString: Untagged
@@ -377,9 +420,15 @@ MonoBehaviour:
   sourceContent: 'root ::- Scope.Scale(1,1,1) recess;
 
     recess ::- Scope.Vol("Recess");'
+  sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
+  showCornerGizmos: 0
+  showEdgeGizmos: 0
+  showComponentGizmos: 0
 --- !u!4 &1696730259
 Transform:
   m_ObjectHideFlags: 0
@@ -392,6 +441,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!23 &1696730260
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1768865497}
+  m_GameObject: {fileID: 1696730257}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1696730261
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1768865497}
+  m_GameObject: {fileID: 1696730257}
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1768865497
 Prefab:
   m_ObjectHideFlags: 0
@@ -448,6 +526,10 @@ Prefab:
       value: 'root ::- Scope.Scale(1,1,1) recess;
 
         recess ::- Scope.Vol("Recess");'
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}

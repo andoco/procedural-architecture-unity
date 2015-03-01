@@ -230,6 +230,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1696730259}
   - 114: {fileID: 1696730258}
+  - 33: {fileID: 1696730261}
+  - 23: {fileID: 1696730260}
   m_Layer: 0
   m_Name: House
   m_TagString: Untagged
@@ -273,9 +275,12 @@ MonoBehaviour:
     style:\"chimney\") : 0.25;\n\t::- Scope.Trans(0.25r,0,0) Scope.Scale(0.5,1r,0.5)
     Scope.Vol(\"box\", style:\"chimney\") : 0.25;\n\t::- Scope.Scale(0.5,1.25r,0.5)
     Scope.Vol(\"box\", style:\"chimney\") : 0.25;\n\n# common\nfacade ::- Scope.Vol(\"facade\");"
+  sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 3,3,4
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -291,6 +296,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!23 &1696730260
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1768865497}
+  m_GameObject: {fileID: 1696730257}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1696730261
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1768865497}
+  m_GameObject: {fileID: 1696730257}
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1768865497
 Prefab:
   m_ObjectHideFlags: 0
@@ -380,6 +414,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: rootArgs
       value: 3,3,4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}

@@ -130,6 +130,10 @@ Prefab:
       value: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
         box : 0.8;\nbox ::- Scope.Vol(\"box\");"
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 2015264873}
@@ -205,6 +209,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 427308094}
   - 114: {fileID: 427308093}
+  - 33: {fileID: 427308096}
+  - 23: {fileID: 427308095}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -228,9 +234,11 @@ MonoBehaviour:
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -246,6 +254,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!23 &427308095
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002432358}
+  m_GameObject: {fileID: 427308092}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &427308096
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2002432358}
+  m_GameObject: {fileID: 427308092}
+  m_Mesh: {fileID: 0}
 --- !u!1 &643783410
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +292,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 643783412}
   - 114: {fileID: 643783411}
+  - 33: {fileID: 643783414}
+  - 23: {fileID: 643783413}
   m_Layer: 0
   m_Name: BoxWithOneSet
   m_TagString: Untagged
@@ -277,9 +316,11 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -295,6 +336,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
+--- !u!23 &643783413
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2120446294}
+  m_GameObject: {fileID: 643783410}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &643783414
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2120446294}
+  m_GameObject: {fileID: 643783410}
+  m_Mesh: {fileID: 0}
 --- !u!1 &872103242
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +521,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1525534607}
   - 114: {fileID: 1525534606}
+  - 33: {fileID: 1525534609}
+  - 23: {fileID: 1525534608}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -474,9 +546,11 @@ MonoBehaviour:
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 0
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -492,6 +566,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!23 &1525534608
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 205536408}
+  m_GameObject: {fileID: 1525534605}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1525534609
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 205536408}
+  m_GameObject: {fileID: 1525534605}
+  m_Mesh: {fileID: 0}
 --- !u!1 &1696730257
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +604,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1696730259}
   - 114: {fileID: 1696730258}
+  - 33: {fileID: 1696730261}
+  - 23: {fileID: 1696730260}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -524,9 +629,11 @@ MonoBehaviour:
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -542,6 +649,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!23 &1696730260
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1768865497}
+  m_GameObject: {fileID: 1696730257}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1696730261
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1768865497}
+  m_GameObject: {fileID: 1696730257}
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1768865497
 Prefab:
   m_ObjectHideFlags: 0
@@ -598,6 +734,10 @@ Prefab:
       value: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
         box : 0.8;\nbox ::- Scope.Vol(\"box\");"
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 1696730257}
@@ -612,6 +752,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1966593709}
   - 114: {fileID: 1966593708}
+  - 33: {fileID: 1966593711}
+  - 23: {fileID: 1966593710}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -635,9 +777,11 @@ MonoBehaviour:
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -653,6 +797,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+--- !u!23 &1966593710
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2093611031}
+  m_GameObject: {fileID: 1966593707}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1966593711
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2093611031}
+  m_GameObject: {fileID: 1966593707}
+  m_Mesh: {fileID: 0}
 --- !u!1001 &2002432358
 Prefab:
   m_ObjectHideFlags: 0
@@ -709,6 +882,10 @@ Prefab:
       value: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
         box : 0.8;\nbox ::- Scope.Vol(\"box\");"
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 427308092}
@@ -723,6 +900,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 2015264875}
   - 114: {fileID: 2015264874}
+  - 33: {fileID: 2015264877}
+  - 23: {fileID: 2015264876}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -746,9 +925,11 @@ MonoBehaviour:
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
     box : 0.8;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -764,6 +945,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!23 &2015264876
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 198657587}
+  m_GameObject: {fileID: 2015264873}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &2015264877
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 198657587}
+  m_GameObject: {fileID: 2015264873}
+  m_Mesh: {fileID: 0}
 --- !u!1001 &2027795561
 Prefab:
   m_ObjectHideFlags: 0
@@ -819,6 +1029,10 @@ Prefab:
       propertyPath: sourceContent
       value: "root\n  ::- Scope.Scale(1,1,1) box : 0.5;\nbox ::- Scope.Vol(\"box\");"
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
   m_RootGameObject: {fileID: 2050543260}
@@ -833,6 +1047,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 2050543262}
   - 114: {fileID: 2050543261}
+  - 33: {fileID: 2050543264}
+  - 23: {fileID: 2050543263}
   m_Layer: 0
   m_Name: BoxWithOneSetAndProb
   m_TagString: Untagged
@@ -855,9 +1071,11 @@ MonoBehaviour:
   sourceName: cylinder
   sourceContent: "root\n  ::- Scope.Scale(1,1,1) box : 0.5;\nbox ::- Scope.Vol(\"box\");"
   sourceAsset: {fileID: 0}
+  sourceInputField: {fileID: 0}
   material: {fileID: 2100000, guid: 62872e0d16dd941309b03550100de1a6, type: 2}
   rootArgs: 
   globalArgs: 
+  autoBuild: 1
   showCornerGizmos: 0
   showEdgeGizmos: 0
   showComponentGizmos: 0
@@ -873,6 +1091,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!23 &2050543263
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 2300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2027795561}
+  m_GameObject: {fileID: 2050543260}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &2050543264
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 3300000, guid: 7631f5af055434502ad314e6edd4c3ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2027795561}
+  m_GameObject: {fileID: 2050543260}
+  m_Mesh: {fileID: 0}
 --- !u!1001 &2093611031
 Prefab:
   m_ObjectHideFlags: 0
@@ -928,6 +1175,10 @@ Prefab:
       propertyPath: sourceContent
       value: "root\n  ::- Scope.Scale(1,1,1) box : 0.2;\n  ::- Scope.Scale(2,2,2)
         box : 0.8;\nbox ::- Scope.Vol(\"box\");"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
@@ -988,6 +1239,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
       propertyPath: sourceContent
       value: "root\n  ::- Scope.Scale(1,1,1) box;\nbox ::- Scope.Vol(\"box\");"
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
+      propertyPath: autoBuild
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7631f5af055434502ad314e6edd4c3ff, type: 2}
