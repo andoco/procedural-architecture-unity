@@ -17,6 +17,8 @@ public class TestUI : Editor {
 
 		arch.sourceAsset = (TextAsset)EditorGUILayout.ObjectField("Source Asset", arch.sourceAsset, typeof(TextAsset), allowSceneObjects: false);
 
+		arch.sourceInputField = (UnityEngine.UI.InputField)EditorGUILayout.ObjectField("Source InputField", arch.sourceInputField, typeof(UnityEngine.UI.InputField), allowSceneObjects: true);
+
 		EditorGUILayout.LabelField("Architecture Source");
 		this.scrollPos = EditorGUILayout.BeginScrollView(this.scrollPos, GUILayout.MinHeight(200f));
 		arch.sourceContent = EditorGUILayout.TextArea(arch.sourceContent);

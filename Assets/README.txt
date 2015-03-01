@@ -7,6 +7,8 @@ Last version supporting .Net 3.5 (for Unity):
 
 Manually removed the CommandLine code from the main project to allow targetting of the .Net 2.0 subset.
 
+Manually removed ```[assembly: SecurityTransparent()]``` from AssemblyInfo.cs to allow compilation for web player.
+
 # CjClutter.ObjLoader
 
 Manually modified ObjLoader.Loader.Loaders.LoaderBase to replace the String.IsNullOrWhitespace method with:

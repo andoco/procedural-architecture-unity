@@ -16,6 +16,7 @@
         public string sourceName;
         public string sourceContent;
         public TextAsset sourceAsset;
+        public UnityEngine.UI.InputField sourceInputField;
         public Material material;
         public string rootArgs;
         public string globalArgs;
@@ -67,6 +68,10 @@
             else if (this.sourceAsset != null)
             {
                 return this.sourceAsset.text;
+            }
+            else if (this.sourceInputField.text != null)
+            {
+                return this.sourceInputField.text;
             }
 
             return null;
