@@ -15,7 +15,7 @@ public class ShapeOffsetTest : MonoBehaviour {
 
 		var cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cube2.transform.localScale = Vector3.one * 0.5f;
-		cube2.renderer.material.color = Color.red;
+		cube2.GetComponent<Renderer>().material.color = Color.red;
 
 		cube2.transform.position = faceMatrix.GetPosition();
 		cube2.transform.rotation = faceMatrix.GetRotation();
